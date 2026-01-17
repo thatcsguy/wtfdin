@@ -286,3 +286,25 @@ Files: prd.json (RING-002, RING-003 passes:true)
 Screenshot: .playwright-mcp/ring-002-003-validation.png
 
 Next: EXPORT-*, JOB-004, UI-003/004, TECH-001/002
+
+## TECH-001/002 - Vanilla HTML/CSS/JS & Static Files - COMPLETE
+
+Verified application meets technical requirements:
+
+TECH-001: No external libraries
+- No external <script src="..."> tags
+- No external <link rel="stylesheet"> tags
+- Network requests show only index.html + XIVAPI job icons
+- All functionality uses native browser APIs (localStorage, DOM, etc.)
+
+TECH-002: Works as static files
+- Single index.html file with inline CSS/JS
+- No fetch/XHR calls to backend APIs
+- localStorage works client-side
+- Only external dependency: XIVAPI CDN for job icons (acceptable per PRD)
+
+Files: prd.json (TECH-001, TECH-002 passes:true)
+
+Screenshot: .playwright-mcp/tech-001-002-vanilla-static.png
+
+Next: EXPORT-001/002/003/004 (URL export/import), JOB-004 (icon fallbacks), UI-003/004 (responsive, hover states)
