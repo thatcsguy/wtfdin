@@ -201,7 +201,7 @@
         "Verify system prevents or warns about duplicate base tome rings",
         "Verify checking 'Upgraded' on one ring makes the combination valid"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "RING-003",
@@ -213,7 +213,7 @@
         "Verify upgraded tome + base tome is allowed",
         "Verify all valid combinations can be saved and persisted"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "PROG-001",

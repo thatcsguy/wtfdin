@@ -265,3 +265,24 @@ Files: index.html (validateRingChange function, handleGearCheckbox validation ca
 Screenshot: .playwright-mcp/ring-001-validation.png
 
 Next: RING-002/003 (tome ring validation), EXPORT-*, JOB-004, UI-003/004, TECH-001/002
+
+## RING-002/003 - Tome Ring Validation - COMPLETE
+
+Validated existing validateRingChange() logic for tome rings:
+- RING-002: Prevents two base-only tome rings (same upgrade level)
+- RING-002: Prevents two upgraded tome rings (same upgrade level)
+- RING-003: Allows upgraded tome + base tome (different levels)
+- AST job used for testing (both rings are tome type)
+
+No code changes needed - logic already implemented in RING-001.
+
+Verified with Playwright:
+- Ring1 Base checked, Ring2 Base blocked with alert
+- Ring1 Upgraded checked, Ring2 Base allowed (valid combo)
+- Ring1 Upgraded checked, Ring2 Upgraded blocked with alert
+
+Files: prd.json (RING-002, RING-003 passes:true)
+
+Screenshot: .playwright-mcp/ring-002-003-validation.png
+
+Next: EXPORT-*, JOB-004, UI-003/004, TECH-001/002
