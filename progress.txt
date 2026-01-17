@@ -199,3 +199,21 @@ Files: index.html, prd.json (PROG-001 passes:true)
 Screenshot: .playwright-mcp/prog-001-progress-display.png
 
 Next: CHAR-002/003 (delete/rename char), JOB-002 (remove job), UI-001 (dark mode already done but unmarked)
+
+## CHAR-002 - Delete Character - COMPLETE
+
+Added delete button to character items in sidebar:
+- CSS: .character-item-row, .character-item-actions, .btn-delete
+- Delete button appears on hover (opacity transition)
+- Confirmation dialog shows character name
+- Removes character + all job data from state
+- Auto-selects next character if deleted one was selected
+- Persists to localStorage
+
+Also marked UI-001 as passing (was already implemented).
+
+Files: index.html (CSS + JS), prd.json (CHAR-002, UI-001 passes:true)
+
+Screenshot: .playwright-mcp/char-002-complete.png
+
+Next: CHAR-003 (rename), JOB-002 (remove job), remaining features

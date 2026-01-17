@@ -126,6 +126,37 @@
             font-weight: 500;
         }
 
+        .character-item-actions {
+            display: flex;
+            gap: 4px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .character-item:hover .character-item-actions {
+            opacity: 1;
+        }
+
+        .character-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-delete {
+            background-color: transparent;
+            color: var(--text-secondary);
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            border: 1px solid var(--border);
+        }
+
+        .btn-delete:hover {
+            background-color: rgba(233, 69, 96, 0.2);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
         .no-characters {
             color: var(--text-secondary);
             font-size: 0.875rem;
@@ -725,6 +756,33 @@
                 render();
             }
 
+            function handleDeleteCharacter(id) {
+                const char = state.characters.find(c => c.id === id);
+                if (!char) return;
+
+                const confirmed = confirm(`Delete "${char.name}" and all their job data?`);
+                if (!confirmed) return;
+
+                // Remove character from array
+                state.characters = state.characters.filter(c => c.id !== id);
+
+                // Clear selection if deleted character was selected
+                if (state.selectedCharacterId === id) {
+                    state.selectedCharacterId = state.characters.length > 0 ? state.characters[0].id : null;
+                    state.selectedJobId = null;
+                    // Auto-select first job of new selected character
+                    if (state.selectedCharacterId) {
+                        const newSelected = state.characters.find(c => c.id === state.selectedCharacterId);
+                        if (newSelected && newSelected.jobs.length > 0) {
+                            state.selectedJobId = newSelected.jobs[0].jobId;
+                        }
+                    }
+                }
+
+                saveState();
+                render();
+            }
+
             function selectJob(jobId) {
                 state.selectedJobId = jobId;
                 saveState();
@@ -811,13 +869,30 @@
                 characterListContainer.innerHTML = state.characters.map(char => `
                     <div class="character-item ${char.id === state.selectedCharacterId ? 'selected' : ''}"
                          data-id="${char.id}">
-                        <span class="name">${escapeHtml(char.name)}</span>
+                        <div class="character-item-row">
+                            <span class="name">${escapeHtml(char.name)}</span>
+                            <div class="character-item-actions">
+                                <button class="btn btn-small btn-delete" data-delete-id="${char.id}">Delete</button>
+                            </div>
+                        </div>
                     </div>
                 `).join('');
 
-                // Attach click handlers
+                // Attach click handlers for selecting character
                 characterListContainer.querySelectorAll('.character-item').forEach(item => {
-                    item.addEventListener('click', () => selectCharacter(item.dataset.id));
+                    item.addEventListener('click', (e) => {
+                        // Don't select if clicking delete button
+                        if (e.target.classList.contains('btn-delete')) return;
+                        selectCharacter(item.dataset.id);
+                    });
+                });
+
+                // Attach delete handlers
+                characterListContainer.querySelectorAll('.btn-delete').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        handleDeleteCharacter(btn.dataset.deleteId);
+                    });
                 });
             }
 

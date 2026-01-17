@@ -26,7 +26,7 @@
         "Verify character is removed from list",
         "Verify associated job data is also removed"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CHAR-003",
@@ -315,7 +315,7 @@
         "Verify text is light colored for contrast",
         "Verify all UI elements follow dark theme consistently"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "UI-002",
