@@ -176,7 +176,7 @@
         "Verify partially complete tome slots (Base only) have distinct style",
         "Verify fully complete slots show as complete (e.g., green highlight)"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "RING-001",
@@ -239,7 +239,7 @@
         "Verify all characters, jobs, and gear states are restored",
         "Verify selected character/job state is reasonable on reload"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "DATA-002",
@@ -251,7 +251,7 @@
         "Refresh the page immediately",
         "Verify the change was persisted"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "EXPORT-001",

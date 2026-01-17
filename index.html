@@ -388,6 +388,23 @@
             cursor: pointer;
         }
 
+        /* Slot completion states */
+        .gear-table tr.slot-complete {
+            background-color: rgba(46, 204, 113, 0.15);
+        }
+
+        .gear-table tr.slot-complete:hover {
+            background-color: rgba(46, 204, 113, 0.25);
+        }
+
+        .gear-table tr.slot-partial {
+            background-color: rgba(241, 196, 15, 0.15);
+        }
+
+        .gear-table tr.slot-partial:hover {
+            background-color: rgba(241, 196, 15, 0.25);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .app-container {
@@ -822,8 +839,21 @@
                             `;
                         }
 
+                        // Determine slot completion state
+                        let slotClass = '';
+                        if (slotType === 'raid') {
+                            if (slotGear.have) slotClass = 'slot-complete';
+                        } else {
+                            // Tome: complete if upgraded, partial if base only
+                            if (slotGear.upgraded) {
+                                slotClass = 'slot-complete';
+                            } else if (slotGear.base) {
+                                slotClass = 'slot-partial';
+                            }
+                        }
+
                         tableRows += `
-                            <tr>
+                            <tr class="${slotClass}">
                                 <td class="slot-name">${slot.name}</td>
                                 <td><span class="slot-type ${slotType}">${slotType.charAt(0).toUpperCase() + slotType.slice(1)}</span></td>
                                 <td><div class="gear-checkbox-group">${checkboxHtml}</div></td>

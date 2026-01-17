@@ -146,3 +146,37 @@ Files: index.html (JOB_BIS_PRESETS data, getBiSPreset function), prd.json (GEAR-
 Screenshot: .playwright-mcp/gear-005-per-job-bis.png
 
 Next: GEAR-006 (visual completion) or PROG-001 (progress display)
+
+## DATA-001/002 - Data Persistence - COMPLETE
+
+Verified localStorage persistence already working:
+- Characters, jobs, gear states all persist after refresh
+- Auto-save on every change (no save button needed)
+- Selected character/job state reasonable on reload
+
+No code changes - already implemented early for testing.
+
+Files: prd.json (DATA-001, DATA-002 marked passes:true)
+
+## GEAR-006 - Visual Completion Status - COMPLETE
+
+Added CSS classes for slot completion states:
+- .slot-complete: green bg (rgba 46,204,113 @ 15%) for fully complete
+- .slot-partial: yellow/amber bg (rgba 241,196,15 @ 15%) for Base-only tome
+- Both have hover variants at 25% opacity
+
+Updated renderMainPanel to add classes based on gear state:
+- Raid: complete if have=true
+- Tome: complete if upgraded=true, partial if base=true only
+
+Verified with Playwright:
+- Weapon (raid, have=true): green highlight
+- Head (tome, base only): yellow/amber highlight
+- Body (tome, base+upgraded): green highlight
+- Other slots (incomplete): no highlight
+
+Files: index.html (CSS + JS render logic), prd.json (GEAR-006 passes:true)
+
+Screenshot: .playwright-mcp/gear-006-complete.png
+
+Next: PROG-001 (progress display) or remaining features
