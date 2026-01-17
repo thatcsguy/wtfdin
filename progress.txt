@@ -80,3 +80,25 @@ Files: index.html (JS state + selectJob function + render updates + CSS for job-
 Screenshot: .playwright-mcp/job-003-switch-jobs.png
 
 Next: GEAR-001 (gear table) - prerequisite for most remaining features
+
+## GEAR-001 - Gear Table with 11 Equipment Slots - COMPLETE
+
+Implemented gear table displaying all 11 slots:
+- Weapon, Head, Body, Hands, Legs, Feet, Earrings, Necklace, Bracelets, Ring1, Ring2
+- Each slot shows: name, type (Raid/Tome), checkboxes
+- Raid slots: single "Have" checkbox
+- Tome slots: "Base" + "Upgraded" checkboxes
+- Checkbox state persists to localStorage
+- Table renders when job selected
+
+Decisions:
+- Default BiS preset: weapon=raid, alternating for armor, mix for accessories
+- getBiSPreset(jobId) stub for future per-job presets
+- CSS badges for slot types: Raid (pink), Tome (blue)
+- Checkboxes update state immediately, re-render on change
+
+Files: index.html (CSS gear-table styles, JS GEAR_SLOTS/DEFAULT_BIS data, renderMainPanel gear table, handleGearCheckbox)
+
+Screenshot: .playwright-mcp/gear-001-complete.png
+
+Next: GEAR-002/003/004 (checkbox behaviors) or GEAR-005 (per-job BiS)

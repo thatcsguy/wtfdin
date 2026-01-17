@@ -316,6 +316,78 @@
             color: var(--accent);
         }
 
+        /* Gear Table */
+        .gear-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .gear-table th,
+        .gear-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .gear-table th {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .gear-table td {
+            font-size: 0.875rem;
+        }
+
+        .gear-table tr:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .slot-name {
+            font-weight: 500;
+        }
+
+        .slot-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .slot-type.raid {
+            background-color: rgba(233, 69, 96, 0.2);
+            color: var(--accent);
+        }
+
+        .slot-type.tome {
+            background-color: rgba(100, 149, 237, 0.2);
+            color: #6495ed;
+        }
+
+        .gear-checkbox-group {
+            display: flex;
+            gap: 16px;
+        }
+
+        .gear-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .gear-checkbox-label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .app-container {
@@ -421,6 +493,43 @@
                 { key: 'ranged', label: 'Physical Ranged' },
                 { key: 'casters', label: 'Magical Ranged' }
             ];
+
+            // Equipment slots - all 11 gear slots
+            const GEAR_SLOTS = [
+                { id: 'weapon', name: 'Weapon' },
+                { id: 'head', name: 'Head' },
+                { id: 'body', name: 'Body' },
+                { id: 'hands', name: 'Hands' },
+                { id: 'legs', name: 'Legs' },
+                { id: 'feet', name: 'Feet' },
+                { id: 'earrings', name: 'Earrings' },
+                { id: 'necklace', name: 'Necklace' },
+                { id: 'bracelets', name: 'Bracelets' },
+                { id: 'ring1', name: 'Ring 1' },
+                { id: 'ring2', name: 'Ring 2' }
+            ];
+
+            // Default BiS preset - generic pattern (can be customized per job later)
+            // For now: weapon=raid, alternating raid/tome for armor, tome accessories
+            const DEFAULT_BIS = {
+                weapon: 'raid',
+                head: 'tome',
+                body: 'raid',
+                hands: 'raid',
+                legs: 'tome',
+                feet: 'tome',
+                earrings: 'tome',
+                necklace: 'raid',
+                bracelets: 'tome',
+                ring1: 'raid',
+                ring2: 'tome'
+            };
+
+            // Get BiS preset for a job (returns default for now, can be extended)
+            function getBiSPreset(jobId) {
+                // Could add job-specific presets later
+                return DEFAULT_BIS;
+            }
 
             // Get flat list of all jobs
             function getAllJobs() {
@@ -640,14 +749,72 @@
                     jobsHtml = '<p class="no-jobs">No jobs added yet.</p>';
                 }
 
-                // Get selected job info for display
+                // Get selected job info and gear table
                 const selectedJob = state.selectedJobId ? getJobById(state.selectedJobId) : null;
-                const jobInfoHtml = selectedJob ? `
-                    <div class="job-info">
-                        <h3>${selectedJob.name}</h3>
-                        <p class="no-jobs">Gear tracking coming soon...</p>
-                    </div>
-                ` : '';
+                const selectedJobData = selected.jobs.find(j => j.jobId === state.selectedJobId);
+                let jobInfoHtml = '';
+
+                if (selectedJob && selectedJobData) {
+                    const bis = getBiSPreset(selectedJob.id);
+                    const gear = selectedJobData.gear || {};
+
+                    let tableRows = '';
+                    GEAR_SLOTS.forEach(slot => {
+                        const slotType = bis[slot.id];
+                        const slotGear = gear[slot.id] || {};
+
+                        let checkboxHtml = '';
+                        if (slotType === 'raid') {
+                            const hasItem = slotGear.have || false;
+                            checkboxHtml = `
+                                <label class="gear-checkbox-label">
+                                    <input type="checkbox" data-slot="${slot.id}" data-field="have" ${hasItem ? 'checked' : ''}>
+                                    Have
+                                </label>
+                            `;
+                        } else {
+                            // Tome item - has Base and Upgraded checkboxes
+                            const hasBase = slotGear.base || false;
+                            const hasUpgraded = slotGear.upgraded || false;
+                            checkboxHtml = `
+                                <label class="gear-checkbox-label">
+                                    <input type="checkbox" data-slot="${slot.id}" data-field="base" ${hasBase ? 'checked' : ''}>
+                                    Base
+                                </label>
+                                <label class="gear-checkbox-label">
+                                    <input type="checkbox" data-slot="${slot.id}" data-field="upgraded" ${hasUpgraded ? 'checked' : ''}>
+                                    Upgraded
+                                </label>
+                            `;
+                        }
+
+                        tableRows += `
+                            <tr>
+                                <td class="slot-name">${slot.name}</td>
+                                <td><span class="slot-type ${slotType}">${slotType.charAt(0).toUpperCase() + slotType.slice(1)}</span></td>
+                                <td><div class="gear-checkbox-group">${checkboxHtml}</div></td>
+                            </tr>
+                        `;
+                    });
+
+                    jobInfoHtml = `
+                        <div class="job-info">
+                            <h3>${selectedJob.name} Gear</h3>
+                            <table class="gear-table">
+                                <thead>
+                                    <tr>
+                                        <th>Slot</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${tableRows}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                }
 
                 characterDetails.innerHTML = `
                     ${jobsHtml}
@@ -668,6 +835,31 @@
                         }
                     });
                 });
+
+                // Attach gear checkbox handlers
+                characterDetails.querySelectorAll('.gear-table input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.addEventListener('change', (e) => {
+                        handleGearCheckbox(e.target.dataset.slot, e.target.dataset.field, e.target.checked);
+                    });
+                });
+            }
+
+            function handleGearCheckbox(slotId, field, checked) {
+                const selected = state.characters.find(c => c.id === state.selectedCharacterId);
+                if (!selected) return;
+
+                const jobData = selected.jobs.find(j => j.jobId === state.selectedJobId);
+                if (!jobData) return;
+
+                // Initialize gear object if needed
+                if (!jobData.gear) jobData.gear = {};
+                if (!jobData.gear[slotId]) jobData.gear[slotId] = {};
+
+                // Update the field
+                jobData.gear[slotId][field] = checked;
+
+                saveState();
+                render();
             }
 
             // Utilities

@@ -113,7 +113,7 @@
         "Verify table shows rows for: Weapon, Head, Body, Hands, Legs, Feet, Earrings, Necklace, Bracelets, Ring1, Ring2",
         "Verify each row shows slot name and type (Raid/Tome)"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "GEAR-002",
