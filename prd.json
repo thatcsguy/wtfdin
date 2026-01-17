@@ -290,7 +290,7 @@
         "Verify original localStorage data is preserved",
         "Verify imported data is not applied"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "EXPORT-004",

@@ -352,3 +352,26 @@ Files: index.html (checkForImport function), prd.json (EXPORT-002 passes:true)
 Screenshot: .playwright-mcp/export-002-import-complete.png
 
 Next: EXPORT-003/004, JOB-004, UI-003/004
+
+## EXPORT-003 - Decline Import Preserves Existing Data - COMPLETE
+
+Verified existing checkForImport() logic already handles decline correctly:
+- loadState() called first, loads existing localStorage data
+- If user clicks Cancel on confirm prompt, state remains unchanged
+- URL cleaned via history.replaceState() regardless of choice
+
+Verified with Playwright:
+- Had existing data: ExportTest (Paladin, weapon checked) + OriginalChar
+- Navigated to URL with different import data: ImportedChar (DRK)
+- Declined import prompt
+- Confirmed ExportTest + OriginalChar still present
+- Confirmed Paladin job + weapon checkbox state preserved
+- ImportedChar NOT applied
+
+No code changes needed - already implemented correctly.
+
+Files: prd.json (EXPORT-003 passes:true)
+
+Screenshot: .playwright-mcp/export-003-decline-import.png
+
+Next: EXPORT-004, JOB-004, UI-003/004
