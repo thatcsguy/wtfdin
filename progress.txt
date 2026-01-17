@@ -19,3 +19,10 @@ Note: MODAL-001 already passing - melee DPS (6 jobs) fits in one row at 600px mo
 - Delete button auto-focused for accessibility
 - Reusable for future confirm dialogs (job remove, etc.)
 - Files changed: index.html
+
+## MODAL-004: Custom Job Remove Confirmation Modal
+- Updated handleRemoveJob() to use openConfirmModal() instead of browser confirm()
+- Modal title: "Remove Job", button text: "Remove"
+- Shows job name in confirmation message
+- Reuses existing confirm modal infrastructure from MODAL-003
+- Files changed: index.html

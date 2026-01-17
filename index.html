@@ -1355,19 +1355,23 @@
                 const job = getJobById(jobId);
                 const jobName = job ? job.name : jobId;
 
-                const confirmed = confirm(`Remove ${jobName} and all its gear data?`);
-                if (!confirmed) return;
+                openConfirmModal(
+                    'Remove Job',
+                    `Remove ${jobName} and all its gear data?`,
+                    'Remove',
+                    () => {
+                        // Remove job from character
+                        selected.jobs = selected.jobs.filter(j => j.jobId !== jobId);
 
-                // Remove job from character
-                selected.jobs = selected.jobs.filter(j => j.jobId !== jobId);
+                        // Clear selected job if removed job was selected
+                        if (state.selectedJobId === jobId) {
+                            state.selectedJobId = selected.jobs.length > 0 ? selected.jobs[0].jobId : null;
+                        }
 
-                // Clear selected job if removed job was selected
-                if (state.selectedJobId === jobId) {
-                    state.selectedJobId = selected.jobs.length > 0 ? selected.jobs[0].jobId : null;
-                }
-
-                saveState();
-                render();
+                        saveState();
+                        render();
+                    }
+                );
             }
 
             // Job Modal

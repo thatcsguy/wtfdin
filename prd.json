@@ -81,7 +81,7 @@
         "Verify clicking Cancel closes modal without removing job",
         "Verify clicking Remove deletes the job from character"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "MODAL-005",
