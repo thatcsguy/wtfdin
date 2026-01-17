@@ -22,3 +22,19 @@ Also satisfies (not marked but verified):
 Files: index.html (new)
 
 Next: CHAR-001/002/003 character management, then JOB-* features
+
+## CHAR-001 & CHAR-004 - Add/Select Character - COMPLETE
+
+Verified with Playwright:
+- "+ Add" button triggers prompt dialog
+- Character name entered, created, appears in list
+- Auto-selects new character after creation
+- Click character in list updates main panel
+- Selected char highlighted (bg color + left border accent)
+- Data persists after page refresh (localStorage working)
+
+No code changes needed - already implemented in UI-002.
+
+Files: prd.json (marked CHAR-001, CHAR-004 passes: true)
+
+Next: CHAR-002 (delete) or CHAR-003 (rename)

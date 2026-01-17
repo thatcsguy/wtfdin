@@ -13,7 +13,7 @@
         "Verify new character appears in character list",
         "Verify character is selectable"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CHAR-002",
@@ -50,7 +50,7 @@
         "Verify main panel updates to show selected character's details",
         "Verify selected character is visually highlighted in list"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "JOB-001",
