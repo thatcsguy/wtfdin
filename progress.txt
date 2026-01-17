@@ -431,3 +431,24 @@ Screenshots:
 - .playwright-mcp/ui-004-hover-table-row.png
 
 Next: JOB-004, UI-003
+
+## JOB-004 - Job Icon Fallback for Failed Loads - COMPLETE
+
+Added fallback text display when job icons fail to load from XIVAPI:
+- CSS: .job-pill img.hidden, .job-pill .job-icon-fallback (24px box, centered text)
+- CSS: .job-grid-item img.hidden, .job-grid-item .job-icon-fallback (40px box for modal)
+- JS: handleJobIconError(img, jobId) - hides img, inserts fallback span with job abbreviation
+- onerror handlers attached to all job icon <img> elements in both job pills and modal grid
+
+Verified with Playwright:
+- Job picker modal shows fallback for SGE, RPR, VPR, PCT (newer jobs without XIVAPI icons)
+- Job pills show same fallback styling when icon fails
+- Icons that load successfully display normally (Paladin, etc.)
+
+Files: index.html (CSS + JS), prd.json (JOB-004 passes:true)
+
+Screenshots:
+- .playwright-mcp/job-004-icon-fallback.png (modal with mixed icons/fallbacks)
+- .playwright-mcp/job-004-pill-fallback.png (job pills showing Paladin icon + Sage fallback)
+
+Next: UI-003 (responsive mobile)

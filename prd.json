@@ -102,7 +102,7 @@
         "Verify icons display at appropriate size",
         "Verify fallback text shows if icon fails to load"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "GEAR-001",

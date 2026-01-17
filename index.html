@@ -305,6 +305,23 @@
             height: 24px;
         }
 
+        .job-pill img.hidden {
+            display: none;
+        }
+
+        .job-pill .job-icon-fallback {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-tertiary);
+            border-radius: 4px;
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
         .job-pill span {
             font-size: 0.875rem;
         }
@@ -411,6 +428,24 @@
         .job-grid-item img {
             width: 40px;
             height: 40px;
+            margin-bottom: 6px;
+        }
+
+        .job-grid-item img.hidden {
+            display: none;
+        }
+
+        .job-grid-item .job-icon-fallback {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-tertiary);
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
             margin-bottom: 6px;
         }
 
@@ -1037,7 +1072,7 @@
                             <div class="job-grid-item ${isDisabled ? 'disabled' : ''}"
                                  data-job-id="${job.id}"
                                  ${isDisabled ? '' : 'tabindex="0"'}>
-                                <img src="${job.icon}" alt="${job.name}">
+                                <img src="${job.icon}" alt="${job.name}" data-job-id="${job.id}">
                                 <span>${job.name}</span>
                             </div>
                         `;
@@ -1056,6 +1091,11 @@
                             addJobToCharacter(item.dataset.jobId);
                         }
                     });
+                });
+
+                // Attach job icon error handlers for modal
+                jobModalContent.querySelectorAll('.job-grid-item img').forEach(img => {
+                    img.onerror = () => handleJobIconError(img, img.dataset.jobId);
                 });
 
                 jobModal.classList.remove('hidden');
@@ -1169,7 +1209,7 @@
                             const isSelected = j.jobId === state.selectedJobId;
                             jobsHtml += `
                                 <div class="job-pill ${isSelected ? 'selected' : ''}" data-job-id="${job.id}" tabindex="0">
-                                    <img src="${job.icon}" alt="${job.name}">
+                                    <img src="${job.icon}" alt="${job.name}" data-job-id="${job.id}">
                                     <span>${job.name}</span>
                                     <button class="job-remove-btn" data-remove-job-id="${job.id}" title="Remove ${job.name}">&times;</button>
                                 </div>
@@ -1304,6 +1344,11 @@
                     });
                 });
 
+                // Attach job icon error handlers
+                characterDetails.querySelectorAll('.job-pill img').forEach(img => {
+                    img.onerror = () => handleJobIconError(img, img.dataset.jobId);
+                });
+
                 // Attach gear checkbox handlers
                 characterDetails.querySelectorAll('.gear-table input[type="checkbox"]').forEach(checkbox => {
                     checkbox.addEventListener('change', (e) => {
@@ -1417,6 +1462,18 @@
                 const div = document.createElement('div');
                 div.textContent = text;
                 return div.innerHTML;
+            }
+
+            // Handle job icon load error - show fallback text
+            function handleJobIconError(img, jobId) {
+                img.classList.add('hidden');
+                // Create fallback element if it doesn't exist
+                if (!img.nextElementSibling || !img.nextElementSibling.classList.contains('job-icon-fallback')) {
+                    const fallback = document.createElement('span');
+                    fallback.className = 'job-icon-fallback';
+                    fallback.textContent = jobId;
+                    img.parentNode.insertBefore(fallback, img.nextSibling);
+                }
             }
 
             // Start the app
