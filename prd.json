@@ -226,7 +226,7 @@
         "Verify progress updates in real-time",
         "Verify tome slots count as complete only when fully upgraded"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "DATA-001",

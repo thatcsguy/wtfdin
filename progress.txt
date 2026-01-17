@@ -180,3 +180,22 @@ Files: index.html (CSS + JS render logic), prd.json (GEAR-006 passes:true)
 Screenshot: .playwright-mcp/gear-006-complete.png
 
 Next: PROG-001 (progress display) or remaining features
+
+## PROG-001 - Per-Job Completion Progress - COMPLETE
+
+Added progress indicator showing X/11 slots complete:
+- Progress bar (green fill) + text display
+- calculateJobProgress(jobId, gear) function
+- Raid slots: complete if have=true
+- Tome slots: complete ONLY if upgraded=true (base-only doesn't count)
+- Updates in real-time when checkboxes change
+- Green text styling when 11/11 complete
+
+CSS: .progress-container, .progress-bar, .progress-bar-fill, .progress-text
+JS: calculateJobProgress function, updated renderMainPanel
+
+Files: index.html, prd.json (PROG-001 passes:true)
+
+Screenshot: .playwright-mcp/prog-001-progress-display.png
+
+Next: CHAR-002/003 (delete/rename char), JOB-002 (remove job), UI-001 (dark mode already done but unmarked)

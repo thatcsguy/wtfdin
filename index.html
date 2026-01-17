@@ -405,6 +405,39 @@
             background-color: rgba(241, 196, 15, 0.25);
         }
 
+        /* Progress indicator */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background-color: var(--bg-primary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #2ecc71;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .progress-text.complete {
+            color: #2ecc71;
+            font-weight: 500;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .app-container {
@@ -580,6 +613,29 @@
             // Get BiS preset for a job
             function getBiSPreset(jobId) {
                 return JOB_BIS_PRESETS[jobId] || DEFAULT_BIS;
+            }
+
+            // Calculate job completion progress
+            // Returns { complete: number, total: number }
+            // Tome slots only count as complete when upgraded=true
+            function calculateJobProgress(jobId, gear) {
+                const bis = getBiSPreset(jobId);
+                let complete = 0;
+                const total = GEAR_SLOTS.length;
+
+                GEAR_SLOTS.forEach(slot => {
+                    const slotType = bis[slot.id];
+                    const slotGear = gear[slot.id] || {};
+
+                    if (slotType === 'raid') {
+                        if (slotGear.have) complete++;
+                    } else {
+                        // Tome: only complete when upgraded
+                        if (slotGear.upgraded) complete++;
+                    }
+                });
+
+                return { complete, total };
             }
 
             // Get flat list of all jobs
@@ -861,9 +917,20 @@
                         `;
                     });
 
+                    // Calculate progress
+                    const progress = calculateJobProgress(selectedJob.id, gear);
+                    const progressPercent = Math.round((progress.complete / progress.total) * 100);
+                    const isComplete = progress.complete === progress.total;
+
                     jobInfoHtml = `
                         <div class="job-info">
                             <h3>${selectedJob.name} Gear</h3>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: ${progressPercent}%"></div>
+                                </div>
+                                <span class="progress-text ${isComplete ? 'complete' : ''}">${progress.complete}/${progress.total} slots complete</span>
+                            </div>
                             <table class="gear-table">
                                 <thead>
                                     <tr>
