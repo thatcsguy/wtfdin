@@ -375,3 +375,25 @@ Files: prd.json (EXPORT-003 passes:true)
 Screenshot: .playwright-mcp/export-003-decline-import.png
 
 Next: EXPORT-004, JOB-004, UI-003/004
+
+## EXPORT-004 - Corrupt/Invalid URL Data Handling - COMPLETE
+
+Verified existing checkForImport() logic handles all error cases:
+- Invalid base64 chars → atob() throws InvalidCharacterError
+- Valid base64, invalid JSON → JSON.parse() throws SyntaxError
+- Valid JSON, wrong structure → throws Error('Invalid data format')
+- All caught in try/catch, shows alert + falls back to localStorage
+- URL cleaned via history.replaceState() after error
+
+Tested scenarios:
+- ?data=INVALID_BASE64!!! → alert shown, falls back, URL cleaned
+- ?data=aW52YWxpZA== (base64 of "invalid") → JSON error, handled
+- ?data=<valid base64 of {"wrong":"structure"}> → structure validation error
+
+No code changes needed - already implemented correctly.
+
+Files: prd.json (EXPORT-004 passes:true)
+
+Screenshot: .playwright-mcp/export-004-fallback-empty.png
+
+Next: JOB-004, UI-003/004

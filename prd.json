@@ -303,7 +303,7 @@
         "Verify appropriate error message is shown",
         "Verify application falls back to localStorage or empty state"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "UI-001",
