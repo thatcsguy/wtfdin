@@ -397,3 +397,37 @@ Files: prd.json (EXPORT-004 passes:true)
 Screenshot: .playwright-mcp/export-004-fallback-empty.png
 
 Next: JOB-004, UI-003/004
+
+## UI-004 - Interactive Elements Hover/Focus States - COMPLETE
+
+Added focus-visible states to all interactive elements for accessibility:
+- Buttons: .btn:focus-visible, .btn-export:focus-visible, .btn-delete:focus-visible, .btn-rename:focus-visible
+- Character items: .character-item:focus-visible + tabindex + keyboard handlers (Enter/Space)
+- Job pills: .job-pill:focus-visible (already had tabindex)
+- Job grid items: .job-grid-item:focus-visible
+- Job remove buttons: .job-remove-btn:focus-visible
+- Checkboxes: input[type="checkbox"]:focus-visible
+- Checkbox labels: .gear-checkbox-label:hover
+
+Also improved button focus handling:
+- Used :focus-visible for keyboard-only focus indicators
+- Added :focus:not(:focus-visible) to hide outline on mouse click
+
+Verified with Playwright:
+- Tab navigation works through all interactive elements
+- Focus outlines visible (pink/accent border)
+- Hover states show visual feedback on buttons, rows, character items
+- Character rename/delete buttons appear on hover
+
+Files: index.html (CSS focus states), prd.json (UI-004 passes:true)
+
+Screenshots:
+- .playwright-mcp/ui-004-focus-add-btn.png
+- .playwright-mcp/ui-004-focus-character.png
+- .playwright-mcp/ui-004-focus-job-pill.png
+- .playwright-mcp/ui-004-focus-checkbox.png
+- .playwright-mcp/ui-004-hover-button.png
+- .playwright-mcp/ui-004-hover-character.png
+- .playwright-mcp/ui-004-hover-table-row.png
+
+Next: JOB-004, UI-003
