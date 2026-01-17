@@ -164,7 +164,7 @@
         "Verify each job's gear table shows the correct hardcoded BiS configuration",
         "Verify slot types (Raid/Tome) match the preset for that job"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "GEAR-006",

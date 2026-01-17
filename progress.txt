@@ -124,3 +124,25 @@ Files: index.html (handleGearCheckbox updated), prd.json (marked passes:true)
 Screenshot: .playwright-mcp/gear-004-auto-base.png
 
 Next: GEAR-005 (per-job BiS) or GEAR-006 (visual completion status)
+
+## GEAR-005 - Per-Job BiS Presets - COMPLETE
+
+Implemented unique BiS presets for all 21 jobs:
+- JOB_BIS_PRESETS object with raid/tome config per slot per job
+- Tanks: PLD, WAR, DRK, GNB - each different based on stat priorities
+- Healers: WHM, SCH, AST, SGE - varied Crit/Det/Piety builds
+- Melee: MNK, DRG, NIN, SAM, RPR, VPR - Crit/DH focused variations
+- Ranged: BRD, MCH, DNC - different optimal configs
+- Casters: BLM, SMN, RDM, PCT - SpS vs Crit build variations
+- getBiSPreset(jobId) returns job-specific preset or DEFAULT_BIS fallback
+
+Verified with Playwright:
+- DRK, WHM, BLM all show distinct BiS configurations
+- Switching jobs updates gear table with correct preset
+- Slot types (Raid/Tome badges) match per-job preset
+
+Files: index.html (JOB_BIS_PRESETS data, getBiSPreset function), prd.json (GEAR-005 passes:true)
+
+Screenshot: .playwright-mcp/gear-005-per-job-bis.png
+
+Next: GEAR-006 (visual completion) or PROG-001 (progress display)

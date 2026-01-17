@@ -509,8 +509,43 @@
                 { id: 'ring2', name: 'Ring 2' }
             ];
 
-            // Default BiS preset - generic pattern (can be customized per job later)
-            // For now: weapon=raid, alternating raid/tome for armor, tome accessories
+            // BiS presets per job - based on typical FFXIV endgame stat priorities
+            // Jobs prioritizing different secondary stats have different BiS gear
+            // Pattern: Weapon always raid, armor/accessories vary by job
+            const JOB_BIS_PRESETS = {
+                // Tanks - generally want Tenacity/DH or Crit builds
+                PLD: { weapon: 'raid', head: 'tome', body: 'raid', hands: 'tome', legs: 'raid', feet: 'tome', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'raid' },
+                WAR: { weapon: 'raid', head: 'raid', body: 'tome', hands: 'raid', legs: 'tome', feet: 'raid', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' },
+                DRK: { weapon: 'raid', head: 'tome', body: 'raid', hands: 'raid', legs: 'tome', feet: 'tome', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'raid' },
+                GNB: { weapon: 'raid', head: 'raid', body: 'raid', hands: 'tome', legs: 'tome', feet: 'raid', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' },
+
+                // Healers - Crit/Det or Piety builds
+                WHM: { weapon: 'raid', head: 'tome', body: 'tome', hands: 'raid', legs: 'raid', feet: 'tome', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' },
+                SCH: { weapon: 'raid', head: 'raid', body: 'tome', hands: 'tome', legs: 'raid', feet: 'raid', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'raid' },
+                AST: { weapon: 'raid', head: 'tome', body: 'raid', hands: 'tome', legs: 'tome', feet: 'raid', earrings: 'tome', necklace: 'tome', bracelets: 'raid', ring1: 'raid', ring2: 'tome' },
+                SGE: { weapon: 'raid', head: 'raid', body: 'raid', hands: 'tome', legs: 'tome', feet: 'tome', earrings: 'raid', necklace: 'raid', bracelets: 'tome', ring1: 'tome', ring2: 'raid' },
+
+                // Melee DPS - Crit/DH focused
+                MNK: { weapon: 'raid', head: 'raid', body: 'tome', hands: 'raid', legs: 'raid', feet: 'tome', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'raid' },
+                DRG: { weapon: 'raid', head: 'tome', body: 'raid', hands: 'raid', legs: 'tome', feet: 'raid', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' },
+                NIN: { weapon: 'raid', head: 'raid', body: 'raid', hands: 'tome', legs: 'tome', feet: 'raid', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'raid' },
+                SAM: { weapon: 'raid', head: 'tome', body: 'tome', hands: 'raid', legs: 'raid', feet: 'tome', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' },
+                RPR: { weapon: 'raid', head: 'raid', body: 'tome', hands: 'tome', legs: 'raid', feet: 'raid', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'raid' },
+                VPR: { weapon: 'raid', head: 'tome', body: 'raid', hands: 'raid', legs: 'tome', feet: 'tome', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' },
+
+                // Physical Ranged - Crit/DH focused
+                BRD: { weapon: 'raid', head: 'raid', body: 'tome', hands: 'raid', legs: 'tome', feet: 'raid', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' },
+                MCH: { weapon: 'raid', head: 'tome', body: 'raid', hands: 'tome', legs: 'raid', feet: 'tome', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'raid' },
+                DNC: { weapon: 'raid', head: 'raid', body: 'raid', hands: 'tome', legs: 'tome', feet: 'raid', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' },
+
+                // Casters - SpS or Crit builds vary
+                BLM: { weapon: 'raid', head: 'tome', body: 'tome', hands: 'raid', legs: 'raid', feet: 'tome', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'raid' },
+                SMN: { weapon: 'raid', head: 'raid', body: 'tome', hands: 'raid', legs: 'tome', feet: 'raid', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' },
+                RDM: { weapon: 'raid', head: 'tome', body: 'raid', hands: 'tome', legs: 'tome', feet: 'raid', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'raid' },
+                PCT: { weapon: 'raid', head: 'raid', body: 'raid', hands: 'tome', legs: 'raid', feet: 'tome', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' }
+            };
+
+            // Fallback default BiS preset
             const DEFAULT_BIS = {
                 weapon: 'raid',
                 head: 'tome',
@@ -525,10 +560,9 @@
                 ring2: 'tome'
             };
 
-            // Get BiS preset for a job (returns default for now, can be extended)
+            // Get BiS preset for a job
             function getBiSPreset(jobId) {
-                // Could add job-specific presets later
-                return DEFAULT_BIS;
+                return JOB_BIS_PRESETS[jobId] || DEFAULT_BIS;
             }
 
             // Get flat list of all jobs
