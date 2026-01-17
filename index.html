@@ -761,8 +761,57 @@
             // Initialize
             function init() {
                 loadState();
+                checkForImport();
                 render();
                 attachEventListeners();
+            }
+
+            // Check URL for data parameter and prompt import
+            function checkForImport() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const dataParam = urlParams.get('data');
+
+                if (!dataParam) return;
+
+                try {
+                    // Decode the base64 data
+                    const jsonStr = decodeURIComponent(atob(dataParam));
+                    const importedState = JSON.parse(jsonStr);
+
+                    // Validate imported data structure
+                    if (!importedState || !Array.isArray(importedState.characters)) {
+                        throw new Error('Invalid data format');
+                    }
+
+                    // Count characters and jobs for prompt
+                    const charCount = importedState.characters.length;
+                    let jobCount = 0;
+                    importedState.characters.forEach(c => {
+                        if (c.jobs) jobCount += c.jobs.length;
+                    });
+
+                    // Prompt user
+                    const msg = `Import ${charCount} character(s) with ${jobCount} job(s)?\n\nThis will replace your current data.`;
+                    if (confirm(msg)) {
+                        // Apply imported state
+                        state = importedState;
+                        saveState();
+                    }
+
+                    // Clean URL (remove data param) regardless of choice
+                    const url = new URL(window.location.href);
+                    url.search = '';
+                    window.history.replaceState({}, '', url.toString());
+
+                } catch (e) {
+                    console.error('Import failed:', e);
+                    alert('Failed to import data: Invalid or corrupted URL.');
+
+                    // Clean URL
+                    const url = new URL(window.location.href);
+                    url.search = '';
+                    window.history.replaceState({}, '', url.toString());
+                }
             }
 
             // Local Storage

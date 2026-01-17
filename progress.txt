@@ -327,3 +327,28 @@ Files: index.html (CSS + JS), prd.json (EXPORT-001 passes:true)
 Screenshot: .playwright-mcp/export-001-complete.png
 
 Next: EXPORT-002/003/004 (import), JOB-004, UI-003/004
+
+## EXPORT-002 - Import URL Data Parameter - COMPLETE
+
+Added checkForImport() function on page init:
+- Checks URL for `data` query parameter
+- Decodes base64: atob() + decodeURIComponent() + JSON.parse()
+- Validates imported state structure (characters array)
+- Shows confirm prompt with char/job counts
+- If accepted: applies state + saves to localStorage
+- Cleans URL via history.replaceState() (removes data param)
+- Handles invalid data with error alert
+
+Verified with Playwright:
+- Created ExportTest char with Paladin + weapon checked
+- Generated export URL with data param
+- Cleared localStorage, navigated to URL
+- Import prompt appeared: "Import 1 character(s) with 1 job(s)?"
+- Accepted import, data restored correctly
+- URL cleaned to base path
+
+Files: index.html (checkForImport function), prd.json (EXPORT-002 passes:true)
+
+Screenshot: .playwright-mcp/export-002-import-complete.png
+
+Next: EXPORT-003/004, JOB-004, UI-003/004

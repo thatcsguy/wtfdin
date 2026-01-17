@@ -277,7 +277,7 @@
         "Accept the import",
         "Verify all character, job, and gear data is restored correctly"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "EXPORT-003",
