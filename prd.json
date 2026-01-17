@@ -126,7 +126,7 @@
         "Check the checkbox",
         "Verify checkbox state persists after page refresh"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "GEAR-003",
@@ -139,7 +139,7 @@
         "Verify both can be checked independently (Base alone is valid)",
         "Verify checkbox states persist after page refresh"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "GEAR-004",
@@ -152,7 +152,7 @@
         "Verify 'Base' checkbox is automatically checked",
         "Verify both checkboxes show as checked"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "GEAR-005",

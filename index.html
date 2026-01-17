@@ -858,6 +858,11 @@
                 // Update the field
                 jobData.gear[slotId][field] = checked;
 
+                // GEAR-004: Auto-check Base when Upgraded is checked
+                if (field === 'upgraded' && checked) {
+                    jobData.gear[slotId].base = true;
+                }
+
                 saveState();
                 render();
             }

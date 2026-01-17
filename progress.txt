@@ -102,3 +102,25 @@ Files: index.html (CSS gear-table styles, JS GEAR_SLOTS/DEFAULT_BIS data, render
 Screenshot: .playwright-mcp/gear-001-complete.png
 
 Next: GEAR-002/003/004 (checkbox behaviors) or GEAR-005 (per-job BiS)
+
+## GEAR-002/003/004 - Checkbox Behaviors - COMPLETE
+
+GEAR-002: Raid slots show single "Have" checkbox
+- Already implemented in GEAR-001
+- Verified persistence after refresh
+
+GEAR-003: Tome slots show "Base" + "Upgraded" checkboxes
+- Already implemented in GEAR-001
+- Base can be checked independently
+- Persistence verified
+
+GEAR-004: Checking Upgraded auto-checks Base
+- Added logic in handleGearCheckbox()
+- When field='upgraded' && checked, also sets base=true
+- Tested: clicking Upgraded on unchecked slot auto-checks Base
+
+Files: index.html (handleGearCheckbox updated), prd.json (marked passes:true)
+
+Screenshot: .playwright-mcp/gear-004-auto-base.png
+
+Next: GEAR-005 (per-job BiS) or GEAR-006 (visual completion status)
