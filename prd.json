@@ -39,7 +39,7 @@
         "Confirm change",
         "Verify character list shows updated name"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "CHAR-004",

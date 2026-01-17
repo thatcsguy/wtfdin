@@ -233,3 +233,19 @@ Files: index.html (CSS + JS handleRemoveJob function), prd.json (JOB-002 passes:
 Screenshot: .playwright-mcp/job-002-remove-job.png
 
 Next: CHAR-003 (rename), RING-001/002/003 (ring validation), EXPORT-*, remaining features
+
+## CHAR-003 - Rename Character - COMPLETE
+
+Added rename button to character items in sidebar:
+- CSS: .btn-rename styled like delete but blue hover
+- Rename button appears on hover next to delete
+- Prompt shows current name as default value
+- Empty/unchanged names rejected
+- Updates both sidebar list and main header
+- Persists to localStorage after refresh
+
+Files: index.html (CSS + JS handleRenameCharacter), prd.json (CHAR-003 passes:true)
+
+Screenshot: .playwright-mcp/char-003-rename.png
+
+Next: RING-001/002/003 (ring validation), EXPORT-*, JOB-004, UI-003/004, TECH-001/002
