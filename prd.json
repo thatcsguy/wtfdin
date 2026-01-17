@@ -95,7 +95,7 @@
         "Verify clicking Cancel closes modal without creating",
         "Verify clicking Create with valid name adds new character"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "RAID-001",

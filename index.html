@@ -1195,9 +1195,10 @@
             }
 
             // Input Modal Functions
-            function openInputModal(title, defaultValue, callback) {
+            function openInputModal(title, defaultValue, confirmText, callback) {
                 inputModalTitle.textContent = title;
                 inputModalField.value = defaultValue || '';
+                inputModalConfirm.textContent = confirmText || 'Confirm';
                 inputModalCallback = callback;
                 inputModal.classList.remove('hidden');
                 inputModalField.focus();
@@ -1271,18 +1272,19 @@
             }
 
             function handleAddCharacter() {
-                const name = prompt('Enter character name:');
-                if (name && name.trim()) {
-                    const character = {
-                        id: Date.now().toString(),
-                        name: name.trim(),
-                        jobs: []
-                    };
-                    state.characters.push(character);
-                    state.selectedCharacterId = character.id;
-                    saveState();
-                    render();
-                }
+                openInputModal('Add Character', '', 'Create', (name) => {
+                    if (name) {
+                        const character = {
+                            id: Date.now().toString(),
+                            name: name,
+                            jobs: []
+                        };
+                        state.characters.push(character);
+                        state.selectedCharacterId = character.id;
+                        saveState();
+                        render();
+                    }
+                });
             }
 
             function selectCharacter(id) {
@@ -1302,7 +1304,7 @@
                 const char = state.characters.find(c => c.id === id);
                 if (!char) return;
 
-                openInputModal('Rename Character', char.name, (newName) => {
+                openInputModal('Rename Character', char.name, 'Confirm', (newName) => {
                     if (newName && newName !== char.name) {
                         char.name = newName;
                         saveState();

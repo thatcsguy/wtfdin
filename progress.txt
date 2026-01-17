@@ -26,3 +26,10 @@ Note: MODAL-001 already passing - melee DPS (6 jobs) fits in one row at 600px mo
 - Shows job name in confirmation message
 - Reuses existing confirm modal infrastructure from MODAL-003
 - Files changed: index.html
+
+## MODAL-005: Custom Add Character Modal
+- Updated handleAddCharacter() to use openInputModal() instead of browser prompt()
+- Added confirmText param to openInputModal() for dynamic button text
+- Modal title: "Add Character", button text: "Create"
+- Reuses input-modal infrastructure from MODAL-002
+- Files changed: index.html
