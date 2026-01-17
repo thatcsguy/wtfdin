@@ -452,3 +452,32 @@ Screenshots:
 - .playwright-mcp/job-004-pill-fallback.png (job pills showing Paladin icon + Sage fallback)
 
 Next: UI-003 (responsive mobile)
+
+## UI-003 - Responsive Mobile Layout - COMPLETE
+
+Comprehensive mobile responsive CSS for 768px and below:
+- Sidebar: max-height 35vh, compact padding
+- Buttons: min-height 44px for tap-friendly touch targets
+- Character items: always show Rename/Delete buttons (no hover required)
+- Job pills: 44px min height, visible remove buttons
+- Gear table: stacked checkboxes (Base/Upgraded vertical), larger touch targets
+- Progress bar: stacked layout on mobile
+- Modal: 95% width, smaller job icons, scrollable
+
+Verified with Playwright at 375x667 (iPhone SE):
+- Sidebar stacks above main content
+- All interactive elements tap-friendly
+- Gear table usable with stacked checkboxes
+- Job picker modal scrollable with readable icons
+- Desktop layout unchanged at 1280x800
+
+Files: index.html (expanded @media query), prd.json (UI-003 passes:true)
+
+Screenshots:
+- .playwright-mcp/ui-003-mobile-before.png (before improvements)
+- .playwright-mcp/ui-003-mobile-after.png (sidebar + job pills)
+- .playwright-mcp/ui-003-mobile-table.png (gear table with stacked checkboxes)
+- .playwright-mcp/ui-003-mobile-modal.png (job picker modal)
+- .playwright-mcp/ui-003-desktop-after.png (desktop still works)
+
+ALL PRD REQUIREMENTS NOW PASS
