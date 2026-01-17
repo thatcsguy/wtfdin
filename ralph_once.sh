@@ -8,7 +8,7 @@ claude --permission-mode acceptEdits "$(cat <<'EOF'
 
 1. Decide which task from the PRD to work on next. This should be the one YOU decide has the highest priority - not necessarily the first in the list. ONLY WORK ON A SINGLE TASK.
 
-2. Validate your work using the playwright plugin.
+2. Validate your work using the playwright plugin. If you're happy with the changes, save a screenshot under .playwright-mcp/ to track the progress.
 
 3. After completing the task, append to progress.txt:
    - Task completed and PRD item reference
@@ -17,7 +17,7 @@ claude --permission-mode acceptEdits "$(cat <<'EOF'
    - Any blockers or notes for next iteration
    Keep entries concise. Sacrifice grammar for the sake of concision. This file helps future iterations skip exploration.
 
-4. Make a git commit of that feature and updates to prd.json and progress.txt.
+4. Make a git commit of that feature, any screenshots taken, and updates to prd.json and progress.txt.
    - Keep changes small and focused:
      - One logical change per commit
      - If a task feels too large, break it into subtasks
