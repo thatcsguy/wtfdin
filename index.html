@@ -507,6 +507,20 @@
             border-color: var(--text-secondary);
         }
 
+        .btn-danger {
+            background-color: var(--accent);
+        }
+
+        .btn-danger:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .modal-message {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
         .no-jobs {
             color: var(--text-secondary);
             font-size: 0.875rem;
@@ -875,6 +889,18 @@
         </div>
     </div>
 
+    <!-- Confirm Modal (Delete/Remove) -->
+    <div class="modal-overlay hidden" id="confirm-modal">
+        <div class="modal modal-small">
+            <h3 id="confirm-modal-title">Confirm</h3>
+            <p id="confirm-modal-message" class="modal-message"></p>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" id="confirm-modal-cancel">Cancel</button>
+                <button class="btn btn-danger" id="confirm-modal-confirm">Delete</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // WTFDIN - What The Fuck Do I Need?
         // Vanilla JS FFXIV Gear Tracker
@@ -1039,6 +1065,9 @@
             // Input modal callback
             let inputModalCallback = null;
 
+            // Confirm modal callback
+            let confirmModalCallback = null;
+
             // DOM Elements
             const addCharacterBtn = document.getElementById('add-character-btn');
             const characterListContainer = document.getElementById('character-list-container');
@@ -1054,6 +1083,11 @@
             const inputModalField = document.getElementById('input-modal-field');
             const inputModalCancel = document.getElementById('input-modal-cancel');
             const inputModalConfirm = document.getElementById('input-modal-confirm');
+            const confirmModal = document.getElementById('confirm-modal');
+            const confirmModalTitle = document.getElementById('confirm-modal-title');
+            const confirmModalMessage = document.getElementById('confirm-modal-message');
+            const confirmModalCancel = document.getElementById('confirm-modal-cancel');
+            const confirmModalConfirmBtn = document.getElementById('confirm-modal-confirm');
 
             // Initialize
             function init() {
@@ -1146,6 +1180,18 @@
                     if (e.key === 'Enter') handleInputModalConfirm();
                     if (e.key === 'Escape') closeInputModal();
                 });
+
+                // Confirm modal events
+                confirmModalCancel.addEventListener('click', closeConfirmModal);
+                confirmModalConfirmBtn.addEventListener('click', handleConfirmModalConfirm);
+                confirmModal.addEventListener('click', (e) => {
+                    if (e.target === confirmModal) closeConfirmModal();
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && !confirmModal.classList.contains('hidden')) {
+                        closeConfirmModal();
+                    }
+                });
             }
 
             // Input Modal Functions
@@ -1170,6 +1216,28 @@
                     inputModalCallback(value);
                 }
                 closeInputModal();
+            }
+
+            // Confirm Modal Functions
+            function openConfirmModal(title, message, confirmText, callback) {
+                confirmModalTitle.textContent = title;
+                confirmModalMessage.textContent = message;
+                confirmModalConfirmBtn.textContent = confirmText || 'Delete';
+                confirmModalCallback = callback;
+                confirmModal.classList.remove('hidden');
+                confirmModalConfirmBtn.focus();
+            }
+
+            function closeConfirmModal() {
+                confirmModal.classList.add('hidden');
+                confirmModalCallback = null;
+            }
+
+            function handleConfirmModalConfirm() {
+                if (confirmModalCallback) {
+                    confirmModalCallback();
+                }
+                closeConfirmModal();
             }
 
             // Export/Import
@@ -1247,27 +1315,31 @@
                 const char = state.characters.find(c => c.id === id);
                 if (!char) return;
 
-                const confirmed = confirm(`Delete "${char.name}" and all their job data?`);
-                if (!confirmed) return;
+                openConfirmModal(
+                    'Delete Character',
+                    `Delete "${char.name}" and all their job data?`,
+                    'Delete',
+                    () => {
+                        // Remove character from array
+                        state.characters = state.characters.filter(c => c.id !== id);
 
-                // Remove character from array
-                state.characters = state.characters.filter(c => c.id !== id);
-
-                // Clear selection if deleted character was selected
-                if (state.selectedCharacterId === id) {
-                    state.selectedCharacterId = state.characters.length > 0 ? state.characters[0].id : null;
-                    state.selectedJobId = null;
-                    // Auto-select first job of new selected character
-                    if (state.selectedCharacterId) {
-                        const newSelected = state.characters.find(c => c.id === state.selectedCharacterId);
-                        if (newSelected && newSelected.jobs.length > 0) {
-                            state.selectedJobId = newSelected.jobs[0].jobId;
+                        // Clear selection if deleted character was selected
+                        if (state.selectedCharacterId === id) {
+                            state.selectedCharacterId = state.characters.length > 0 ? state.characters[0].id : null;
+                            state.selectedJobId = null;
+                            // Auto-select first job of new selected character
+                            if (state.selectedCharacterId) {
+                                const newSelected = state.characters.find(c => c.id === state.selectedCharacterId);
+                                if (newSelected && newSelected.jobs.length > 0) {
+                                    state.selectedJobId = newSelected.jobs[0].jobId;
+                                }
+                            }
                         }
-                    }
-                }
 
-                saveState();
-                render();
+                        saveState();
+                        render();
+                    }
+                );
             }
 
             function selectJob(jobId) {

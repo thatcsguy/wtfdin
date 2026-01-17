@@ -67,7 +67,7 @@
         "Verify clicking Cancel closes modal without deleting",
         "Verify clicking Delete removes the character"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "MODAL-004",
