@@ -1,0 +1,11 @@
+## MODAL-002: Custom Rename Modal
+- Replaced browser prompt() with styled HTML modal for character rename
+- Added input-modal HTML structure (title, input field, Cancel/Confirm buttons)
+- Added CSS: .modal-small, .modal-input, .modal-buttons, .btn-secondary
+- Added JS: openInputModal(), closeInputModal(), handleInputModalConfirm()
+- Modal supports Enter to submit, Escape to cancel, click outside to close
+- Input pre-filled with current name, auto-focused and selected
+- Files changed: index.html
+- Screenshot: .playwright-mcp/rename-modal.png
+
+Note: MODAL-001 already passing - melee DPS (6 jobs) fits in one row at 600px modal width

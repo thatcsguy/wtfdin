@@ -471,6 +471,42 @@
             width: 100%;
         }
 
+        .modal-small {
+            max-width: 400px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-primary);
+            border-color: var(--text-secondary);
+        }
+
         .no-jobs {
             color: var(--text-secondary);
             font-size: 0.875rem;
@@ -827,6 +863,18 @@
         </div>
     </div>
 
+    <!-- Input Modal (Rename/Add Character) -->
+    <div class="modal-overlay hidden" id="input-modal">
+        <div class="modal modal-small">
+            <h3 id="input-modal-title">Enter Name</h3>
+            <input type="text" id="input-modal-field" class="modal-input" placeholder="Enter name...">
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" id="input-modal-cancel">Cancel</button>
+                <button class="btn" id="input-modal-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // WTFDIN - What The Fuck Do I Need?
         // Vanilla JS FFXIV Gear Tracker
@@ -988,6 +1036,9 @@
                 selectedJobId: null
             };
 
+            // Input modal callback
+            let inputModalCallback = null;
+
             // DOM Elements
             const addCharacterBtn = document.getElementById('add-character-btn');
             const characterListContainer = document.getElementById('character-list-container');
@@ -998,6 +1049,11 @@
             const jobModalContent = document.getElementById('job-modal-content');
             const jobModalClose = document.getElementById('job-modal-close');
             const exportBtn = document.getElementById('export-btn');
+            const inputModal = document.getElementById('input-modal');
+            const inputModalTitle = document.getElementById('input-modal-title');
+            const inputModalField = document.getElementById('input-modal-field');
+            const inputModalCancel = document.getElementById('input-modal-cancel');
+            const inputModalConfirm = document.getElementById('input-modal-confirm');
 
             // Initialize
             function init() {
@@ -1079,6 +1135,41 @@
                     if (e.target === jobModal) closeJobModal();
                 });
                 exportBtn.addEventListener('click', handleExport);
+
+                // Input modal events
+                inputModalCancel.addEventListener('click', closeInputModal);
+                inputModalConfirm.addEventListener('click', handleInputModalConfirm);
+                inputModal.addEventListener('click', (e) => {
+                    if (e.target === inputModal) closeInputModal();
+                });
+                inputModalField.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') handleInputModalConfirm();
+                    if (e.key === 'Escape') closeInputModal();
+                });
+            }
+
+            // Input Modal Functions
+            function openInputModal(title, defaultValue, callback) {
+                inputModalTitle.textContent = title;
+                inputModalField.value = defaultValue || '';
+                inputModalCallback = callback;
+                inputModal.classList.remove('hidden');
+                inputModalField.focus();
+                inputModalField.select();
+            }
+
+            function closeInputModal() {
+                inputModal.classList.add('hidden');
+                inputModalCallback = null;
+                inputModalField.value = '';
+            }
+
+            function handleInputModalConfirm() {
+                const value = inputModalField.value.trim();
+                if (inputModalCallback) {
+                    inputModalCallback(value);
+                }
+                closeInputModal();
             }
 
             // Export/Import
@@ -1143,12 +1234,13 @@
                 const char = state.characters.find(c => c.id === id);
                 if (!char) return;
 
-                const newName = prompt('Enter new name:', char.name);
-                if (newName && newName.trim() && newName.trim() !== char.name) {
-                    char.name = newName.trim();
-                    saveState();
-                    render();
-                }
+                openInputModal('Rename Character', char.name, (newName) => {
+                    if (newName && newName !== char.name) {
+                        char.name = newName;
+                        saveState();
+                        render();
+                    }
+                });
             }
 
             function handleDeleteCharacter(id) {

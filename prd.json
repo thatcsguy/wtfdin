@@ -12,7 +12,7 @@
         "Verify all 6 melee DPS jobs (MNK, DRG, NIN, SAM, RPR, VPR) display in a single row",
         "Verify no job wraps to a second row within the melee category"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "BIS-001",
@@ -53,7 +53,7 @@
         "Verify clicking Cancel closes modal without changes",
         "Verify clicking Confirm with new name updates character name"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "MODAL-003",
