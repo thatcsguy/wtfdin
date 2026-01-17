@@ -577,6 +577,17 @@
             border-radius: 4px;
             font-size: 0.75rem;
             font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .slot-type:hover {
+            transform: scale(1.05);
+        }
+
+        .slot-type:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
         }
 
         .slot-type.raid {
@@ -584,9 +595,17 @@
             color: var(--accent);
         }
 
+        .slot-type.raid:hover {
+            background-color: rgba(233, 69, 96, 0.35);
+        }
+
         .slot-type.tome {
             background-color: rgba(100, 149, 237, 0.2);
             color: #6495ed;
+        }
+
+        .slot-type.tome:hover {
+            background-color: rgba(100, 149, 237, 0.35);
         }
 
         .gear-checkbox-group {
@@ -1022,16 +1041,24 @@
                 return JOB_BIS_PRESETS[jobId] || DEFAULT_BIS;
             }
 
+            // Get effective slot type (override or preset)
+            function getSlotType(jobId, slotId, slotTypeOverrides) {
+                if (slotTypeOverrides && slotTypeOverrides[slotId]) {
+                    return slotTypeOverrides[slotId];
+                }
+                const preset = getBiSPreset(jobId);
+                return preset[slotId];
+            }
+
             // Calculate job completion progress
             // Returns { complete: number, total: number }
             // Tome slots only count as complete when upgraded=true
-            function calculateJobProgress(jobId, gear) {
-                const bis = getBiSPreset(jobId);
+            function calculateJobProgress(jobId, gear, slotTypeOverrides) {
                 let complete = 0;
                 const total = GEAR_SLOTS.length;
 
                 GEAR_SLOTS.forEach(slot => {
-                    const slotType = bis[slot.id];
+                    const slotType = getSlotType(jobId, slot.id, slotTypeOverrides);
                     const slotGear = gear[slot.id] || {};
 
                     if (slotType === 'raid') {
@@ -1547,12 +1574,12 @@
                 let jobInfoHtml = '';
 
                 if (selectedJob && selectedJobData) {
-                    const bis = getBiSPreset(selectedJob.id);
                     const gear = selectedJobData.gear || {};
+                    const slotTypeOverrides = selectedJobData.slotTypeOverrides || {};
 
                     let tableRows = '';
                     GEAR_SLOTS.forEach(slot => {
-                        const slotType = bis[slot.id];
+                        const slotType = getSlotType(selectedJob.id, slot.id, slotTypeOverrides);
                         const slotGear = gear[slot.id] || {};
 
                         let checkboxHtml = '';
@@ -1596,14 +1623,14 @@
                         tableRows += `
                             <tr class="${slotClass}">
                                 <td class="slot-name">${slot.name}</td>
-                                <td><span class="slot-type ${slotType}">${slotType.charAt(0).toUpperCase() + slotType.slice(1)}</span></td>
+                                <td><span class="slot-type ${slotType}" data-slot="${slot.id}" data-type="${slotType}" tabindex="0" role="button" title="Click to toggle type">${slotType.charAt(0).toUpperCase() + slotType.slice(1)}</span></td>
                                 <td><div class="gear-checkbox-group">${checkboxHtml}</div></td>
                             </tr>
                         `;
                     });
 
                     // Calculate progress
-                    const progress = calculateJobProgress(selectedJob.id, gear);
+                    const progress = calculateJobProgress(selectedJob.id, gear, slotTypeOverrides);
                     const progressPercent = Math.round((progress.complete / progress.total) * 100);
                     const isComplete = progress.complete === progress.total;
 
@@ -1675,11 +1702,24 @@
                         handleGearCheckbox(e.target.dataset.slot, e.target.dataset.field, e.target.checked);
                     });
                 });
+
+                // Attach slot type toggle handlers
+                characterDetails.querySelectorAll('.slot-type').forEach(badge => {
+                    badge.addEventListener('click', () => {
+                        handleSlotTypeToggle(badge.dataset.slot, badge.dataset.type);
+                    });
+                    badge.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleSlotTypeToggle(badge.dataset.slot, badge.dataset.type);
+                        }
+                    });
+                });
             }
 
             // Ring validation helper
             // Returns { valid: boolean, message: string } for proposed ring state change
-            function validateRingChange(jobId, gear, slotId, field, checked) {
+            function validateRingChange(jobId, gear, slotId, field, checked, slotTypeOverrides) {
                 // Only validate ring slots
                 if (slotId !== 'ring1' && slotId !== 'ring2') {
                     return { valid: true, message: '' };
@@ -1690,10 +1730,9 @@
                     return { valid: true, message: '' };
                 }
 
-                const bis = getBiSPreset(jobId);
                 const otherRingSlot = slotId === 'ring1' ? 'ring2' : 'ring1';
-                const thisRingType = bis[slotId];
-                const otherRingType = bis[otherRingSlot];
+                const thisRingType = getSlotType(jobId, slotId, slotTypeOverrides);
+                const otherRingType = getSlotType(jobId, otherRingSlot, slotTypeOverrides);
                 const otherRingGear = gear[otherRingSlot] || {};
 
                 // RING-001: Cannot have two raid rings
@@ -1758,7 +1797,8 @@
                 if (!jobData.gear[slotId]) jobData.gear[slotId] = {};
 
                 // Validate ring changes
-                const validation = validateRingChange(state.selectedJobId, jobData.gear, slotId, field, checked);
+                const slotTypeOverrides = jobData.slotTypeOverrides || {};
+                const validation = validateRingChange(state.selectedJobId, jobData.gear, slotId, field, checked, slotTypeOverrides);
                 if (!validation.valid) {
                     alert(validation.message);
                     render(); // Re-render to reset checkbox state
@@ -1772,6 +1812,28 @@
                 if (field === 'upgraded' && checked) {
                     jobData.gear[slotId].base = true;
                 }
+
+                saveState();
+                render();
+            }
+
+            function handleSlotTypeToggle(slotId, currentType) {
+                const selected = state.characters.find(c => c.id === state.selectedCharacterId);
+                if (!selected) return;
+
+                const jobData = selected.jobs.find(j => j.jobId === state.selectedJobId);
+                if (!jobData) return;
+
+                // Initialize slot type overrides if needed
+                if (!jobData.slotTypeOverrides) jobData.slotTypeOverrides = {};
+
+                // Toggle the type
+                const newType = currentType === 'raid' ? 'tome' : 'raid';
+                jobData.slotTypeOverrides[slotId] = newType;
+
+                // Reset checkbox state when type changes
+                if (!jobData.gear) jobData.gear = {};
+                jobData.gear[slotId] = {};
 
                 saveState();
                 render();

@@ -39,7 +39,7 @@
         "Verify the slot's checkbox state resets to unchecked when type changes",
         "Verify the change persists after page refresh"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "MODAL-002",
