@@ -38,3 +38,24 @@ No code changes needed - already implemented in UI-002.
 Files: prd.json (marked CHAR-001, CHAR-004 passes: true)
 
 Next: CHAR-002 (delete) or CHAR-003 (rename)
+
+## JOB-001 - Add Job to Character - COMPLETE
+
+Implemented job picker modal with all FFXIV jobs:
+- Job data: tanks (4), healers (4), melee (6), ranged (3), casters (4) = 21 jobs
+- Icons from XIVAPI (https://xivapi.com/cj/1/{jobname}.png)
+- Modal with categorized grid layout
+- Already-added jobs disabled in picker
+- Jobs display as pill badges with icons
+- Close modal on outside click or Cancel button
+
+Decisions:
+- Used XIVAPI icons (reliable CDN, correct job icons)
+- Jobs stored as {jobId, gear:{}} - gear empty until GEAR-* features
+- Modal keyboard accessible (tabindex, Enter/Space to select)
+
+Files: index.html (CSS + HTML modal + JS job data/picker logic)
+
+Screenshot: .playwright-mcp/screenshots/job-001-complete.png
+
+Next: JOB-003 (switch between jobs) or GEAR-001 (gear table)

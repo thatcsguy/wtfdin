@@ -172,6 +172,139 @@
             margin-bottom: 16px;
         }
 
+        /* Job Pills */
+        .job-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .job-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .job-pill:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .job-pill.selected {
+            background-color: var(--bg-tertiary);
+            border-color: var(--accent);
+        }
+
+        .job-pill img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .job-pill span {
+            font-size: 0.875rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        .modal {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            width: 90%;
+        }
+
+        .modal h3 {
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 12px;
+        }
+
+        .job-grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 8px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .job-grid-item:hover {
+            background-color: var(--bg-tertiary);
+            border-color: var(--accent);
+        }
+
+        .job-grid-item.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .job-grid-item img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 6px;
+        }
+
+        .job-grid-item span {
+            font-size: 0.75rem;
+            text-align: center;
+        }
+
+        .job-category {
+            margin-bottom: 20px;
+        }
+
+        .job-category h4 {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .modal-close {
+            margin-top: 16px;
+            width: 100%;
+        }
+
+        .no-jobs {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .app-container {
@@ -218,12 +351,75 @@
             </div>
         </main>
     </div>
+
+    <!-- Job Picker Modal -->
+    <div class="modal-overlay hidden" id="job-modal">
+        <div class="modal">
+            <h3>Add Job</h3>
+            <div id="job-modal-content"></div>
+            <button class="btn modal-close" id="job-modal-close">Cancel</button>
+        </div>
+    </div>
+
     <script>
         // WTFDIN - What The Fuck Do I Need?
         // Vanilla JS FFXIV Gear Tracker
 
         (function() {
             'use strict';
+
+            // FFXIV Job Data with XIVAPI icons
+            const JOBS = {
+                tanks: [
+                    { id: 'PLD', name: 'Paladin', icon: 'https://xivapi.com/cj/1/paladin.png' },
+                    { id: 'WAR', name: 'Warrior', icon: 'https://xivapi.com/cj/1/warrior.png' },
+                    { id: 'DRK', name: 'Dark Knight', icon: 'https://xivapi.com/cj/1/darkknight.png' },
+                    { id: 'GNB', name: 'Gunbreaker', icon: 'https://xivapi.com/cj/1/gunbreaker.png' }
+                ],
+                healers: [
+                    { id: 'WHM', name: 'White Mage', icon: 'https://xivapi.com/cj/1/whitemage.png' },
+                    { id: 'SCH', name: 'Scholar', icon: 'https://xivapi.com/cj/1/scholar.png' },
+                    { id: 'AST', name: 'Astrologian', icon: 'https://xivapi.com/cj/1/astrologian.png' },
+                    { id: 'SGE', name: 'Sage', icon: 'https://xivapi.com/cj/1/sage.png' }
+                ],
+                melee: [
+                    { id: 'MNK', name: 'Monk', icon: 'https://xivapi.com/cj/1/monk.png' },
+                    { id: 'DRG', name: 'Dragoon', icon: 'https://xivapi.com/cj/1/dragoon.png' },
+                    { id: 'NIN', name: 'Ninja', icon: 'https://xivapi.com/cj/1/ninja.png' },
+                    { id: 'SAM', name: 'Samurai', icon: 'https://xivapi.com/cj/1/samurai.png' },
+                    { id: 'RPR', name: 'Reaper', icon: 'https://xivapi.com/cj/1/reaper.png' },
+                    { id: 'VPR', name: 'Viper', icon: 'https://xivapi.com/cj/1/viper.png' }
+                ],
+                ranged: [
+                    { id: 'BRD', name: 'Bard', icon: 'https://xivapi.com/cj/1/bard.png' },
+                    { id: 'MCH', name: 'Machinist', icon: 'https://xivapi.com/cj/1/machinist.png' },
+                    { id: 'DNC', name: 'Dancer', icon: 'https://xivapi.com/cj/1/dancer.png' }
+                ],
+                casters: [
+                    { id: 'BLM', name: 'Black Mage', icon: 'https://xivapi.com/cj/1/blackmage.png' },
+                    { id: 'SMN', name: 'Summoner', icon: 'https://xivapi.com/cj/1/summoner.png' },
+                    { id: 'RDM', name: 'Red Mage', icon: 'https://xivapi.com/cj/1/redmage.png' },
+                    { id: 'PCT', name: 'Pictomancer', icon: 'https://xivapi.com/cj/1/pictomancer.png' }
+                ]
+            };
+
+            const JOB_CATEGORIES = [
+                { key: 'tanks', label: 'Tanks' },
+                { key: 'healers', label: 'Healers' },
+                { key: 'melee', label: 'Melee DPS' },
+                { key: 'ranged', label: 'Physical Ranged' },
+                { key: 'casters', label: 'Magical Ranged' }
+            ];
+
+            // Get flat list of all jobs
+            function getAllJobs() {
+                return Object.values(JOBS).flat();
+            }
+
+            // Get job by ID
+            function getJobById(id) {
+                return getAllJobs().find(j => j.id === id);
+            }
 
             // State
             let state = {
@@ -237,6 +433,9 @@
             const characterNameHeader = document.getElementById('character-name');
             const emptyState = document.getElementById('empty-state');
             const characterDetails = document.getElementById('character-details');
+            const jobModal = document.getElementById('job-modal');
+            const jobModalContent = document.getElementById('job-modal-content');
+            const jobModalClose = document.getElementById('job-modal-close');
 
             // Initialize
             function init() {
@@ -264,6 +463,10 @@
             // Event Listeners
             function attachEventListeners() {
                 addCharacterBtn.addEventListener('click', handleAddCharacter);
+                jobModalClose.addEventListener('click', closeJobModal);
+                jobModal.addEventListener('click', (e) => {
+                    if (e.target === jobModal) closeJobModal();
+                });
             }
 
             function handleAddCharacter() {
@@ -284,6 +487,68 @@
             function selectCharacter(id) {
                 state.selectedCharacterId = id;
                 saveState();
+                render();
+            }
+
+            // Job Modal
+            function openJobModal() {
+                const selected = state.characters.find(c => c.id === state.selectedCharacterId);
+                if (!selected) return;
+
+                const existingJobIds = selected.jobs.map(j => j.jobId);
+
+                let html = '';
+                JOB_CATEGORIES.forEach(cat => {
+                    html += `<div class="job-category"><h4>${cat.label}</h4><div class="job-grid">`;
+                    JOBS[cat.key].forEach(job => {
+                        const isDisabled = existingJobIds.includes(job.id);
+                        html += `
+                            <div class="job-grid-item ${isDisabled ? 'disabled' : ''}"
+                                 data-job-id="${job.id}"
+                                 ${isDisabled ? '' : 'tabindex="0"'}>
+                                <img src="${job.icon}" alt="${job.name}">
+                                <span>${job.name}</span>
+                            </div>
+                        `;
+                    });
+                    html += '</div></div>';
+                });
+
+                jobModalContent.innerHTML = html;
+
+                // Attach click handlers to job items
+                jobModalContent.querySelectorAll('.job-grid-item:not(.disabled)').forEach(item => {
+                    item.addEventListener('click', () => addJobToCharacter(item.dataset.jobId));
+                    item.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            addJobToCharacter(item.dataset.jobId);
+                        }
+                    });
+                });
+
+                jobModal.classList.remove('hidden');
+            }
+
+            function closeJobModal() {
+                jobModal.classList.add('hidden');
+            }
+
+            function addJobToCharacter(jobId) {
+                const selected = state.characters.find(c => c.id === state.selectedCharacterId);
+                if (!selected) return;
+
+                // Check if job already exists
+                if (selected.jobs.some(j => j.jobId === jobId)) return;
+
+                // Add job with empty gear slots
+                selected.jobs.push({
+                    jobId: jobId,
+                    gear: {}
+                });
+
+                saveState();
+                closeJobModal();
                 render();
             }
 
@@ -325,10 +590,34 @@
                 characterNameHeader.textContent = selected.name;
                 emptyState.style.display = 'none';
                 characterDetails.style.display = 'block';
+
+                // Render jobs
+                let jobsHtml = '';
+                if (selected.jobs.length > 0) {
+                    jobsHtml = '<div class="job-pills">';
+                    selected.jobs.forEach(j => {
+                        const job = getJobById(j.jobId);
+                        if (job) {
+                            jobsHtml += `
+                                <div class="job-pill" data-job-id="${job.id}">
+                                    <img src="${job.icon}" alt="${job.name}">
+                                    <span>${job.name}</span>
+                                </div>
+                            `;
+                        }
+                    });
+                    jobsHtml += '</div>';
+                } else {
+                    jobsHtml = '<p class="no-jobs">No jobs added yet.</p>';
+                }
+
                 characterDetails.innerHTML = `
-                    <p>Character: ${escapeHtml(selected.name)}</p>
-                    <p style="color: var(--text-secondary); margin-top: 8px;">Job management coming soon...</p>
+                    ${jobsHtml}
+                    <button class="btn" id="add-job-btn">+ Add Job</button>
                 `;
+
+                // Attach add job button handler
+                document.getElementById('add-job-btn').addEventListener('click', openJobModal);
             }
 
             // Utilities

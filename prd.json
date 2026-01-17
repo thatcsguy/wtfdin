@@ -65,7 +65,7 @@
         "Verify job is added to character's job list",
         "Verify job's gear table is initialized with BiS preset data"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "JOB-002",
