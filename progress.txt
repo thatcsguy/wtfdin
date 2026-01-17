@@ -217,3 +217,19 @@ Files: index.html (CSS + JS), prd.json (CHAR-002, UI-001 passes:true)
 Screenshot: .playwright-mcp/char-002-complete.png
 
 Next: CHAR-003 (rename), JOB-002 (remove job), remaining features
+
+## JOB-002 - Remove Job from Character - COMPLETE
+
+Added remove button (×) to job pills:
+- CSS: .job-remove-btn - circular button, hidden by default, shows on hover
+- Button styled with accent color, hover shows solid background
+- Confirmation dialog shows job name
+- Removes job + gear data from character
+- Auto-selects first remaining job if removed job was selected
+- Persists to localStorage
+
+Files: index.html (CSS + JS handleRemoveJob function), prd.json (JOB-002 passes:true)
+
+Screenshot: .playwright-mcp/job-002-remove-job.png
+
+Next: CHAR-003 (rename), RING-001/002/003 (ring validation), EXPORT-*, remaining features

@@ -78,7 +78,7 @@
         "Verify job is removed from character's job list",
         "Verify job's gear tracking data is deleted"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "JOB-003",

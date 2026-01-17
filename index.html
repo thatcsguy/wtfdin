@@ -221,6 +221,7 @@
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.2s;
+            position: relative;
         }
 
         .job-pill:hover {
@@ -239,6 +240,32 @@
 
         .job-pill span {
             font-size: 0.875rem;
+        }
+
+        .job-pill .job-remove-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            margin-left: 4px;
+            background-color: rgba(233, 69, 96, 0.3);
+            border: none;
+            border-radius: 50%;
+            color: var(--accent);
+            font-size: 14px;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .job-pill:hover .job-remove-btn {
+            display: flex;
+        }
+
+        .job-pill .job-remove-btn:hover {
+            background-color: var(--accent);
+            color: var(--text-primary);
         }
 
         /* Modal */
@@ -789,6 +816,28 @@
                 render();
             }
 
+            function handleRemoveJob(jobId) {
+                const selected = state.characters.find(c => c.id === state.selectedCharacterId);
+                if (!selected) return;
+
+                const job = getJobById(jobId);
+                const jobName = job ? job.name : jobId;
+
+                const confirmed = confirm(`Remove ${jobName} and all its gear data?`);
+                if (!confirmed) return;
+
+                // Remove job from character
+                selected.jobs = selected.jobs.filter(j => j.jobId !== jobId);
+
+                // Clear selected job if removed job was selected
+                if (state.selectedJobId === jobId) {
+                    state.selectedJobId = selected.jobs.length > 0 ? selected.jobs[0].jobId : null;
+                }
+
+                saveState();
+                render();
+            }
+
             // Job Modal
             function openJobModal() {
                 const selected = state.characters.find(c => c.id === state.selectedCharacterId);
@@ -922,6 +971,7 @@
                                 <div class="job-pill ${isSelected ? 'selected' : ''}" data-job-id="${job.id}" tabindex="0">
                                     <img src="${job.icon}" alt="${job.name}">
                                     <span>${job.name}</span>
+                                    <button class="job-remove-btn" data-remove-job-id="${job.id}" title="Remove ${job.name}">&times;</button>
                                 </div>
                             `;
                         }
@@ -1033,12 +1083,24 @@
 
                 // Attach job pill click handlers
                 characterDetails.querySelectorAll('.job-pill').forEach(pill => {
-                    pill.addEventListener('click', () => selectJob(pill.dataset.jobId));
+                    pill.addEventListener('click', (e) => {
+                        // Don't select if clicking remove button
+                        if (e.target.classList.contains('job-remove-btn')) return;
+                        selectJob(pill.dataset.jobId);
+                    });
                     pill.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                             e.preventDefault();
                             selectJob(pill.dataset.jobId);
                         }
+                    });
+                });
+
+                // Attach job remove button handlers
+                characterDetails.querySelectorAll('.job-remove-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        handleRemoveJob(btn.dataset.removeJobId);
                     });
                 });
 
