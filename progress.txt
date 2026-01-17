@@ -249,3 +249,19 @@ Files: index.html (CSS + JS handleRenameCharacter), prd.json (CHAR-003 passes:tr
 Screenshot: .playwright-mcp/char-003-rename.png
 
 Next: RING-001/002/003 (ring validation), EXPORT-*, JOB-004, UI-003/004, TECH-001/002
+
+## RING-001 - Cannot Have Two Raid Rings - COMPLETE
+
+Added validateRingChange() function for ring validation:
+- Validates before checkbox state changes
+- RING-001: Prevents checking "Have" on second raid ring when first already checked
+- Shows alert with explanation, re-renders to reset checkbox state
+- Updated SCH BiS preset to have both rings as raid type for testing
+
+Also included RING-002 logic (two tome rings at same level) in same function.
+
+Files: index.html (validateRingChange function, handleGearCheckbox validation call, SCH/AST BiS presets), prd.json (RING-001 passes:true)
+
+Screenshot: .playwright-mcp/ring-001-validation.png
+
+Next: RING-002/003 (tome ring validation), EXPORT-*, JOB-004, UI-003/004, TECH-001/002

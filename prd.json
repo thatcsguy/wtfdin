@@ -188,7 +188,7 @@
         "Verify system prevents or warns about invalid combination",
         "Verify only one raid ring can be marked as obtained"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "RING-002",

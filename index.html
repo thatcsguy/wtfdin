@@ -643,8 +643,8 @@
 
                 // Healers - Crit/Det or Piety builds
                 WHM: { weapon: 'raid', head: 'tome', body: 'tome', hands: 'raid', legs: 'raid', feet: 'tome', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' },
-                SCH: { weapon: 'raid', head: 'raid', body: 'tome', hands: 'tome', legs: 'raid', feet: 'raid', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'raid' },
-                AST: { weapon: 'raid', head: 'tome', body: 'raid', hands: 'tome', legs: 'tome', feet: 'raid', earrings: 'tome', necklace: 'tome', bracelets: 'raid', ring1: 'raid', ring2: 'tome' },
+                SCH: { weapon: 'raid', head: 'raid', body: 'tome', hands: 'tome', legs: 'raid', feet: 'raid', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'raid', ring2: 'raid' },
+                AST: { weapon: 'raid', head: 'tome', body: 'raid', hands: 'tome', legs: 'tome', feet: 'raid', earrings: 'tome', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'tome' },
                 SGE: { weapon: 'raid', head: 'raid', body: 'raid', hands: 'tome', legs: 'tome', feet: 'tome', earrings: 'raid', necklace: 'raid', bracelets: 'tome', ring1: 'tome', ring2: 'raid' },
 
                 // Melee DPS - Crit/DH focused
@@ -1147,6 +1147,75 @@
                 });
             }
 
+            // Ring validation helper
+            // Returns { valid: boolean, message: string } for proposed ring state change
+            function validateRingChange(jobId, gear, slotId, field, checked) {
+                // Only validate ring slots
+                if (slotId !== 'ring1' && slotId !== 'ring2') {
+                    return { valid: true, message: '' };
+                }
+
+                // Only validate when checking (not unchecking)
+                if (!checked) {
+                    return { valid: true, message: '' };
+                }
+
+                const bis = getBiSPreset(jobId);
+                const otherRingSlot = slotId === 'ring1' ? 'ring2' : 'ring1';
+                const thisRingType = bis[slotId];
+                const otherRingType = bis[otherRingSlot];
+                const otherRingGear = gear[otherRingSlot] || {};
+
+                // RING-001: Cannot have two raid rings
+                if (field === 'have' && thisRingType === 'raid') {
+                    if (otherRingType === 'raid' && otherRingGear.have) {
+                        return {
+                            valid: false,
+                            message: 'Cannot have two raid rings equipped. You must uncheck the other raid ring first.'
+                        };
+                    }
+                }
+
+                // RING-002: Cannot have two tome rings at same upgrade level
+                if (thisRingType === 'tome' && otherRingType === 'tome') {
+                    if (field === 'base' && !checked) {
+                        // Unchecking base is always allowed
+                        return { valid: true, message: '' };
+                    }
+
+                    // Calculate what the state would be after this change
+                    const thisGear = gear[slotId] || {};
+                    let thisWouldBeBase = field === 'base' ? checked : (thisGear.base || false);
+                    let thisWouldBeUpgraded = field === 'upgraded' ? checked : (thisGear.upgraded || false);
+
+                    // If checking upgraded, base would also be auto-checked (GEAR-004)
+                    if (field === 'upgraded' && checked) {
+                        thisWouldBeBase = true;
+                    }
+
+                    const otherIsBase = otherRingGear.base || false;
+                    const otherIsUpgraded = otherRingGear.upgraded || false;
+
+                    // Check for duplicate base-only (neither upgraded)
+                    if (thisWouldBeBase && !thisWouldBeUpgraded && otherIsBase && !otherIsUpgraded) {
+                        return {
+                            valid: false,
+                            message: 'Cannot have two tome rings at the same upgrade level. Upgrade one ring first.'
+                        };
+                    }
+
+                    // Check for duplicate upgraded
+                    if (thisWouldBeUpgraded && otherIsUpgraded) {
+                        return {
+                            valid: false,
+                            message: 'Cannot have two upgraded tome rings. You must uncheck the upgrade on one ring first.'
+                        };
+                    }
+                }
+
+                return { valid: true, message: '' };
+            }
+
             function handleGearCheckbox(slotId, field, checked) {
                 const selected = state.characters.find(c => c.id === state.selectedCharacterId);
                 if (!selected) return;
@@ -1157,6 +1226,14 @@
                 // Initialize gear object if needed
                 if (!jobData.gear) jobData.gear = {};
                 if (!jobData.gear[slotId]) jobData.gear[slotId] = {};
+
+                // Validate ring changes
+                const validation = validateRingChange(state.selectedJobId, jobData.gear, slotId, field, checked);
+                if (!validation.valid) {
+                    alert(validation.message);
+                    render(); // Re-render to reset checkbox state
+                    return;
+                }
 
                 // Update the field
                 jobData.gear[slotId][field] = checked;
