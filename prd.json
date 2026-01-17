@@ -264,7 +264,7 @@
         "Verify URL contains base64-encoded data in query parameter",
         "Verify URL is valid and can be pasted into browser"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "EXPORT-002",

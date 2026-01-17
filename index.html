@@ -60,6 +60,23 @@
             margin-top: 4px;
         }
 
+        .sidebar-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn-export {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            flex: 1;
+        }
+
+        .btn-export:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
         .character-list {
             flex: 1;
             overflow-y: auto;
@@ -531,6 +548,9 @@
             <div class="sidebar-header">
                 <h1>WTFDIN</h1>
                 <p>What The Fuck Do I Need?</p>
+                <div class="sidebar-actions">
+                    <button class="btn btn-small btn-export" id="export-btn">Export URL</button>
+                </div>
             </div>
             <div class="character-list">
                 <div class="character-list-header">
@@ -736,6 +756,7 @@
             const jobModal = document.getElementById('job-modal');
             const jobModalContent = document.getElementById('job-modal-content');
             const jobModalClose = document.getElementById('job-modal-close');
+            const exportBtn = document.getElementById('export-btn');
 
             // Initialize
             function init() {
@@ -767,6 +788,37 @@
                 jobModal.addEventListener('click', (e) => {
                     if (e.target === jobModal) closeJobModal();
                 });
+                exportBtn.addEventListener('click', handleExport);
+            }
+
+            // Export/Import
+            function handleExport() {
+                if (state.characters.length === 0) {
+                    alert('No data to export. Add some characters first!');
+                    return;
+                }
+
+                try {
+                    // Encode state as base64
+                    const jsonStr = JSON.stringify(state);
+                    const base64 = btoa(encodeURIComponent(jsonStr));
+
+                    // Build URL with data parameter
+                    const url = new URL(window.location.href);
+                    url.search = ''; // Clear existing params
+                    url.searchParams.set('data', base64);
+
+                    // Copy to clipboard
+                    navigator.clipboard.writeText(url.toString()).then(() => {
+                        alert('URL copied to clipboard!');
+                    }).catch(() => {
+                        // Fallback: show URL in prompt
+                        prompt('Copy this URL to share your data:', url.toString());
+                    });
+                } catch (e) {
+                    console.error('Export failed:', e);
+                    alert('Failed to export data. See console for details.');
+                }
             }
 
             function handleAddCharacter() {
