@@ -327,7 +327,7 @@
         "Verify main panel on right shows selected character details",
         "Verify layout is visually balanced"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "UI-003",

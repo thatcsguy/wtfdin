@@ -1,0 +1,24 @@
+## UI-002 - Sidebar/Main Panel Layout - COMPLETE
+
+Created index.html with:
+- Dark mode theme (vars: --bg-primary #1a1a2e, --text-primary #eaeaea, --accent #e94560)
+- Sidebar (280px) with character list + Add button
+- Main panel shows selected character details
+- Selected character highlighted with bg color + left border accent
+- Basic character add/select functionality for testing layout
+
+Decisions:
+- Single-file architecture (HTML+CSS+JS inline) for simplicity
+- CSS custom properties for theming
+- IIFE pattern for JS to avoid global scope pollution
+- localStorage for state persistence (implemented early, needed for testing)
+
+Also satisfies (not marked but verified):
+- UI-001: Dark mode theme
+- TECH-001: Vanilla HTML/CSS/JS only
+- TECH-002: Works as static file
+- CHAR-001/004: Basic add/select (partial - needs full verification later)
+
+Files: index.html (new)
+
+Next: CHAR-001/002/003 character management, then JOB-* features
