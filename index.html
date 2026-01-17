@@ -305,6 +305,17 @@
             font-size: 0.875rem;
         }
 
+        .job-info {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .job-info h3 {
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .app-container {
@@ -424,7 +435,8 @@
             // State
             let state = {
                 characters: [],
-                selectedCharacterId: null
+                selectedCharacterId: null,
+                selectedJobId: null
             };
 
             // DOM Elements
@@ -486,6 +498,19 @@
 
             function selectCharacter(id) {
                 state.selectedCharacterId = id;
+                // Auto-select first job if character has jobs
+                const char = state.characters.find(c => c.id === id);
+                if (char && char.jobs.length > 0) {
+                    state.selectedJobId = char.jobs[0].jobId;
+                } else {
+                    state.selectedJobId = null;
+                }
+                saveState();
+                render();
+            }
+
+            function selectJob(jobId) {
+                state.selectedJobId = jobId;
                 saveState();
                 render();
             }
@@ -547,6 +572,9 @@
                     gear: {}
                 });
 
+                // Auto-select the newly added job
+                state.selectedJobId = jobId;
+
                 saveState();
                 closeJobModal();
                 render();
@@ -598,8 +626,9 @@
                     selected.jobs.forEach(j => {
                         const job = getJobById(j.jobId);
                         if (job) {
+                            const isSelected = j.jobId === state.selectedJobId;
                             jobsHtml += `
-                                <div class="job-pill" data-job-id="${job.id}">
+                                <div class="job-pill ${isSelected ? 'selected' : ''}" data-job-id="${job.id}" tabindex="0">
                                     <img src="${job.icon}" alt="${job.name}">
                                     <span>${job.name}</span>
                                 </div>
@@ -611,13 +640,34 @@
                     jobsHtml = '<p class="no-jobs">No jobs added yet.</p>';
                 }
 
+                // Get selected job info for display
+                const selectedJob = state.selectedJobId ? getJobById(state.selectedJobId) : null;
+                const jobInfoHtml = selectedJob ? `
+                    <div class="job-info">
+                        <h3>${selectedJob.name}</h3>
+                        <p class="no-jobs">Gear tracking coming soon...</p>
+                    </div>
+                ` : '';
+
                 characterDetails.innerHTML = `
                     ${jobsHtml}
                     <button class="btn" id="add-job-btn">+ Add Job</button>
+                    ${jobInfoHtml}
                 `;
 
                 // Attach add job button handler
                 document.getElementById('add-job-btn').addEventListener('click', openJobModal);
+
+                // Attach job pill click handlers
+                characterDetails.querySelectorAll('.job-pill').forEach(pill => {
+                    pill.addEventListener('click', () => selectJob(pill.dataset.jobId));
+                    pill.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            selectJob(pill.dataset.jobId);
+                        }
+                    });
+                });
             }
 
             // Utilities

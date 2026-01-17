@@ -59,3 +59,24 @@ Files: index.html (CSS + HTML modal + JS job data/picker logic)
 Screenshot: .playwright-mcp/screenshots/job-001-complete.png
 
 Next: JOB-003 (switch between jobs) or GEAR-001 (gear table)
+
+## JOB-003 - Switch Between Jobs - COMPLETE
+
+Implemented job selection/switching:
+- Added selectedJobId to state (persisted in localStorage)
+- Job pills clickable, selected pill gets accent border
+- Auto-select first job when selecting character
+- Auto-select newly added job
+- Job info section shows selected job name (placeholder for gear table)
+- Keyboard accessible (tabindex, Enter/Space to select)
+
+Decisions:
+- Global selectedJobId in state (simpler than per-character tracking)
+- Auto-select first job on character switch for better UX
+- Job info section shows "Gear tracking coming soon..." as placeholder
+
+Files: index.html (JS state + selectJob function + render updates + CSS for job-info)
+
+Screenshot: .playwright-mcp/job-003-switch-jobs.png
+
+Next: GEAR-001 (gear table) - prerequisite for most remaining features

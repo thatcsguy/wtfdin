@@ -90,7 +90,7 @@
         "Verify gear table updates to show selected job's data",
         "Verify correct job is visually highlighted"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "JOB-004",
