@@ -15,3 +15,12 @@ Changed 'drop' to 'Coffer' in raid summary section:
 - Empty state: "All raid drops obtained!" → "All raid coffers obtained!"
 
 Files changed: index.html (3 string replacements)
+
+## ALIGN-001 - COMPLETE
+Fixed gear table column alignment by changing grid-template-columns from
+`1fr auto auto auto` to `90px 50px 75px 1fr`
+- Type badges (Raid/Tome) now align vertically
+- Turn labels and tome costs align
+- Checkboxes align across all rows in both columns
+
+Files changed: index.html (1 CSS change, line 679)

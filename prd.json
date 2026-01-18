@@ -30,7 +30,7 @@
                 "View gear table with a character that has both raid and tome slots",
                 "Visually confirm columns align between left side (Weapon through Feet) and right side (Earrings through Ring 2)"
             ],
-            "passes": false
+            "passes": true
         },
         {
             "id": "TERM-001",
