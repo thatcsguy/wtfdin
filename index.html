@@ -615,6 +615,17 @@
             color: var(--text-secondary);
         }
 
+        .tome-cost {
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .tome-cost::after {
+            content: ' tomes';
+        }
+
         .gear-checkbox-group {
             display: flex;
             gap: 16px;
@@ -1041,6 +1052,21 @@
                 bracelets: { turn: 1, label: '1st Turn' },
                 ring1: { turn: 1, label: '1st Turn' },
                 ring2: { turn: 1, label: '1st Turn' }
+            };
+
+            // Tomestone cost mapping - how many tomes each slot costs
+            const TOME_COSTS = {
+                weapon: 500,
+                head: 495,
+                body: 825,
+                hands: 495,
+                legs: 825,
+                feet: 495,
+                earrings: 375,
+                necklace: 375,
+                bracelets: 375,
+                ring1: 375,
+                ring2: 375
             };
 
             // Fallback default BiS preset
@@ -1642,20 +1668,25 @@
                             }
                         }
 
-                        // Build type cell content with turn label for raid
+                        // Build type cell content with turn label for raid or cost for tome
                         let typeLabel = slotType.charAt(0).toUpperCase() + slotType.slice(1);
-                        let turnLabel = '';
+                        let extraLabel = '';
                         if (slotType === 'raid') {
                             const turnInfo = RAID_TURNS[slot.id];
                             if (turnInfo) {
-                                turnLabel = `<span class="turn-label">${turnInfo.label}</span>`;
+                                extraLabel = `<span class="turn-label">${turnInfo.label}</span>`;
+                            }
+                        } else if (slotType === 'tome') {
+                            const cost = TOME_COSTS[slot.id];
+                            if (cost) {
+                                extraLabel = `<span class="tome-cost">${cost}</span>`;
                             }
                         }
 
                         tableRows += `
                             <tr class="${slotClass}">
                                 <td class="slot-name">${slot.name}</td>
-                                <td><span class="slot-type ${slotType}" data-slot="${slot.id}" data-type="${slotType}" tabindex="0" role="button" title="Click to toggle type">${typeLabel}</span>${turnLabel}</td>
+                                <td><span class="slot-type ${slotType}" data-slot="${slot.id}" data-type="${slotType}" tabindex="0" role="button" title="Click to toggle type">${typeLabel}</span>${extraLabel}</td>
                                 <td><div class="gear-checkbox-group">${checkboxHtml}</div></td>
                             </tr>
                         `;

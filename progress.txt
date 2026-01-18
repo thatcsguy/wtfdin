@@ -51,3 +51,11 @@ Note: MODAL-001 already passing - melee DPS (6 jobs) fits in one row at 600px mo
 - Added .turn-label CSS (smaller font, muted color)
 - Label appears/disappears when toggling slot type
 - Files changed: index.html
+
+## TOME-001: Tomestone Cost Display
+- Added TOME_COSTS mapping: slot → cost
+- Weapon=500, Body/Legs=825, Head/Hands/Feet=495, Accessories=375
+- Cost label displays next to Tome badge in Type column with "tomes" suffix
+- Added .tome-cost CSS (smaller font, muted color, ::after content for "tomes")
+- Reused extraLabel pattern from RAID-001, renamed turnLabel → extraLabel
+- Files changed: index.html

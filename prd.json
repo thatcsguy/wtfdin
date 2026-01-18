@@ -123,7 +123,7 @@
         "Verify earrings, necklace, bracelets, ring slots show '375' tomestones each",
         "Verify costs appear in or near the Type column for tome items"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "SUMMARY-001",
