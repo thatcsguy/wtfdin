@@ -62,7 +62,7 @@
                 "Check text contrast against backgrounds",
                 "Verify visual consistency across all components"
             ],
-            "passes": false
+            "passes": true
         },
         {
             "id": "DESIGN-002",

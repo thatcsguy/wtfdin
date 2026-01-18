@@ -12,14 +12,37 @@
         }
 
         :root {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16213e;
-            --bg-tertiary: #0f3460;
-            --text-primary: #eaeaea;
-            --text-secondary: #a0a0a0;
-            --accent: #e94560;
-            --accent-hover: #ff6b6b;
-            --border: #2a2a4a;
+            /* Background layers - warm charcoal with subtle depth */
+            --bg-primary: #1c1c24;
+            --bg-secondary: #232330;
+            --bg-tertiary: #2d2d3a;
+            --bg-elevated: #363644;
+
+            /* Text with good contrast */
+            --text-primary: #f0f0f5;
+            --text-secondary: #9898a8;
+            --text-muted: #6b6b7a;
+
+            /* Accent - warm amber/gold (FFXIV inspired) */
+            --accent: #d4a855;
+            --accent-hover: #e6bc6a;
+            --accent-muted: rgba(212, 168, 85, 0.15);
+
+            /* Semantic colors */
+            --raid-color: #e85a71;
+            --raid-bg: rgba(232, 90, 113, 0.12);
+            --raid-bg-hover: rgba(232, 90, 113, 0.22);
+            --tome-color: #5b9bd5;
+            --tome-bg: rgba(91, 155, 213, 0.12);
+            --tome-bg-hover: rgba(91, 155, 213, 0.22);
+            --success-color: #5cb85c;
+            --success-bg: rgba(92, 184, 92, 0.12);
+            --warning-color: #f0ad4e;
+            --warning-bg: rgba(240, 173, 78, 0.12);
+
+            /* Borders and dividers */
+            --border: #3a3a48;
+            --border-subtle: #2f2f3c;
         }
 
         body {
@@ -189,9 +212,9 @@
         }
 
         .btn-delete:hover {
-            background-color: rgba(233, 69, 96, 0.2);
-            color: var(--accent);
-            border-color: var(--accent);
+            background-color: var(--raid-bg);
+            color: var(--raid-color);
+            border-color: var(--raid-color);
         }
 
         .btn-delete:focus-visible {
@@ -208,13 +231,13 @@
         }
 
         .btn-rename:hover {
-            background-color: rgba(100, 149, 237, 0.2);
-            color: #6495ed;
-            border-color: #6495ed;
+            background-color: var(--tome-bg);
+            color: var(--tome-color);
+            border-color: var(--tome-color);
         }
 
         .btn-rename:focus-visible {
-            outline: 2px solid #6495ed;
+            outline: 2px solid var(--tome-color);
             outline-offset: 2px;
         }
 
@@ -333,10 +356,10 @@
             width: 18px;
             height: 18px;
             margin-left: 4px;
-            background-color: rgba(233, 69, 96, 0.3);
+            background-color: var(--raid-bg-hover);
             border: none;
             border-radius: 50%;
-            color: var(--accent);
+            color: var(--raid-color);
             font-size: 14px;
             line-height: 1;
             cursor: pointer;
@@ -348,7 +371,7 @@
         }
 
         .job-pill .job-remove-btn:hover {
-            background-color: var(--accent);
+            background-color: var(--raid-color);
             color: var(--text-primary);
         }
 
@@ -711,21 +734,21 @@
         }
 
         .slot-type.raid {
-            background-color: rgba(233, 69, 96, 0.2);
-            color: var(--accent);
+            background-color: var(--raid-bg);
+            color: var(--raid-color);
         }
 
         .slot-type.raid:hover {
-            background-color: rgba(233, 69, 96, 0.35);
+            background-color: var(--raid-bg-hover);
         }
 
         .slot-type.tome {
-            background-color: rgba(100, 149, 237, 0.2);
-            color: #6495ed;
+            background-color: var(--tome-bg);
+            color: var(--tome-color);
         }
 
         .slot-type.tome:hover {
-            background-color: rgba(100, 149, 237, 0.35);
+            background-color: var(--tome-bg-hover);
         }
 
         .turn-label {
@@ -773,11 +796,11 @@
 
         /* Slot completion states */
         .gear-table-row.slot-complete {
-            background-color: rgba(46, 204, 113, 0.15);
+            background-color: var(--success-bg);
         }
 
         .gear-table-row.slot-partial {
-            background-color: rgba(241, 196, 15, 0.15);
+            background-color: var(--warning-bg);
         }
 
         /* Progress indicator */
@@ -798,7 +821,7 @@
 
         .progress-bar-fill {
             height: 100%;
-            background-color: #2ecc71;
+            background-color: var(--success-color);
             transition: width 0.3s ease;
         }
 
@@ -809,7 +832,7 @@
         }
 
         .progress-text.complete {
-            color: #2ecc71;
+            color: var(--success-color);
             font-weight: 500;
         }
 
@@ -869,11 +892,11 @@
 
         /* Raid section styling */
         .summary-section.raid-section {
-            border-left: 3px solid #f39c12;
+            border-left: 3px solid var(--raid-color);
         }
 
         .summary-section.raid-section .summary-section-title {
-            color: #f39c12;
+            color: var(--raid-color);
         }
 
         .summary-section.raid-section .summary-section-title::before {
@@ -881,16 +904,16 @@
         }
 
         .summary-section.raid-section .summary-item-value {
-            color: #f39c12;
+            color: var(--raid-color);
         }
 
         /* Tome section styling */
         .summary-section.tome-section {
-            border-left: 3px solid #9b59b6;
+            border-left: 3px solid var(--tome-color);
         }
 
         .summary-section.tome-section .summary-section-title {
-            color: #9b59b6;
+            color: var(--tome-color);
         }
 
         .summary-section.tome-section .summary-section-title::before {
@@ -898,7 +921,7 @@
         }
 
         .summary-section.tome-section .summary-item-value {
-            color: #9b59b6;
+            color: var(--tome-color);
         }
 
         .summary-item {
@@ -925,7 +948,7 @@
         }
 
         .summary-item-value.zero {
-            color: #2ecc71;
+            color: var(--success-color);
         }
 
         .summary-empty {

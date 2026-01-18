@@ -24,3 +24,13 @@ Fixed gear table column alignment by changing grid-template-columns from
 - Checkboxes align across all rows in both columns
 
 Files changed: index.html (1 CSS change, line 679)
+
+## DESIGN-001 - COMPLETE
+Redesigned theme and color scheme with FFXIV-inspired dark palette:
+- Warm charcoal backgrounds (#1c1c24, #232330, #2d2d3a)
+- Amber/gold accent (#d4a855) replaces hot pink
+- Distinct semantic colors: raid (#e85a71), tome (#5b9bd5), success (#5cb85c)
+- All hardcoded colors moved to CSS variables
+- Added new vars: --bg-elevated, --text-muted, --raid-bg, --tome-bg, --border-subtle
+
+Files changed: index.html (~15 CSS edits in :root and component styles)
