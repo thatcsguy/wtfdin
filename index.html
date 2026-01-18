@@ -1388,8 +1388,8 @@
                     if (slotType !== 'tome') return;
 
                     const slotGear = gear[slot.id] || {};
-                    // Only count if not upgraded (base-only or unchecked counts as needing tomes)
-                    if (!slotGear.upgraded) {
+                    // Only count if base not purchased - base costs tomes, upgrade does not
+                    if (!slotGear.base) {
                         const cost = TOME_COSTS[slot.id];
                         if (cost) {
                             total += cost;

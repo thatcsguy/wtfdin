@@ -1,0 +1,8 @@
+## TOME-001 - Fix tomestone calculation
+
+Changed `calculateTomestonesNeeded` to check `!slotGear.base` instead of `!slotGear.upgraded`.
+Base item costs tomes; upgrade material comes from raids (free).
+
+Files: index.html (line ~1392)
+
+Verified: Base checkbox decreases tomes, Upgraded checkbox has no effect on tome count.

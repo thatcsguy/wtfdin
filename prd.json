@@ -1,0 +1,115 @@
+{
+  "items": [
+    {
+      "id": "LAYOUT-001",
+      "category": "UI Layout",
+      "description": "Slot configuration grid should display in two columns matching FFXIV character sheet layout. Left column: Weapon, Head, Body, Hands, Legs, Feet. Right column: Earrings, Necklace, Bracelets, Ring 1, Ring 2.",
+      "steps_to_verify": [
+        "Open the job configuration page",
+        "Verify slots appear in two columns",
+        "Left column should show (top to bottom): Weapon, Head, Body, Hands, Legs, Feet",
+        "Right column should show (top to bottom): Earrings, Necklace, Bracelets, Ring 1, Ring 2"
+      ],
+      "passes": false
+    },
+    {
+      "id": "LAYOUT-002",
+      "category": "UI Layout",
+      "description": "Job gear table should display slots in two-column layout matching FFXIV character sheet. Left column: Weapon, Head, Body, Hands, Legs, Feet. Right column: Earrings, Necklace, Bracelets, Ring 1, Ring 2.",
+      "steps_to_verify": [
+        "Select a job to view gear table",
+        "Verify gear slots are displayed in two-column layout",
+        "Left column: Weapon, Head, Body, Hands, Legs, Feet (in order)",
+        "Right column: Earrings, Necklace, Bracelets, Ring 1, Ring 2 (in order)"
+      ],
+      "passes": false
+    },
+    {
+      "id": "TABLE-001",
+      "category": "UI Table",
+      "description": "Add a separate 'Source' column to the gear table. Move the source info (e.g., '2nd Turn', '495 tomes') out of the Type column into its own column.",
+      "steps_to_verify": [
+        "Select a job to view gear table",
+        "Verify table has a 'Source' column header",
+        "Type column should only show 'Raid' or 'Tome'",
+        "Source column should show the turn number for raid items (e.g., '2nd Turn')",
+        "Source column should show tomestone cost for tome items (e.g., '495 tomes')"
+      ],
+      "passes": false
+    },
+    {
+      "id": "TOME-001",
+      "category": "Tomestone Calculation",
+      "description": "Tomestone summary should reduce when user checks 'Base' checkbox, not when they check 'Upgraded'. The base item costs tomestones; the upgrade does not.",
+      "steps_to_verify": [
+        "Add a job with tome gear slots",
+        "Note the total tomestones needed in summary",
+        "Check the 'Base' checkbox for a tome item",
+        "Verify tomestones needed decreases by that slot's cost",
+        "Uncheck 'Base', verify tomestones increases back",
+        "Check 'Base' again, then check 'Upgraded' - tomestone count should not change when checking Upgraded"
+      ],
+      "passes": true
+    },
+    {
+      "id": "UI-001",
+      "category": "UI Styling",
+      "description": "Remove hover state styling from the gear table rows.",
+      "steps_to_verify": [
+        "Select a job to view gear table",
+        "Hover over gear table rows",
+        "Verify no hover effect (background change, highlighting) occurs on rows"
+      ],
+      "passes": false
+    },
+    {
+      "id": "UPGRADE-001",
+      "category": "Upgrade Materials",
+      "description": "Add 'Glaze' tracking to raid drops summary. Jewelry (earrings, necklace, bracelets, rings) requires Glaze from 2nd Turn to upgrade.",
+      "steps_to_verify": [
+        "Add a job with tome jewelry slots",
+        "View the raid drops summary panel",
+        "Verify '2nd Turn' line shows Glaze count (e.g., '2 drops, 1 Glaze')",
+        "Glaze count equals number of unupgraded tome jewelry slots"
+      ],
+      "passes": false
+    },
+    {
+      "id": "UPGRADE-002",
+      "category": "Upgrade Materials",
+      "description": "Add 'Twine' tracking to raid drops summary. Non-weapon armor (head, body, hands, legs, feet) requires Twine from 3rd Turn to upgrade.",
+      "steps_to_verify": [
+        "Add a job with tome armor slots (head/body/hands/legs/feet)",
+        "View the raid drops summary panel",
+        "Verify '3rd Turn' line shows Twine count (e.g., '1 drop, 2 Twine')",
+        "Twine count equals number of unupgraded tome armor slots"
+      ],
+      "passes": false
+    },
+    {
+      "id": "UPGRADE-003",
+      "category": "Upgrade Materials",
+      "description": "Add 'Solvent' tracking to raid drops summary. Tome weapon requires Solvent from 3rd Turn to upgrade.",
+      "steps_to_verify": [
+        "Add a job with tome weapon slot",
+        "View the raid drops summary panel",
+        "Verify '3rd Turn' line includes Solvent (e.g., '1 drop, 1 Twine, 1 Solvent')",
+        "Solvent only appears when weapon is tome and not upgraded"
+      ],
+      "passes": false
+    },
+    {
+      "id": "UPGRADE-004",
+      "category": "Upgrade Materials",
+      "description": "Upgrade materials (Glaze/Twine/Solvent) appear for any tome item not yet upgraded, regardless of base purchase status.",
+      "steps_to_verify": [
+        "Add a job with tome slots",
+        "Do NOT check 'Base' for any tome items",
+        "Verify Glaze/Twine/Solvent still appear in summary",
+        "Check 'Base' but not 'Upgraded' - upgrade materials should still show",
+        "Check 'Upgraded' - that slot's upgrade material should disappear from count"
+      ],
+      "passes": false
+    }
+  ]
+}
