@@ -1336,6 +1336,27 @@
                 return dropsByTurn;
             }
 
+            // Calculate total tomestones needed for incomplete tome slots
+            function calculateTomestonesNeeded(jobId, gear, slotTypeOverrides) {
+                let total = 0;
+
+                GEAR_SLOTS.forEach(slot => {
+                    const slotType = getSlotType(jobId, slot.id, slotTypeOverrides);
+                    if (slotType !== 'tome') return;
+
+                    const slotGear = gear[slot.id] || {};
+                    // Only count if not upgraded (base-only or unchecked counts as needing tomes)
+                    if (!slotGear.upgraded) {
+                        const cost = TOME_COSTS[slot.id];
+                        if (cost) {
+                            total += cost;
+                        }
+                    }
+                });
+
+                return total;
+            }
+
             // Get flat list of all jobs
             function getAllJobs() {
                 return Object.values(JOBS).flat();
@@ -2066,6 +2087,16 @@
                         raidSummaryHtml = '<p class="summary-empty">All raid drops obtained!</p>';
                     }
 
+                    // Calculate tomestones needed for summary
+                    const tomestonesNeeded = calculateTomestonesNeeded(selectedJob.id, gear, slotTypeOverrides);
+                    const tomestonesFormatted = tomestonesNeeded.toLocaleString();
+                    const tomeSummaryHtml = tomestonesNeeded > 0
+                        ? `<div class="summary-item">
+                               <span class="summary-item-label">Tomestones</span>
+                               <span class="summary-item-value">${tomestonesFormatted}</span>
+                           </div>`
+                        : '<p class="summary-empty">All tome gear upgraded!</p>';
+
                     jobInfoHtml = `
                         <div class="job-info">
                             <h3>${selectedJob.name} Gear</h3>
@@ -2095,6 +2126,10 @@
                                     <div class="summary-section">
                                         <div class="summary-section-title">Raid Drops Needed</div>
                                         ${raidSummaryHtml}
+                                    </div>
+                                    <div class="summary-section">
+                                        <div class="summary-section-title">Tome Gear Needed</div>
+                                        ${tomeSummaryHtml}
                                     </div>
                                 </div>
                             </div>

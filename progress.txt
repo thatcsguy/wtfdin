@@ -82,3 +82,12 @@ Note: MODAL-001 already passing - melee DPS (6 jobs) fits in one row at 600px mo
 - CSS: .gear-layout (flex), .gear-table-container, .summary-panel, .summary-section, .summary-item
 - Mobile: panel moves above table
 - Files changed: index.html
+
+## SUMMARY-002: Tomestone Cost Summary
+- Added calculateTomestonesNeeded() - sums costs for non-upgraded tome slots
+- Added "Tome Gear Needed" section to summary panel
+- Shows "Tomestones: X" with comma-formatted number
+- Shows "All tome gear upgraded!" when all tome slots upgraded
+- Real-time updates on checkbox changes
+- Reuses TOME_COSTS mapping from TOME-001
+- Files changed: index.html

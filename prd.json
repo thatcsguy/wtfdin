@@ -151,7 +151,7 @@
         "Verify total updates in real-time when checkboxes change",
         "Verify total shows 0 when all tome slots are upgraded"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "SUMMARY-003",
