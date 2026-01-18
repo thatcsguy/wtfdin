@@ -38,3 +38,23 @@ Key decisions:
 Files changed:
 - index.html (removed sidebar HTML, CSS, updated JS)
 - prd.json (marked NAV-001, NAV-002 as passes: true)
+
+## TOP-001 - App title and export button in top nav
+
+Completed: Added top navigation bar with WTFDIN title and export button
+
+Changes:
+- Added <nav class="top-nav"> with app-brand (WTFDIN title) and export button
+- Added CSS for .top-nav, .top-nav-left, .app-brand, .app-title, .btn-export
+- Changed .app-container to flex-direction: column for vertical stacking
+- Added mobile-responsive styles for top nav (smaller font, icon-only export btn)
+- Export button uses SVG icon + text, triggers existing handleExport()
+
+Key decisions:
+- Title uses monospace font (SF Mono/Fira Code) for techy aesthetic
+- Export btn styled as subtle outlined button, becomes icon-only on mobile
+- Prepared .top-nav-center for character dropdown (TOP-002+)
+
+Files changed:
+- index.html (added top nav HTML/CSS)
+- prd.json (marked TOP-001 as passes: true)

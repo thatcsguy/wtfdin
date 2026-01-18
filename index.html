@@ -56,6 +56,7 @@
 
             .app-container {
                 display: flex;
+                flex-direction: column;
                 min-height: 100vh;
             }
 
@@ -91,6 +92,90 @@
             .btn-small {
                 padding: 4px 8px;
                 font-size: 0.75rem;
+            }
+
+            /* Top Navigation Bar */
+            .top-nav {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 20px;
+                height: 56px;
+                background: var(--bg-tertiary);
+                border-bottom: 1px solid var(--border);
+                flex-shrink: 0;
+            }
+
+            .top-nav-left {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .app-brand {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .app-title {
+                font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: var(--accent);
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+            }
+
+            .btn-export {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 6px 12px;
+                background: var(--bg-elevated);
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                color: var(--text-secondary);
+                font-size: 0.75rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.15s ease;
+            }
+
+            .btn-export:hover {
+                background: var(--bg-tertiary);
+                border-color: var(--accent);
+                color: var(--text-primary);
+            }
+
+            .btn-export:focus {
+                outline: 2px solid var(--accent);
+                outline-offset: 2px;
+            }
+
+            .btn-export:focus:not(:focus-visible) {
+                outline: none;
+            }
+
+            .btn-export svg {
+                width: 14px;
+                height: 14px;
+                opacity: 0.8;
+            }
+
+            .btn-export:hover svg {
+                opacity: 1;
+            }
+
+            .top-nav-center {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .top-nav-right {
+                display: flex;
+                align-items: center;
             }
 
             /* Main Panel */
@@ -1523,6 +1608,29 @@
 
             /* Responsive */
             @media (max-width: 768px) {
+                /* Top nav mobile */
+                .top-nav {
+                    padding: 0 12px;
+                    height: 52px;
+                }
+
+                .top-nav-left {
+                    gap: 10px;
+                }
+
+                .app-title {
+                    font-size: 0.95rem;
+                }
+
+                .btn-export {
+                    padding: 8px 10px;
+                    min-height: 44px;
+                }
+
+                .btn-export span {
+                    display: none;
+                }
+
                 /* Tap-friendly buttons - minimum 44px touch target */
                 .btn {
                     min-height: 44px;
@@ -1741,6 +1849,29 @@
     </head>
     <body>
         <div class="app-container">
+            <!-- Top Navigation Bar -->
+            <nav class="top-nav">
+                <div class="top-nav-left">
+                    <div class="app-brand">
+                        <span class="app-title">WTFDIN</span>
+                    </div>
+                    <button class="btn-export" id="export-btn" title="Export data">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <span>Export</span>
+                    </button>
+                </div>
+                <div class="top-nav-center">
+                    <!-- Character dropdown will go here (TOP-002) -->
+                </div>
+                <div class="top-nav-right">
+                    <!-- Right side controls will go here -->
+                </div>
+            </nav>
+
             <main class="main-panel">
                 <div class="main-header">
                     <h2 id="character-name">Select a Character</h2>
