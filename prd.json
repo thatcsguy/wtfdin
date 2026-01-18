@@ -10,7 +10,7 @@
         "DEFAULT_BIS constant does not exist in codebase",
         "getBiSPreset() function does not exist in codebase"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "BIS-002",
@@ -22,7 +22,7 @@
         "Modal advances to slot configuration step WITHOUT showing 'Use Preset BiS' option",
         "Only manual configuration UI is visible"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "BIS-003",
@@ -33,7 +33,7 @@
         "All 11 gear slots (weapon, head, body, hands, legs, feet, earrings, necklace, bracelets, ring1, ring2) show 'Raid' selected by default",
         "User can change individual slots to 'Tome' if desired"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "NAV-001",

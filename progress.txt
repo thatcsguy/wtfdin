@@ -1,0 +1,20 @@
+## BIS-001, BIS-002, BIS-003 - Remove Pre-configured BIS Lists
+
+Completed: Removed all BiS preset functionality
+
+Changes:
+- Deleted JOB_BIS_PRESETS object (~280 lines of job-specific configs)
+- Deleted DEFAULT_BIS constant
+- Deleted getBiSPreset() function
+- Modified getSlotType() to default to "raid" instead of using preset
+- Modified showBisConfigStep() to skip preset/manual choice, go direct to slot config
+- Modified addJobWithConfig() to compare against "raid" default instead of preset
+
+Key decisions:
+- All slots now default to "raid" type (per BIS-003 requirement)
+- Removed the "Use Preset BiS" / "Configure Manually" button choice entirely
+- Users now configure each slot directly when adding a job
+
+Files changed:
+- index.html (removed ~300 lines of preset data/functions, updated add-job flow)
+- prd.json (marked BIS-001, BIS-002, BIS-003 as passes: true)

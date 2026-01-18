@@ -2434,294 +2434,6 @@
                     { id: "ring2", name: "Ring 2" },
                 ];
 
-                // BiS presets per job - based on typical FFXIV endgame stat priorities
-                // Jobs prioritizing different secondary stats have different BiS gear
-                // Pattern: Weapon always raid, armor/accessories vary by job
-                const JOB_BIS_PRESETS = {
-                    // Tanks - generally want Tenacity/DH or Crit builds
-                    PLD: {
-                        weapon: "raid",
-                        head: "tome",
-                        body: "raid",
-                        hands: "tome",
-                        legs: "raid",
-                        feet: "tome",
-                        earrings: "raid",
-                        necklace: "tome",
-                        bracelets: "raid",
-                        ring1: "tome",
-                        ring2: "raid",
-                    },
-                    WAR: {
-                        weapon: "raid",
-                        head: "raid",
-                        body: "tome",
-                        hands: "raid",
-                        legs: "tome",
-                        feet: "raid",
-                        earrings: "tome",
-                        necklace: "raid",
-                        bracelets: "tome",
-                        ring1: "raid",
-                        ring2: "tome",
-                    },
-                    DRK: {
-                        weapon: "raid",
-                        head: "tome",
-                        body: "raid",
-                        hands: "raid",
-                        legs: "tome",
-                        feet: "tome",
-                        earrings: "raid",
-                        necklace: "tome",
-                        bracelets: "raid",
-                        ring1: "tome",
-                        ring2: "raid",
-                    },
-                    GNB: {
-                        weapon: "raid",
-                        head: "raid",
-                        body: "raid",
-                        hands: "tome",
-                        legs: "tome",
-                        feet: "raid",
-                        earrings: "tome",
-                        necklace: "raid",
-                        bracelets: "tome",
-                        ring1: "raid",
-                        ring2: "tome",
-                    },
-
-                    // Healers - Crit/Det or Piety builds
-                    WHM: {
-                        weapon: "raid",
-                        head: "tome",
-                        body: "tome",
-                        hands: "raid",
-                        legs: "raid",
-                        feet: "tome",
-                        earrings: "tome",
-                        necklace: "raid",
-                        bracelets: "tome",
-                        ring1: "raid",
-                        ring2: "tome",
-                    },
-                    SCH: {
-                        weapon: "raid",
-                        head: "raid",
-                        body: "tome",
-                        hands: "tome",
-                        legs: "raid",
-                        feet: "raid",
-                        earrings: "raid",
-                        necklace: "tome",
-                        bracelets: "raid",
-                        ring1: "raid",
-                        ring2: "raid",
-                    },
-                    AST: {
-                        weapon: "raid",
-                        head: "tome",
-                        body: "raid",
-                        hands: "tome",
-                        legs: "tome",
-                        feet: "raid",
-                        earrings: "tome",
-                        necklace: "tome",
-                        bracelets: "raid",
-                        ring1: "tome",
-                        ring2: "tome",
-                    },
-                    SGE: {
-                        weapon: "raid",
-                        head: "raid",
-                        body: "raid",
-                        hands: "tome",
-                        legs: "tome",
-                        feet: "tome",
-                        earrings: "raid",
-                        necklace: "raid",
-                        bracelets: "tome",
-                        ring1: "tome",
-                        ring2: "raid",
-                    },
-
-                    // Melee DPS - Crit/DH focused
-                    MNK: {
-                        weapon: "raid",
-                        head: "raid",
-                        body: "tome",
-                        hands: "raid",
-                        legs: "raid",
-                        feet: "tome",
-                        earrings: "raid",
-                        necklace: "tome",
-                        bracelets: "raid",
-                        ring1: "tome",
-                        ring2: "raid",
-                    },
-                    DRG: {
-                        weapon: "raid",
-                        head: "tome",
-                        body: "raid",
-                        hands: "raid",
-                        legs: "tome",
-                        feet: "raid",
-                        earrings: "tome",
-                        necklace: "raid",
-                        bracelets: "tome",
-                        ring1: "raid",
-                        ring2: "tome",
-                    },
-                    NIN: {
-                        weapon: "raid",
-                        head: "raid",
-                        body: "raid",
-                        hands: "tome",
-                        legs: "tome",
-                        feet: "raid",
-                        earrings: "raid",
-                        necklace: "tome",
-                        bracelets: "raid",
-                        ring1: "tome",
-                        ring2: "raid",
-                    },
-                    SAM: {
-                        weapon: "raid",
-                        head: "tome",
-                        body: "tome",
-                        hands: "raid",
-                        legs: "raid",
-                        feet: "tome",
-                        earrings: "tome",
-                        necklace: "raid",
-                        bracelets: "tome",
-                        ring1: "raid",
-                        ring2: "tome",
-                    },
-                    RPR: {
-                        weapon: "raid",
-                        head: "raid",
-                        body: "tome",
-                        hands: "tome",
-                        legs: "raid",
-                        feet: "raid",
-                        earrings: "raid",
-                        necklace: "tome",
-                        bracelets: "raid",
-                        ring1: "tome",
-                        ring2: "raid",
-                    },
-                    VPR: {
-                        weapon: "raid",
-                        head: "tome",
-                        body: "raid",
-                        hands: "raid",
-                        legs: "tome",
-                        feet: "tome",
-                        earrings: "tome",
-                        necklace: "raid",
-                        bracelets: "tome",
-                        ring1: "raid",
-                        ring2: "tome",
-                    },
-
-                    // Physical Ranged - Crit/DH focused
-                    BRD: {
-                        weapon: "raid",
-                        head: "raid",
-                        body: "tome",
-                        hands: "raid",
-                        legs: "tome",
-                        feet: "raid",
-                        earrings: "tome",
-                        necklace: "raid",
-                        bracelets: "tome",
-                        ring1: "raid",
-                        ring2: "tome",
-                    },
-                    MCH: {
-                        weapon: "raid",
-                        head: "tome",
-                        body: "raid",
-                        hands: "tome",
-                        legs: "raid",
-                        feet: "tome",
-                        earrings: "raid",
-                        necklace: "tome",
-                        bracelets: "raid",
-                        ring1: "tome",
-                        ring2: "raid",
-                    },
-                    DNC: {
-                        weapon: "raid",
-                        head: "raid",
-                        body: "raid",
-                        hands: "tome",
-                        legs: "tome",
-                        feet: "raid",
-                        earrings: "tome",
-                        necklace: "raid",
-                        bracelets: "tome",
-                        ring1: "raid",
-                        ring2: "tome",
-                    },
-
-                    // Casters - SpS or Crit builds vary
-                    BLM: {
-                        weapon: "raid",
-                        head: "tome",
-                        body: "tome",
-                        hands: "raid",
-                        legs: "raid",
-                        feet: "tome",
-                        earrings: "raid",
-                        necklace: "tome",
-                        bracelets: "raid",
-                        ring1: "tome",
-                        ring2: "raid",
-                    },
-                    SMN: {
-                        weapon: "raid",
-                        head: "raid",
-                        body: "tome",
-                        hands: "raid",
-                        legs: "tome",
-                        feet: "raid",
-                        earrings: "tome",
-                        necklace: "raid",
-                        bracelets: "tome",
-                        ring1: "raid",
-                        ring2: "tome",
-                    },
-                    RDM: {
-                        weapon: "raid",
-                        head: "tome",
-                        body: "raid",
-                        hands: "tome",
-                        legs: "tome",
-                        feet: "raid",
-                        earrings: "raid",
-                        necklace: "tome",
-                        bracelets: "raid",
-                        ring1: "tome",
-                        ring2: "raid",
-                    },
-                    PCT: {
-                        weapon: "raid",
-                        head: "raid",
-                        body: "raid",
-                        hands: "tome",
-                        legs: "raid",
-                        feet: "tome",
-                        earrings: "tome",
-                        necklace: "raid",
-                        bracelets: "tome",
-                        ring1: "raid",
-                        ring2: "tome",
-                    },
-                };
-
                 // Raid turn mapping - which boss drops which slot
                 const RAID_TURNS = {
                     weapon: { turn: 4, label: "4th Turn" },
@@ -2752,33 +2464,12 @@
                     ring2: 375,
                 };
 
-                // Fallback default BiS preset
-                const DEFAULT_BIS = {
-                    weapon: "raid",
-                    head: "tome",
-                    body: "raid",
-                    hands: "raid",
-                    legs: "tome",
-                    feet: "tome",
-                    earrings: "tome",
-                    necklace: "raid",
-                    bracelets: "tome",
-                    ring1: "raid",
-                    ring2: "tome",
-                };
-
-                // Get BiS preset for a job
-                function getBiSPreset(jobId) {
-                    return JOB_BIS_PRESETS[jobId] || DEFAULT_BIS;
-                }
-
-                // Get effective slot type (override or preset)
+                // Get effective slot type (from overrides, default to "raid")
                 function getSlotType(jobId, slotId, slotTypeOverrides) {
                     if (slotTypeOverrides && slotTypeOverrides[slotId]) {
                         return slotTypeOverrides[slotId];
                     }
-                    const preset = getBiSPreset(jobId);
-                    return preset[slotId];
+                    return "raid";
                 }
 
                 // Calculate job completion progress
@@ -3612,25 +3303,16 @@
 
                 function showBisConfigStep(jobId) {
                     pendingJobId = jobId;
-                    const preset = getBiSPreset(jobId);
 
-                    // Initialize manual config with preset values
-                    manualSlotConfig = { ...preset };
+                    // Initialize manual config with all "raid" (the default)
+                    manualSlotConfig = {};
+                    GEAR_SLOTS.forEach((slot) => {
+                        manualSlotConfig[slot.id] = "raid";
+                    });
 
                     const job = getJobById(jobId);
 
                     let html = `
-                    <div class="bis-option-buttons">
-                        <button class="bis-option-btn" id="use-preset-btn" tabindex="0">
-                            <h4>Use Preset BiS</h4>
-                            <p>Apply recommended gear configuration</p>
-                        </button>
-                        <button class="bis-option-btn" id="use-manual-btn" tabindex="0">
-                            <h4>Configure Manually</h4>
-                            <p>Choose raid/tome for each slot</p>
-                        </button>
-                    </div>
-                    <div id="manual-config-section" style="display: none;">
                         <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 12px;">Toggle each slot between Raid and Tome:</p>
                         <div class="bis-slot-grid">
                 `;
@@ -3651,29 +3333,9 @@
                     html += `
                         </div>
                         <button class="btn" id="confirm-manual-btn" style="margin-top: 16px; width: 100%;">Add ${job ? job.name : "Job"}</button>
-                    </div>
                 `;
 
                     bisConfigContent.innerHTML = html;
-
-                    // Attach preset button handler
-                    document
-                        .getElementById("use-preset-btn")
-                        .addEventListener("click", () => {
-                            addJobWithConfig(jobId, null); // null = use preset
-                        });
-
-                    // Attach manual button handler
-                    document
-                        .getElementById("use-manual-btn")
-                        .addEventListener("click", () => {
-                            document.getElementById(
-                                "manual-config-section",
-                            ).style.display = "block";
-                            document.querySelector(
-                                ".bis-option-buttons",
-                            ).style.display = "none";
-                        });
 
                     // Attach slot toggle handlers
                     bisConfigContent
@@ -3695,7 +3357,7 @@
                             });
                         });
 
-                    // Attach confirm manual button handler
+                    // Attach confirm button handler
                     document
                         .getElementById("confirm-manual-btn")
                         .addEventListener("click", () => {
@@ -3720,12 +3382,11 @@
                     // Check if job already exists
                     if (selected.jobs.some((j) => j.jobId === jobId)) return;
 
-                    // Build slot type overrides if manual config differs from preset
+                    // Build slot type overrides for any slots that differ from default "raid"
                     let slotTypeOverrides = {};
                     if (slotOverrides) {
-                        const preset = getBiSPreset(jobId);
                         GEAR_SLOTS.forEach((slot) => {
-                            if (slotOverrides[slot.id] !== preset[slot.id]) {
+                            if (slotOverrides[slot.id] !== "raid") {
                                 slotTypeOverrides[slot.id] =
                                     slotOverrides[slot.id];
                             }
