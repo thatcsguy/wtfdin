@@ -145,3 +145,23 @@ Key decisions:
 Files changed:
 - index.html (added icon btn CSS/HTML/JS)
 - prd.json (marked TOP-005 as passes: true)
+
+## TOP-006 - Delete button for removing character
+
+Completed: Trash icon button next to edit opens delete confirmation modal
+
+Changes:
+- Added delete button HTML w/ trash SVG in character-actions div
+- Added CSS: .btn-icon-danger hover state (red tint bg/border/color)
+- Added JS: btnDeleteCharacter ref, click handler calling handleDeleteCharacter()
+- Updated renderCharacterList() to toggle delete btn disabled state like edit btn
+
+Key decisions:
+- Reused existing handleDeleteCharacter() and openConfirmModal() - no new modal needed
+- Button starts disabled, enabled when character selected
+- Danger variant uses red (#ef4444) on hover only, subtle by default
+- Standard trash/delete SVG icon (Feather icons style)
+
+Files changed:
+- index.html (added delete btn HTML/CSS/JS)
+- prd.json (marked TOP-006 as passes: true)

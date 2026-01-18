@@ -126,7 +126,7 @@
         "After deletion, another character is auto-selected (or empty state shown)",
         "Delete button is only visible/enabled when a character is selected"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "TOP-007",
