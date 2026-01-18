@@ -1428,6 +1428,17 @@
                 return count;
             }
 
+            // Calculate Solvent needed for tome weapon upgrade
+            // Solvent drops from 3rd Turn, upgrades tome weapon
+            function calculateSolventNeeded(jobId, gear, slotTypeOverrides) {
+                const slotType = getSlotType(jobId, 'weapon', slotTypeOverrides);
+                if (slotType !== 'tome') return 0;
+
+                const slotGear = gear['weapon'] || {};
+                // Need Solvent if tome weapon not upgraded (regardless of base status)
+                return slotGear.upgraded ? 0 : 1;
+            }
+
             // Get flat list of all jobs
             function getAllJobs() {
                 return Object.values(JOBS).flat();
@@ -2142,6 +2153,7 @@
                     const raidDrops = calculateRaidDropsByTurn(selectedJob.id, gear, slotTypeOverrides);
                     const glazeNeeded = calculateGlazeNeeded(selectedJob.id, gear, slotTypeOverrides);
                     const twineNeeded = calculateTwineNeeded(selectedJob.id, gear, slotTypeOverrides);
+                    const solventNeeded = calculateSolventNeeded(selectedJob.id, gear, slotTypeOverrides);
                     const turnLabels = { 1: '1st Turn', 2: '2nd Turn', 3: '3rd Turn', 4: '4th Turn' };
                     let raidSummaryHtml = '';
                     let hasRaidNeeds = false;
@@ -2149,10 +2161,11 @@
                         const drops = raidDrops[turn];
                         // 2nd Turn also shows Glaze for tome jewelry upgrades
                         const glaze = turn === 2 ? glazeNeeded : 0;
-                        // 3rd Turn also shows Twine for tome armor upgrades
+                        // 3rd Turn also shows Twine for tome armor upgrades and Solvent for tome weapon
                         const twine = turn === 3 ? twineNeeded : 0;
+                        const solvent = turn === 3 ? solventNeeded : 0;
 
-                        if (drops > 0 || glaze > 0 || twine > 0) {
+                        if (drops > 0 || glaze > 0 || twine > 0 || solvent > 0) {
                             hasRaidNeeds = true;
                             let valueParts = [];
                             if (drops > 0) {
@@ -2163,6 +2176,9 @@
                             }
                             if (twine > 0) {
                                 valueParts.push(`${twine} Twine`);
+                            }
+                            if (solvent > 0) {
+                                valueParts.push(`${solvent} Solvent`);
                             }
                             raidSummaryHtml += `
                                 <div class="summary-item">

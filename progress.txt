@@ -54,3 +54,16 @@ Files: index.html
 - Modified raid summary loop to include Twine on 3rd Turn (lines ~2144, ~2155, ~2164-2166)
 
 Verified: 3rd Turn shows Twine count, decreases when armor Upgraded checked, disappears at 0.
+
+## UPGRADE-003 - Add Solvent tracking to raid drops summary
+
+Added `calculateSolventNeeded()` function for tome weapon upgrade tracking.
+Solvent drops from 3rd Turn, used to upgrade tome weapon.
+Pattern matches UPGRADE-001/002 (Glaze/Twine).
+
+Files: index.html
+- Added calculateSolventNeeded function (lines ~1431-1440)
+- Added solventNeeded calculation in raid summary (line ~2156)
+- Added Solvent display on 3rd Turn (lines ~2166, ~2168, ~2180-2182)
+
+Verified: 3rd Turn shows Solvent when weapon is Tome + not upgraded. Disappears when Upgraded checked.

@@ -96,7 +96,7 @@
         "Verify '3rd Turn' line includes Solvent (e.g., '1 drop, 1 Twine, 1 Solvent')",
         "Solvent only appears when weapon is tome and not upgraded"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "UPGRADE-004",
