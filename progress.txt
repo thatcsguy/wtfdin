@@ -34,3 +34,17 @@ Redesigned theme and color scheme with FFXIV-inspired dark palette:
 - Added new vars: --bg-elevated, --text-muted, --raid-bg, --tome-bg, --border-subtle
 
 Files changed: index.html (~15 CSS edits in :root and component styles)
+
+## DESIGN-002 - COMPLETE
+Redesigned sidebar with improved visual hierarchy:
+- Header: gradient bg, larger title (1.5rem), uppercase subtitle w/ letter-spacing
+- Export button: ghost/outline style, hover changes to accent color
+- Character list: section header w/ count badge, subtle border divider
+- Character items: avatar circles w/ initials, refined selection state (gold border + gold avatar)
+- Add button: moved to dedicated footer, full-width, prominent accent color
+- Responsive: mobile hides subtitle, always shows actions, proper touch targets
+
+New CSS: .character-avatar, .character-item-content, .sidebar-footer, .btn-add-character, .character-count
+Updated JS: getInitials() helper, renderCharacterList() adds avatars + count
+
+Files changed: index.html (CSS + HTML structure + JS)

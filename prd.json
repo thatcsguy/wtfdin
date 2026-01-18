@@ -78,7 +78,7 @@
                 "Test with multiple characters",
                 "Verify add button prominence"
             ],
-            "passes": false
+            "passes": true
         },
         {
             "id": "DESIGN-003",
