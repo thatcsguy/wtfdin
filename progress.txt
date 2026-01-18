@@ -67,3 +67,14 @@ Files: index.html
 - Added Solvent display on 3rd Turn (lines ~2166, ~2168, ~2180-2182)
 
 Verified: 3rd Turn shows Solvent when weapon is Tome + not upgraded. Disappears when Upgraded checked.
+
+## UPGRADE-004 - Verify upgrade materials appear regardless of base status
+
+No code changes needed - already implemented correctly in UPGRADE-001/002/003.
+Functions check `!slotGear.upgraded` not `!slotGear.base`.
+
+Verified via Playwright:
+- Created job with all 11 tome slots, no Base checked → 5 Glaze, 5 Twine, 1 Solvent shown
+- Checked Base for weapon → Solvent still shows
+- Checked Upgraded for weapon → Solvent disappears
+- Tomestones decrease on Base check, not on Upgraded check
