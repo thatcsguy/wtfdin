@@ -95,3 +95,26 @@ Left column: Weapon, Head, Body, Hands, Legs, Feet
 Right column: Earrings, Necklace, Bracelets, Ring 1, Ring 2
 
 Verified via Playwright screenshot - layout matches FFXIV character sheet.
+
+## LAYOUT-002 - Two-column gear table layout
+
+Replaced single `<table>` with CSS Grid two-column layout.
+Left column: Weapon, Head, Body, Hands, Legs, Feet
+Right column: Earrings, Necklace, Bracelets, Ring 1, Ring 2
+
+CSS changes (lines ~655-688):
+- New `.gear-table-grid` with `grid-template-columns: 1fr 1fr`
+- New `.gear-table-column` for each column container
+- New `.gear-table-column-header` for "Left Side"/"Right Side" labels
+- New `.gear-table-row` with 4-column internal grid for slot data
+- Updated slot completion state selectors (`.gear-table-row.slot-complete`)
+
+JS changes (lines ~2105-2182):
+- Added LEFT_SLOTS and RIGHT_SLOTS arrays for column separation
+- Created `buildSlotRow()` function for row HTML generation
+- Build leftColumnRows and rightColumnRows separately
+- Updated HTML template to use two-column structure
+
+JS change (line ~2319): Updated checkbox selector from `.gear-table` to `.gear-table-grid`
+
+Verified via Playwright: Two columns display side-by-side, checkboxes functional.

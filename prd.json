@@ -22,7 +22,7 @@
         "Left column: Weapon, Head, Body, Hands, Legs, Feet (in order)",
         "Right column: Earrings, Necklace, Bracelets, Ring 1, Ring 2 (in order)"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "TABLE-001",

@@ -651,30 +651,40 @@
             color: var(--accent);
         }
 
-        /* Gear Table */
-        .gear-table {
-            width: 100%;
-            border-collapse: collapse;
+        /* Gear Table - Two column layout with separate tables */
+        .gear-table-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
             margin-top: 16px;
         }
 
-        .gear-table th,
-        .gear-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
+        .gear-table-column {
+            display: flex;
+            flex-direction: column;
         }
 
-        .gear-table th {
+        .gear-table-column-header {
+            padding: 12px;
             color: var(--text-secondary);
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             font-weight: 500;
+            border-bottom: 1px solid var(--border);
         }
 
-        .gear-table td {
+        .gear-table-row {
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .gear-table-cell {
+            padding: 12px;
             font-size: 0.875rem;
+            display: flex;
+            align-items: center;
         }
 
         .slot-name {
@@ -762,11 +772,11 @@
         }
 
         /* Slot completion states */
-        .gear-table tr.slot-complete {
+        .gear-table-row.slot-complete {
             background-color: rgba(46, 204, 113, 0.15);
         }
 
-        .gear-table tr.slot-partial {
+        .gear-table-row.slot-partial {
             background-color: rgba(241, 196, 15, 0.15);
         }
 
@@ -2092,8 +2102,11 @@
                     const gear = selectedJobData.gear || {};
                     const slotTypeOverrides = selectedJobData.slotTypeOverrides || {};
 
-                    let tableRows = '';
-                    GEAR_SLOTS.forEach(slot => {
+                    // Two-column layout: Left = armor, Right = accessories
+                    const LEFT_SLOTS = ['weapon', 'head', 'body', 'hands', 'legs', 'feet'];
+                    const RIGHT_SLOTS = ['earrings', 'necklace', 'bracelets', 'ring1', 'ring2'];
+
+                    function buildSlotRow(slot) {
                         const slotType = getSlotType(selectedJob.id, slot.id, slotTypeOverrides);
                         const slotGear = gear[slot.id] || {};
 
@@ -2107,7 +2120,6 @@
                                 </label>
                             `;
                         } else {
-                            // Tome item - has Base and Upgraded checkboxes
                             const hasBase = slotGear.base || false;
                             const hasUpgraded = slotGear.upgraded || false;
                             checkboxHtml = `
@@ -2122,12 +2134,10 @@
                             `;
                         }
 
-                        // Determine slot completion state
                         let slotClass = '';
                         if (slotType === 'raid') {
                             if (slotGear.have) slotClass = 'slot-complete';
                         } else {
-                            // Tome: complete if upgraded, partial if base only
                             if (slotGear.upgraded) {
                                 slotClass = 'slot-complete';
                             } else if (slotGear.base) {
@@ -2135,7 +2145,6 @@
                             }
                         }
 
-                        // Build type cell content with turn label for raid or cost for tome
                         let typeLabel = slotType.charAt(0).toUpperCase() + slotType.slice(1);
                         let extraLabel = '';
                         if (slotType === 'raid') {
@@ -2150,14 +2159,26 @@
                             }
                         }
 
-                        tableRows += `
-                            <tr class="${slotClass}">
-                                <td class="slot-name">${slot.name}</td>
-                                <td><span class="slot-type ${slotType}" data-slot="${slot.id}" data-type="${slotType}" tabindex="0" role="button" title="Click to toggle type">${typeLabel}</span></td>
-                                <td>${extraLabel}</td>
-                                <td><div class="gear-checkbox-group">${checkboxHtml}</div></td>
-                            </tr>
+                        return `
+                            <div class="gear-table-row ${slotClass}" data-slot="${slot.id}">
+                                <div class="gear-table-cell slot-name">${slot.name}</div>
+                                <div class="gear-table-cell"><span class="slot-type ${slotType}" data-slot="${slot.id}" data-type="${slotType}" tabindex="0" role="button" title="Click to toggle type">${typeLabel}</span></div>
+                                <div class="gear-table-cell">${extraLabel}</div>
+                                <div class="gear-table-cell"><div class="gear-checkbox-group">${checkboxHtml}</div></div>
+                            </div>
                         `;
+                    }
+
+                    let leftColumnRows = '';
+                    LEFT_SLOTS.forEach(slotId => {
+                        const slot = GEAR_SLOTS.find(s => s.id === slotId);
+                        if (slot) leftColumnRows += buildSlotRow(slot);
+                    });
+
+                    let rightColumnRows = '';
+                    RIGHT_SLOTS.forEach(slotId => {
+                        const slot = GEAR_SLOTS.find(s => s.id === slotId);
+                        if (slot) rightColumnRows += buildSlotRow(slot);
                     });
 
                     // Calculate progress
@@ -2230,19 +2251,16 @@
                             </div>
                             <div class="gear-layout">
                                 <div class="gear-table-container">
-                                    <table class="gear-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Slot</th>
-                                                <th>Type</th>
-                                                <th>Source</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            ${tableRows}
-                                        </tbody>
-                                    </table>
+                                    <div class="gear-table-grid">
+                                        <div class="gear-table-column">
+                                            <div class="gear-table-column-header">Left Side</div>
+                                            ${leftColumnRows}
+                                        </div>
+                                        <div class="gear-table-column">
+                                            <div class="gear-table-column-header">Right Side</div>
+                                            ${rightColumnRows}
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="summary-panel">
                                     <h4>Summary</h4>
@@ -2298,7 +2316,7 @@
                 });
 
                 // Attach gear checkbox handlers
-                characterDetails.querySelectorAll('.gear-table input[type="checkbox"]').forEach(checkbox => {
+                characterDetails.querySelectorAll('.gear-table-grid input[type="checkbox"]').forEach(checkbox => {
                     checkbox.addEventListener('change', (e) => {
                         handleGearCheckbox(e.target.dataset.slot, e.target.dataset.field, e.target.checked);
                     });
