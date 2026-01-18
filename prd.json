@@ -1,165 +1,165 @@
 {
-  "items": [
-    {
-      "id": "ICONS-001",
-      "category": "Bug Fix",
-      "description": "Download all 24 job icons locally to /icons/ directory and update URLs in JOBS array to use local paths instead of XIVAPI",
-      "acceptance_criteria": [
-        "All 24 job icons exist in /icons/ directory",
-        "JOBS array URLs point to icons/{job}.png",
-        "All icons display correctly including Viper and Pictomancer"
-      ],
-      "steps_to_verify": [
-        "Start local server on port 8080",
-        "Open index.html in browser",
-        "Add a character and click Add Job",
-        "Verify all 24 job icons load without fallback text"
-      ],
-      "passes": false
-    },
-    {
-      "id": "ALIGN-001",
-      "category": "Layout",
-      "description": "Fix gear table column alignment so Raid/Tome badges, turn/cost labels, and checkboxes align vertically across all rows in both columns",
-      "acceptance_criteria": [
-        "Type badges (Raid/Tome) align vertically in both left and right columns",
-        "Turn labels and tome costs align vertically",
-        "Checkboxes align vertically across all rows"
-      ],
-      "steps_to_verify": [
-        "View gear table with a character that has both raid and tome slots",
-        "Visually confirm columns align between left side (Weapon through Feet) and right side (Earrings through Ring 2)"
-      ],
-      "passes": false
-    },
-    {
-      "id": "TERM-001",
-      "category": "Terminology",
-      "description": "Change 'drop' to 'Coffer' (capital C) throughout the raid drops summary section",
-      "acceptance_criteria": [
-        "Section heading reads 'Raid Coffers Needed' not 'Raid Drops Needed'",
-        "Summary items show 'X Coffer' or 'X Coffers' not 'X drop' or 'X drops'",
-        "Empty state reads 'All raid coffers obtained!' not 'All raid drops obtained!'"
-      ],
-      "steps_to_verify": [
-        "View summary panel with raid gear needed",
-        "Verify 'Coffer' terminology in heading and counts",
-        "Obtain all raid gear and verify empty state message"
-      ],
-      "passes": false
-    },
-    {
-      "id": "DESIGN-001",
-      "category": "UX Design",
-      "description": "Redesign theme and color scheme - review and improve CSS variables, color palette, and overall visual identity",
-      "acceptance_criteria": [
-        "Color scheme is cohesive and visually appealing",
-        "CSS variables updated for consistent theming",
-        "Sufficient contrast for readability"
-      ],
-      "steps_to_verify": [
-        "Review overall color scheme",
-        "Check text contrast against backgrounds",
-        "Verify visual consistency across all components"
-      ],
-      "passes": false
-    },
-    {
-      "id": "DESIGN-002",
-      "category": "UX Design",
-      "description": "Redesign sidebar including character list, add character button, and navigation elements",
-      "acceptance_criteria": [
-        "Sidebar has improved visual hierarchy",
-        "Character list is easy to scan and navigate",
-        "Add button is clearly visible and accessible"
-      ],
-      "steps_to_verify": [
-        "Review sidebar layout and spacing",
-        "Test with multiple characters",
-        "Verify add button prominence"
-      ],
-      "passes": false
-    },
-    {
-      "id": "DESIGN-003",
-      "category": "UX Design",
-      "description": "Redesign character header section including job pills and character details display",
-      "acceptance_criteria": [
-        "Character name and details are clearly displayed",
-        "Job pills have improved visual design",
-        "Section has good visual balance"
-      ],
-      "steps_to_verify": [
-        "Select a character with multiple jobs",
-        "Review header layout and job pill styling",
-        "Verify information hierarchy"
-      ],
-      "passes": false
-    },
-    {
-      "id": "DESIGN-004",
-      "category": "UX Design",
-      "description": "Redesign slot configuration modal for selecting raid vs tome gear per slot",
-      "acceptance_criteria": [
-        "Modal is visually clean and easy to understand",
-        "Slot options are clearly presented",
-        "Selection state is obvious"
-      ],
-      "steps_to_verify": [
-        "Open slot configuration by clicking Raid/Tome badges",
-        "Review modal layout and styling",
-        "Test slot type selection"
-      ],
-      "passes": false
-    },
-    {
-      "id": "DESIGN-005",
-      "category": "UX Design",
-      "description": "Redesign gear tables including two-column grid, row styling, checkboxes, and visual states",
-      "acceptance_criteria": [
-        "Tables have clear visual structure",
-        "Rows are easy to scan",
-        "Completion states (partial/complete) are visually distinct",
-        "Checkboxes have good touch targets"
-      ],
-      "steps_to_verify": [
-        "Review gear table styling",
-        "Test checkbox interactions",
-        "Verify partial and complete state colors"
-      ],
-      "passes": false
-    },
-    {
-      "id": "DESIGN-006",
-      "category": "UX Design",
-      "description": "Redesign summary panels for raid coffers needed and tome gear needed sections",
-      "acceptance_criteria": [
-        "Summary sections are visually distinct",
-        "Information is easy to scan at a glance",
-        "Visual styling matches overall theme"
-      ],
-      "steps_to_verify": [
-        "View summary panels with items needed",
-        "Review layout and typography",
-        "Verify visual distinction between raid and tome sections"
-      ],
-      "passes": false
-    },
-    {
-      "id": "DESIGN-007",
-      "category": "UX Design",
-      "description": "Redesign modals including job selection modal and delete confirmation dialog",
-      "acceptance_criteria": [
-        "Modals have consistent styling",
-        "Job selection grid is visually appealing",
-        "Delete confirmation is clear and prevents accidents"
-      ],
-      "steps_to_verify": [
-        "Open job selection modal via Add Job button",
-        "Review job grid layout and styling",
-        "Test delete confirmation flow"
-      ],
-      "passes": false
-    }
-  ]
+    "items": [
+        {
+            "id": "ICONS-001",
+            "category": "Bug Fix",
+            "description": "Download all 21 job icons locally to /icons/ directory and update URLs in JOBS array to use local paths instead of XIVAPI",
+            "acceptance_criteria": [
+                "All 21 job icons exist in /icons/ directory",
+                "JOBS array URLs point to icons/{job}.png",
+                "All icons display correctly including Viper and Pictomancer"
+            ],
+            "steps_to_verify": [
+                "Start local server on port 8080",
+                "Open index.html in browser",
+                "Add a character and click Add Job",
+                "Verify all 21 job icons load without fallback text"
+            ],
+            "passes": true
+        },
+        {
+            "id": "ALIGN-001",
+            "category": "Layout",
+            "description": "Fix gear table column alignment so Raid/Tome badges, turn/cost labels, and checkboxes align vertically across all rows in both columns",
+            "acceptance_criteria": [
+                "Type badges (Raid/Tome) align vertically in both left and right columns",
+                "Turn labels and tome costs align vertically",
+                "Checkboxes align vertically across all rows"
+            ],
+            "steps_to_verify": [
+                "View gear table with a character that has both raid and tome slots",
+                "Visually confirm columns align between left side (Weapon through Feet) and right side (Earrings through Ring 2)"
+            ],
+            "passes": false
+        },
+        {
+            "id": "TERM-001",
+            "category": "Terminology",
+            "description": "Change 'drop' to 'Coffer' (capital C) throughout the raid drops summary section",
+            "acceptance_criteria": [
+                "Section heading reads 'Raid Coffers Needed' not 'Raid Drops Needed'",
+                "Summary items show 'X Coffer' or 'X Coffers' not 'X drop' or 'X drops'",
+                "Empty state reads 'All raid coffers obtained!' not 'All raid drops obtained!'"
+            ],
+            "steps_to_verify": [
+                "View summary panel with raid gear needed",
+                "Verify 'Coffer' terminology in heading and counts",
+                "Obtain all raid gear and verify empty state message"
+            ],
+            "passes": false
+        },
+        {
+            "id": "DESIGN-001",
+            "category": "UX Design",
+            "description": "Redesign theme and color scheme - review and improve CSS variables, color palette, and overall visual identity. Use the frontend-design plugin.",
+            "acceptance_criteria": [
+                "Color scheme is cohesive and visually appealing",
+                "CSS variables updated for consistent theming",
+                "Sufficient contrast for readability"
+            ],
+            "steps_to_verify": [
+                "Review overall color scheme",
+                "Check text contrast against backgrounds",
+                "Verify visual consistency across all components"
+            ],
+            "passes": false
+        },
+        {
+            "id": "DESIGN-002",
+            "category": "UX Design",
+            "description": "Redesign sidebar including character list, add character button, and navigation elements. Use the frontend-design plugin.",
+            "acceptance_criteria": [
+                "Sidebar has improved visual hierarchy",
+                "Character list is easy to scan and navigate",
+                "Add button is clearly visible and accessible"
+            ],
+            "steps_to_verify": [
+                "Review sidebar layout and spacing",
+                "Test with multiple characters",
+                "Verify add button prominence"
+            ],
+            "passes": false
+        },
+        {
+            "id": "DESIGN-003",
+            "category": "UX Design",
+            "description": "Redesign character header section including job pills and character details display. Use the frontend-design plugin.",
+            "acceptance_criteria": [
+                "Character name and details are clearly displayed",
+                "Job pills have improved visual design",
+                "Section has good visual balance"
+            ],
+            "steps_to_verify": [
+                "Select a character with multiple jobs",
+                "Review header layout and job pill styling",
+                "Verify information hierarchy"
+            ],
+            "passes": false
+        },
+        {
+            "id": "DESIGN-004",
+            "category": "UX Design",
+            "description": "Redesign slot configuration modal for selecting raid vs tome gear per slot. Use the frontend-design plugin.",
+            "acceptance_criteria": [
+                "Modal is visually clean and easy to understand",
+                "Slot options are clearly presented",
+                "Selection state is obvious"
+            ],
+            "steps_to_verify": [
+                "Open slot configuration by clicking Raid/Tome badges",
+                "Review modal layout and styling",
+                "Test slot type selection"
+            ],
+            "passes": false
+        },
+        {
+            "id": "DESIGN-005",
+            "category": "UX Design",
+            "description": "Redesign gear tables including two-column grid, row styling, checkboxes, and visual states. Use the frontend-design plugin.",
+            "acceptance_criteria": [
+                "Tables have clear visual structure",
+                "Rows are easy to scan",
+                "Completion states (partial/complete) are visually distinct",
+                "Checkboxes have good touch targets"
+            ],
+            "steps_to_verify": [
+                "Review gear table styling",
+                "Test checkbox interactions",
+                "Verify partial and complete state colors"
+            ],
+            "passes": false
+        },
+        {
+            "id": "DESIGN-006",
+            "category": "UX Design",
+            "description": "Redesign summary panels for raid coffers needed and tome gear needed sections. Use the frontend-design plugin.",
+            "acceptance_criteria": [
+                "Summary sections are visually distinct",
+                "Information is easy to scan at a glance",
+                "Visual styling matches overall theme"
+            ],
+            "steps_to_verify": [
+                "View summary panels with items needed",
+                "Review layout and typography",
+                "Verify visual distinction between raid and tome sections"
+            ],
+            "passes": false
+        },
+        {
+            "id": "DESIGN-007",
+            "category": "UX Design",
+            "description": "Redesign modals including job selection modal and delete confirmation dialog. Use the frontend-design plugin.",
+            "acceptance_criteria": [
+                "Modals have consistent styling",
+                "Job selection grid is visually appealing",
+                "Delete confirmation is clear and prevents accidents"
+            ],
+            "steps_to_verify": [
+                "Open job selection modal via Add Job button",
+                "Review job grid layout and styling",
+                "Test delete confirmation flow"
+            ],
+            "passes": false
+        }
+    ]
 }
