@@ -60,7 +60,7 @@
         "Hover over gear table rows",
         "Verify no hover effect (background change, highlighting) occurs on rows"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "UPGRADE-001",

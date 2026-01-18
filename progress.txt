@@ -17,3 +17,14 @@ Split Type column into Type + Source columns.
 Files: index.html
 
 Verified: Type column shows only "Raid"/"Tome", Source shows "4th Turn" or "495 tomes" etc.
+
+## UI-001 - Remove hover styling from gear table rows
+
+Removed 3 CSS rules:
+- `.gear-table tr:hover` (general row hover)
+- `.gear-table tr.slot-complete:hover` (completed row hover)
+- `.gear-table tr.slot-partial:hover` (partial row hover)
+
+Files: index.html (lines ~664-666, ~757-759, ~765-767)
+
+Verified: Rows no longer change background on hover. Complete/partial states retain base colors.
