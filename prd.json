@@ -148,7 +148,7 @@
         "No 'X/Y slots complete' text displayed anywhere",
         "calculateJobProgress() function does not exist in codebase"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "PROG-002",
@@ -159,7 +159,7 @@
         "No .progress-bar-fill CSS class definitions in stylesheet",
         "No .progress-text CSS class definitions in stylesheet"
       ],
-      "passes": false
+      "passes": true
     }
   ]
 }

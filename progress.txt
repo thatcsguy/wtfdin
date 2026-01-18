@@ -184,3 +184,22 @@ Key decisions:
 Files changed:
 - index.html (added forceAddCharacterModal, checkEmptyStateModal, updated closeInputModal/handleDeleteCharacter)
 - prd.json (marked TOP-007 as passes: true)
+
+## PROG-001, PROG-002 - Remove Progress Tracking
+
+Completed: Removed progress bar UI and related code
+
+Changes:
+- Deleted calculateJobProgress() function (~22 lines)
+- Deleted .progress-container, .progress-bar, .progress-bar-fill, .progress-text CSS (~25 lines)
+- Deleted mobile-responsive progress bar CSS (~10 lines)
+- Removed progress bar HTML from renderMainPanel() template
+- Removed progress/progressPercent/isComplete variable calculations
+
+Key decisions:
+- Complete removal, no replacement - summary panels (raid drops, tomestones) provide sufficient context
+- Other calculation functions (calculateRaidDropsByTurn, etc.) kept for summary panels
+
+Files changed:
+- index.html (removed progress CSS/JS/HTML)
+- prd.json (marked PROG-001, PROG-002 as passes: true)

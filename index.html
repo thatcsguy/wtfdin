@@ -1595,38 +1595,6 @@
                 );
             }
 
-            /* Progress indicator */
-            .progress-container {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                margin-bottom: 16px;
-            }
-
-            .progress-bar {
-                flex: 1;
-                height: 8px;
-                background-color: var(--bg-primary);
-                border-radius: 4px;
-                overflow: hidden;
-            }
-
-            .progress-bar-fill {
-                height: 100%;
-                background-color: var(--success-color);
-                transition: width 0.3s ease;
-            }
-
-            .progress-text {
-                font-size: 0.875rem;
-                color: var(--text-secondary);
-                white-space: nowrap;
-            }
-
-            .progress-text.complete {
-                color: var(--success-color);
-                font-weight: 500;
-            }
 
             /* Summary Panel */
             .gear-layout {
@@ -1946,17 +1914,6 @@
                     width: 6px;
                     height: 12px;
                     transform: translate(-50%, -60%) rotate(45deg);
-                }
-
-                /* Progress bar */
-                .progress-container {
-                    flex-direction: column;
-                    align-items: stretch;
-                    gap: 8px;
-                }
-
-                .progress-text {
-                    text-align: center;
                 }
 
                 /* Summary panel mobile */
@@ -2465,32 +2422,6 @@
                         return slotTypeOverrides[slotId];
                     }
                     return "raid";
-                }
-
-                // Calculate job completion progress
-                // Returns { complete: number, total: number }
-                // Tome slots only count as complete when upgraded=true
-                function calculateJobProgress(jobId, gear, slotTypeOverrides) {
-                    let complete = 0;
-                    const total = GEAR_SLOTS.length;
-
-                    GEAR_SLOTS.forEach((slot) => {
-                        const slotType = getSlotType(
-                            jobId,
-                            slot.id,
-                            slotTypeOverrides,
-                        );
-                        const slotGear = gear[slot.id] || {};
-
-                        if (slotType === "raid") {
-                            if (slotGear.have) complete++;
-                        } else {
-                            // Tome: only complete when upgraded
-                            if (slotGear.upgraded) complete++;
-                        }
-                    });
-
-                    return { complete, total };
                 }
 
                 // Calculate remaining raid drops by turn
@@ -3840,17 +3771,6 @@
                             if (slot) rightColumnRows += buildSlotRow(slot);
                         });
 
-                        // Calculate progress
-                        const progress = calculateJobProgress(
-                            selectedJob.id,
-                            gear,
-                            slotTypeOverrides,
-                        );
-                        const progressPercent = Math.round(
-                            (progress.complete / progress.total) * 100,
-                        );
-                        const isComplete = progress.complete === progress.total;
-
                         // Calculate raid drops by turn for summary
                         const raidDrops = calculateRaidDropsByTurn(
                             selectedJob.id,
@@ -3948,12 +3868,6 @@
                         jobInfoHtml = `
                         <div class="job-info">
                             <h3>${selectedJob.name} Gear</h3>
-                            <div class="progress-container">
-                                <div class="progress-bar">
-                                    <div class="progress-bar-fill" style="width: ${progressPercent}%"></div>
-                                </div>
-                                <span class="progress-text ${isComplete ? "complete" : ""}">${progress.complete}/${progress.total} slots complete</span>
-                            </div>
                             <div class="gear-layout">
                                 <div class="gear-table-container">
                                     <div class="gear-table-grid">
