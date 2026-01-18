@@ -2742,12 +2742,37 @@
                 // Slot config modal state
                 let slotConfigSlotId = null;
 
+                // Empty state modal tracking
+                let forceAddCharacterModal = false;
+
                 // Initialize
                 function init() {
                     loadState();
                     checkForImport();
                     render();
                     attachEventListeners();
+                    checkEmptyStateModal();
+                }
+
+                // Auto-open new character modal if no characters exist
+                function checkEmptyStateModal() {
+                    if (state.characters.length === 0) {
+                        forceAddCharacterModal = true;
+                        openInputModal("Add Character", "", "Create", (name) => {
+                            if (name) {
+                                const character = {
+                                    id: Date.now().toString(),
+                                    name: name,
+                                    jobs: [],
+                                };
+                                state.characters.push(character);
+                                state.selectedCharacterId = character.id;
+                                saveState();
+                                forceAddCharacterModal = false;
+                                render();
+                            }
+                        });
+                    }
                 }
 
                 // Check URL for data parameter and prompt import
@@ -3039,6 +3064,11 @@
                     inputModal.classList.add("hidden");
                     inputModalCallback = null;
                     inputModalField.value = "";
+
+                    // If in forced mode and still no characters, reopen modal
+                    if (forceAddCharacterModal && state.characters.length === 0) {
+                        setTimeout(checkEmptyStateModal, 100);
+                    }
                 }
 
                 function handleInputModalConfirm() {
@@ -3295,6 +3325,7 @@
 
                             saveState();
                             render();
+                            checkEmptyStateModal();
                         },
                     );
                 }

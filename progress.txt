@@ -165,3 +165,22 @@ Key decisions:
 Files changed:
 - index.html (added delete btn HTML/CSS/JS)
 - prd.json (marked TOP-006 as passes: true)
+
+## TOP-007 - Empty state auto-opens new character modal
+
+Completed: Auto-open modal when no characters, can't dismiss w/o creating one
+
+Changes:
+- Added forceAddCharacterModal flag to track forced modal state
+- Added checkEmptyStateModal() called after init() and handleDeleteCharacter()
+- Modified closeInputModal() to reopen modal if forced and still no characters
+- Uses 100ms setTimeout to avoid UI flash during reopen
+
+Key decisions:
+- Reused openInputModal pattern, inline character creation (same as handleAddCharacter)
+- forceAddCharacterModal flag prevents infinite reopening after user creates char
+- Cancel, Escape, click-outside all trigger reopen via closeInputModal check
+
+Files changed:
+- index.html (added forceAddCharacterModal, checkEmptyStateModal, updated closeInputModal/handleDeleteCharacter)
+- prd.json (marked TOP-007 as passes: true)

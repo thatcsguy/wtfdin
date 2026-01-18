@@ -137,7 +137,7 @@
         "When last character is deleted, 'New Character' modal opens automatically",
         "User cannot dismiss modal without creating a character (or modal reopens)"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "PROG-001",
