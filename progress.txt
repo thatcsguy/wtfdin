@@ -43,3 +43,11 @@ Note: MODAL-001 already passing - melee DPS (6 jobs) fits in one row at 600px mo
 - Updated validateRingChange() and calculateJobProgress() to use overrides
 - Persists via localStorage
 - Files changed: index.html
+
+## RAID-001: Raid Turn Display
+- Added RAID_TURNS mapping: slot → {turn, label}
+- Weapon=4th, Head/Hands/Feet=2nd, Body/Legs=3rd, Accessories=1st
+- Turn label displays next to Raid badge in Type column
+- Added .turn-label CSS (smaller font, muted color)
+- Label appears/disappears when toggling slot type
+- Files changed: index.html

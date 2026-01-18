@@ -608,6 +608,13 @@
             background-color: rgba(100, 149, 237, 0.35);
         }
 
+        .turn-label {
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
         .gear-checkbox-group {
             display: flex;
             gap: 16px;
@@ -1019,6 +1026,21 @@
                 SMN: { weapon: 'raid', head: 'raid', body: 'tome', hands: 'raid', legs: 'tome', feet: 'raid', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' },
                 RDM: { weapon: 'raid', head: 'tome', body: 'raid', hands: 'tome', legs: 'tome', feet: 'raid', earrings: 'raid', necklace: 'tome', bracelets: 'raid', ring1: 'tome', ring2: 'raid' },
                 PCT: { weapon: 'raid', head: 'raid', body: 'raid', hands: 'tome', legs: 'raid', feet: 'tome', earrings: 'tome', necklace: 'raid', bracelets: 'tome', ring1: 'raid', ring2: 'tome' }
+            };
+
+            // Raid turn mapping - which boss drops which slot
+            const RAID_TURNS = {
+                weapon: { turn: 4, label: '4th Turn' },
+                head: { turn: 2, label: '2nd Turn' },
+                body: { turn: 3, label: '3rd Turn' },
+                hands: { turn: 2, label: '2nd Turn' },
+                legs: { turn: 3, label: '3rd Turn' },
+                feet: { turn: 2, label: '2nd Turn' },
+                earrings: { turn: 1, label: '1st Turn' },
+                necklace: { turn: 1, label: '1st Turn' },
+                bracelets: { turn: 1, label: '1st Turn' },
+                ring1: { turn: 1, label: '1st Turn' },
+                ring2: { turn: 1, label: '1st Turn' }
             };
 
             // Fallback default BiS preset
@@ -1620,10 +1642,20 @@
                             }
                         }
 
+                        // Build type cell content with turn label for raid
+                        let typeLabel = slotType.charAt(0).toUpperCase() + slotType.slice(1);
+                        let turnLabel = '';
+                        if (slotType === 'raid') {
+                            const turnInfo = RAID_TURNS[slot.id];
+                            if (turnInfo) {
+                                turnLabel = `<span class="turn-label">${turnInfo.label}</span>`;
+                            }
+                        }
+
                         tableRows += `
                             <tr class="${slotClass}">
                                 <td class="slot-name">${slot.name}</td>
-                                <td><span class="slot-type ${slotType}" data-slot="${slot.id}" data-type="${slotType}" tabindex="0" role="button" title="Click to toggle type">${slotType.charAt(0).toUpperCase() + slotType.slice(1)}</span></td>
+                                <td><span class="slot-type ${slotType}" data-slot="${slot.id}" data-type="${slotType}" tabindex="0" role="button" title="Click to toggle type">${typeLabel}</span>${turnLabel}</td>
                                 <td><div class="gear-checkbox-group">${checkboxHtml}</div></td>
                             </tr>
                         `;

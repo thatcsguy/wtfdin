@@ -109,7 +109,7 @@
         "Verify earrings, necklace, bracelets, ring slots show '1st Turn' label",
         "Verify turn labels appear in or near the Type column for raid items"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "TOME-001",
