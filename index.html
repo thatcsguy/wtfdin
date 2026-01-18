@@ -585,11 +585,12 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.75);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            backdrop-filter: blur(4px);
         }
 
         .modal-overlay.hidden {
@@ -599,12 +600,58 @@
         .modal {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 24px;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
+            border-radius: 12px;
+            padding: 0;
+            max-width: 560px;
+            max-height: 85vh;
+            overflow: hidden;
             width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .modal-header-icon.accent {
+            color: var(--accent);
+        }
+
+        .modal-header-icon.danger {
+            background: var(--raid-bg);
+            border-color: rgba(232, 90, 113, 0.3);
+            color: var(--raid-color);
+        }
+
+        .modal-header-content h3 {
+            margin: 0;
+            font-size: 1.125rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .modal-header-content p {
+            margin: 4px 0 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
         .modal h3 {
@@ -612,44 +659,86 @@
             color: var(--accent);
         }
 
+        .modal-body {
+            padding: 20px 24px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border-subtle);
+            background: var(--bg-secondary);
+        }
+
+        /* Job Selection Modal */
+        .modal-job-select {
+            max-width: 640px;
+        }
+
         .job-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 10px;
         }
 
         .job-grid-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 12px 8px;
-            background-color: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
+            padding: 14px 8px 12px;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(28, 28, 36, 0.8) 100%);
+            border: 2px solid var(--border);
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            position: relative;
         }
 
         .job-grid-item:hover {
-            background-color: var(--bg-tertiary);
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
             border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
         }
 
         .job-grid-item:focus-visible {
             outline: 2px solid var(--accent);
             outline-offset: 2px;
-            background-color: var(--bg-tertiary);
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
         }
 
         .job-grid-item.disabled {
-            opacity: 0.4;
+            opacity: 0.35;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .job-grid-item.disabled:hover {
+            border-color: var(--border);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .job-grid-item-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            border: 1px solid var(--border-subtle);
         }
 
         .job-grid-item img {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 6px;
+            width: 36px;
+            height: 36px;
         }
 
         .job-grid-item img.hidden {
@@ -657,34 +746,89 @@
         }
 
         .job-grid-item .job-icon-fallback {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
             background-color: var(--bg-tertiary);
-            border-radius: 4px;
-            font-size: 0.875rem;
+            border-radius: 50%;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-secondary);
-            margin-bottom: 6px;
         }
 
         .job-grid-item span {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 500;
             text-align: center;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+
+        .job-grid-item:hover span {
+            color: var(--text-primary);
         }
 
         .job-category {
             margin-bottom: 20px;
         }
 
+        .job-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .job-category-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .job-category-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .job-category-icon.tanks {
+            background: rgba(91, 155, 213, 0.15);
+            color: var(--tome-color);
+        }
+
+        .job-category-icon.healers {
+            background: rgba(92, 184, 92, 0.15);
+            color: var(--success-color);
+        }
+
+        .job-category-icon.melee {
+            background: rgba(232, 90, 113, 0.15);
+            color: var(--raid-color);
+        }
+
+        .job-category-icon.ranged {
+            background: rgba(240, 173, 78, 0.15);
+            color: var(--warning-color);
+        }
+
+        .job-category-icon.casters {
+            background: rgba(212, 168, 85, 0.15);
+            color: var(--accent);
+        }
+
         .job-category h4 {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
-            margin-bottom: 10px;
+            margin: 0;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
+            font-weight: 600;
         }
 
         .modal-close {
@@ -693,23 +837,28 @@
         }
 
         .modal-small {
-            max-width: 400px;
+            max-width: 420px;
         }
 
         .modal-input {
             width: 100%;
-            padding: 12px;
+            padding: 14px 16px;
             background-color: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 4px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
             color: var(--text-primary);
             font-size: 1rem;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
+            transition: border-color 0.2s ease;
         }
 
         .modal-input:focus {
             outline: none;
             border-color: var(--accent);
+        }
+
+        .modal-input::placeholder {
+            color: var(--text-muted);
         }
 
         .modal-buttons {
@@ -724,16 +873,57 @@
         }
 
         .btn-secondary:hover {
-            background-color: var(--bg-primary);
-            border-color: var(--text-secondary);
+            background-color: var(--bg-elevated);
+            border-color: var(--text-muted);
         }
 
         .btn-danger {
-            background-color: var(--accent);
+            background-color: var(--raid-color);
+            border: none;
         }
 
         .btn-danger:hover {
-            background-color: var(--accent-hover);
+            background-color: #d14a5f;
+        }
+
+        /* Delete Confirmation Modal */
+        .modal-confirm {
+            max-width: 400px;
+        }
+
+        .confirm-message {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .confirm-message strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .confirm-warning {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--raid-bg);
+            border: 1px solid rgba(232, 90, 113, 0.25);
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .confirm-warning-icon {
+            font-size: 1rem;
+            color: var(--raid-color);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .confirm-warning-text {
+            font-size: 0.8rem;
+            color: var(--raid-color);
+            line-height: 1.5;
         }
 
         .modal-message {
@@ -1688,30 +1878,66 @@
 
             /* Modal mobile */
             .modal {
-                padding: 16px;
                 width: 95%;
                 max-height: 90vh;
             }
 
+            .modal-header {
+                padding: 16px 18px;
+                gap: 12px;
+            }
+
+            .modal-header-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .modal-header-content h3 {
+                font-size: 1rem;
+            }
+
+            .modal-body {
+                padding: 16px 18px;
+            }
+
+            .modal-footer {
+                padding: 14px 18px;
+            }
+
             .job-grid {
-                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
                 gap: 8px;
             }
 
             .job-grid-item {
-                padding: 10px 6px;
-                min-height: 44px;
+                padding: 10px 6px 8px;
+            }
+
+            .job-grid-item-icon {
+                width: 38px;
+                height: 38px;
+                margin-bottom: 6px;
             }
 
             .job-grid-item img {
-                width: 32px;
-                height: 32px;
+                width: 30px;
+                height: 30px;
             }
 
             .job-grid-item .job-icon-fallback {
-                width: 32px;
-                height: 32px;
-                font-size: 0.75rem;
+                width: 30px;
+                height: 30px;
+                font-size: 0.7rem;
+            }
+
+            .job-category-header {
+                margin-bottom: 10px;
+                padding-bottom: 6px;
+            }
+
+            .confirm-warning {
+                padding: 12px 14px;
             }
         }
     </style>
@@ -1757,17 +1983,25 @@
 
     <!-- Job Picker Modal -->
     <div class="modal-overlay hidden" id="job-modal">
-        <div class="modal">
-            <h3 id="job-modal-title">Add Job</h3>
-            <div id="job-modal-step1" class="bis-config-step active">
-                <div id="job-modal-content"></div>
+        <div class="modal modal-job-select">
+            <div class="modal-header">
+                <div class="modal-header-icon accent" id="job-modal-icon">+</div>
+                <div class="modal-header-content">
+                    <h3 id="job-modal-title">Add Job</h3>
+                    <p id="job-modal-subtitle">Select a job to track gear for</p>
+                </div>
             </div>
-            <div id="job-modal-step2" class="bis-config-step">
-                <div id="bis-config-content"></div>
+            <div class="modal-body">
+                <div id="job-modal-step1" class="bis-config-step active">
+                    <div id="job-modal-content"></div>
+                </div>
+                <div id="job-modal-step2" class="bis-config-step">
+                    <div id="bis-config-content"></div>
+                </div>
             </div>
-            <div class="modal-buttons">
+            <div class="modal-footer">
                 <button class="btn btn-secondary modal-back-btn hidden" id="job-modal-back">Back</button>
-                <button class="btn modal-close" id="job-modal-close">Cancel</button>
+                <button class="btn btn-secondary" id="job-modal-close">Cancel</button>
             </div>
         </div>
     </div>
@@ -1775,9 +2009,17 @@
     <!-- Input Modal (Rename/Add Character) -->
     <div class="modal-overlay hidden" id="input-modal">
         <div class="modal modal-small">
-            <h3 id="input-modal-title">Enter Name</h3>
-            <input type="text" id="input-modal-field" class="modal-input" placeholder="Enter name...">
-            <div class="modal-buttons">
+            <div class="modal-header">
+                <div class="modal-header-icon accent" id="input-modal-icon">✏️</div>
+                <div class="modal-header-content">
+                    <h3 id="input-modal-title">Enter Name</h3>
+                    <p id="input-modal-subtitle">Choose a name for your character</p>
+                </div>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="input-modal-field" class="modal-input" placeholder="Enter name...">
+            </div>
+            <div class="modal-footer">
                 <button class="btn btn-secondary" id="input-modal-cancel">Cancel</button>
                 <button class="btn" id="input-modal-confirm">Confirm</button>
             </div>
@@ -1786,10 +2028,22 @@
 
     <!-- Confirm Modal (Delete/Remove) -->
     <div class="modal-overlay hidden" id="confirm-modal">
-        <div class="modal modal-small">
-            <h3 id="confirm-modal-title">Confirm</h3>
-            <p id="confirm-modal-message" class="modal-message"></p>
-            <div class="modal-buttons">
+        <div class="modal modal-small modal-confirm">
+            <div class="modal-header">
+                <div class="modal-header-icon danger" id="confirm-modal-icon">🗑️</div>
+                <div class="modal-header-content">
+                    <h3 id="confirm-modal-title">Confirm Delete</h3>
+                    <p id="confirm-modal-subtitle">This action cannot be undone</p>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-modal-message" class="confirm-message"></p>
+                <div class="confirm-warning">
+                    <span class="confirm-warning-icon">⚠️</span>
+                    <span class="confirm-warning-text">All associated data will be permanently removed.</span>
+                </div>
+            </div>
+            <div class="modal-footer">
                 <button class="btn btn-secondary" id="confirm-modal-cancel">Cancel</button>
                 <button class="btn btn-danger" id="confirm-modal-confirm">Delete</button>
             </div>
@@ -2145,6 +2399,8 @@
             const characterDetails = document.getElementById('character-details');
             const jobModal = document.getElementById('job-modal');
             const jobModalTitle = document.getElementById('job-modal-title');
+            const jobModalSubtitle = document.getElementById('job-modal-subtitle');
+            const jobModalIcon = document.getElementById('job-modal-icon');
             const jobModalContent = document.getElementById('job-modal-content');
             const jobModalStep1 = document.getElementById('job-modal-step1');
             const jobModalStep2 = document.getElementById('job-modal-step2');
@@ -2563,16 +2819,31 @@
 
                 const existingJobIds = selected.jobs.map(j => j.jobId);
 
+                const categoryIcons = {
+                    tanks: '🛡️',
+                    healers: '💚',
+                    melee: '⚔️',
+                    ranged: '🏹',
+                    casters: '✨'
+                };
+
                 let html = '';
                 JOB_CATEGORIES.forEach(cat => {
-                    html += `<div class="job-category"><h4>${cat.label}</h4><div class="job-grid">`;
+                    html += `<div class="job-category">
+                        <div class="job-category-header">
+                            <div class="job-category-icon ${cat.key}">${categoryIcons[cat.key]}</div>
+                            <h4>${cat.label}</h4>
+                        </div>
+                        <div class="job-grid">`;
                     JOBS[cat.key].forEach(job => {
                         const isDisabled = existingJobIds.includes(job.id);
                         html += `
                             <div class="job-grid-item ${isDisabled ? 'disabled' : ''}"
                                  data-job-id="${job.id}"
                                  ${isDisabled ? '' : 'tabindex="0"'}>
-                                <img src="${job.icon}" alt="${job.name}" data-job-id="${job.id}">
+                                <div class="job-grid-item-icon">
+                                    <img src="${job.icon}" alt="${job.name}" data-job-id="${job.id}">
+                                </div>
                                 <span>${job.name}</span>
                             </div>
                         `;
@@ -2604,12 +2875,16 @@
             function showJobModalStep(step) {
                 if (step === 1) {
                     jobModalTitle.textContent = 'Add Job';
+                    jobModalSubtitle.textContent = 'Select a job to track gear for';
+                    jobModalIcon.textContent = '+';
                     jobModalStep1.classList.add('active');
                     jobModalStep2.classList.remove('active');
                     jobModalBack.classList.add('hidden');
                 } else {
                     const job = getJobById(pendingJobId);
                     jobModalTitle.textContent = `Configure ${job ? job.name : ''} BiS`;
+                    jobModalSubtitle.textContent = 'Choose how to set up gear tracking';
+                    jobModalIcon.textContent = '⚙️';
                     jobModalStep1.classList.remove('active');
                     jobModalStep2.classList.add('active');
                     jobModalBack.classList.remove('hidden');

@@ -115,3 +115,29 @@ Key CSS: .summary-section-header, .summary-section-icon, .summary-section-body,
 Removed: old .summary-section-title::before pseudo-elements
 
 Files changed: index.html (~80 lines CSS, ~15 lines JS for HTML structure)
+
+## DESIGN-007 - COMPLETE
+Redesigned modals (job selection + delete confirmation):
+- Base modal: removed padding, uses header/body/footer structure
+- Modal header: gradient bg, icon container, title + subtitle
+- Modal overlay: backdrop-filter blur, darker overlay (0.75)
+- Box shadow on modals for depth
+
+Job selection modal:
+- Header w/ "+" icon, "Add Job" title, "Select a job..." subtitle
+- Step 2: gear icon, "Configure X BiS" title, updated subtitle
+- Job grid: cards w/ gradient bg, circular icon containers, hover lift
+- Category headers: role icons (shield/heart/sword/bow/sparkle), colored backgrounds
+- Disabled jobs have reduced opacity, no hover effects
+
+Delete confirmation modal:
+- Header w/ trash icon in danger-styled container
+- Warning box w/ caution icon, red border/bg
+- btn-danger now uses raid color (red) instead of accent
+
+Input modal (add/rename character):
+- Same header structure w/ pencil icon
+
+Mobile: adjusted header/body/footer padding, smaller icons
+
+Files changed: index.html (CSS ~150 lines, HTML modal structure, JS job grid rendering)
