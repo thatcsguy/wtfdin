@@ -1,115 +1,165 @@
 {
   "items": [
     {
-      "id": "LAYOUT-001",
-      "category": "UI Layout",
-      "description": "Slot configuration grid should display in two columns matching FFXIV character sheet layout. Left column: Weapon, Head, Body, Hands, Legs, Feet. Right column: Earrings, Necklace, Bracelets, Ring 1, Ring 2.",
-      "steps_to_verify": [
-        "Open the job configuration page",
-        "Verify slots appear in two columns",
-        "Left column should show (top to bottom): Weapon, Head, Body, Hands, Legs, Feet",
-        "Right column should show (top to bottom): Earrings, Necklace, Bracelets, Ring 1, Ring 2"
+      "id": "ICONS-001",
+      "category": "Bug Fix",
+      "description": "Download all 24 job icons locally to /icons/ directory and update URLs in JOBS array to use local paths instead of XIVAPI",
+      "acceptance_criteria": [
+        "All 24 job icons exist in /icons/ directory",
+        "JOBS array URLs point to icons/{job}.png",
+        "All icons display correctly including Viper and Pictomancer"
       ],
-      "passes": true
+      "steps_to_verify": [
+        "Start local server on port 8080",
+        "Open index.html in browser",
+        "Add a character and click Add Job",
+        "Verify all 24 job icons load without fallback text"
+      ],
+      "passes": false
     },
     {
-      "id": "LAYOUT-002",
-      "category": "UI Layout",
-      "description": "Job gear table should display slots in two-column layout matching FFXIV character sheet. Left column: Weapon, Head, Body, Hands, Legs, Feet. Right column: Earrings, Necklace, Bracelets, Ring 1, Ring 2.",
-      "steps_to_verify": [
-        "Select a job to view gear table",
-        "Verify gear slots are displayed in two-column layout",
-        "Left column: Weapon, Head, Body, Hands, Legs, Feet (in order)",
-        "Right column: Earrings, Necklace, Bracelets, Ring 1, Ring 2 (in order)"
+      "id": "ALIGN-001",
+      "category": "Layout",
+      "description": "Fix gear table column alignment so Raid/Tome badges, turn/cost labels, and checkboxes align vertically across all rows in both columns",
+      "acceptance_criteria": [
+        "Type badges (Raid/Tome) align vertically in both left and right columns",
+        "Turn labels and tome costs align vertically",
+        "Checkboxes align vertically across all rows"
       ],
-      "passes": true
+      "steps_to_verify": [
+        "View gear table with a character that has both raid and tome slots",
+        "Visually confirm columns align between left side (Weapon through Feet) and right side (Earrings through Ring 2)"
+      ],
+      "passes": false
     },
     {
-      "id": "TABLE-001",
-      "category": "UI Table",
-      "description": "Add a separate 'Source' column to the gear table. Move the source info (e.g., '2nd Turn', '495 tomes') out of the Type column into its own column.",
-      "steps_to_verify": [
-        "Select a job to view gear table",
-        "Verify table has a 'Source' column header",
-        "Type column should only show 'Raid' or 'Tome'",
-        "Source column should show the turn number for raid items (e.g., '2nd Turn')",
-        "Source column should show tomestone cost for tome items (e.g., '495 tomes')"
+      "id": "TERM-001",
+      "category": "Terminology",
+      "description": "Change 'drop' to 'Coffer' (capital C) throughout the raid drops summary section",
+      "acceptance_criteria": [
+        "Section heading reads 'Raid Coffers Needed' not 'Raid Drops Needed'",
+        "Summary items show 'X Coffer' or 'X Coffers' not 'X drop' or 'X drops'",
+        "Empty state reads 'All raid coffers obtained!' not 'All raid drops obtained!'"
       ],
-      "passes": true
+      "steps_to_verify": [
+        "View summary panel with raid gear needed",
+        "Verify 'Coffer' terminology in heading and counts",
+        "Obtain all raid gear and verify empty state message"
+      ],
+      "passes": false
     },
     {
-      "id": "TOME-001",
-      "category": "Tomestone Calculation",
-      "description": "Tomestone summary should reduce when user checks 'Base' checkbox, not when they check 'Upgraded'. The base item costs tomestones; the upgrade does not.",
-      "steps_to_verify": [
-        "Add a job with tome gear slots",
-        "Note the total tomestones needed in summary",
-        "Check the 'Base' checkbox for a tome item",
-        "Verify tomestones needed decreases by that slot's cost",
-        "Uncheck 'Base', verify tomestones increases back",
-        "Check 'Base' again, then check 'Upgraded' - tomestone count should not change when checking Upgraded"
+      "id": "DESIGN-001",
+      "category": "UX Design",
+      "description": "Redesign theme and color scheme - review and improve CSS variables, color palette, and overall visual identity",
+      "acceptance_criteria": [
+        "Color scheme is cohesive and visually appealing",
+        "CSS variables updated for consistent theming",
+        "Sufficient contrast for readability"
       ],
-      "passes": true
+      "steps_to_verify": [
+        "Review overall color scheme",
+        "Check text contrast against backgrounds",
+        "Verify visual consistency across all components"
+      ],
+      "passes": false
     },
     {
-      "id": "UI-001",
-      "category": "UI Styling",
-      "description": "Remove hover state styling from the gear table rows.",
-      "steps_to_verify": [
-        "Select a job to view gear table",
-        "Hover over gear table rows",
-        "Verify no hover effect (background change, highlighting) occurs on rows"
+      "id": "DESIGN-002",
+      "category": "UX Design",
+      "description": "Redesign sidebar including character list, add character button, and navigation elements",
+      "acceptance_criteria": [
+        "Sidebar has improved visual hierarchy",
+        "Character list is easy to scan and navigate",
+        "Add button is clearly visible and accessible"
       ],
-      "passes": true
+      "steps_to_verify": [
+        "Review sidebar layout and spacing",
+        "Test with multiple characters",
+        "Verify add button prominence"
+      ],
+      "passes": false
     },
     {
-      "id": "UPGRADE-001",
-      "category": "Upgrade Materials",
-      "description": "Add 'Glaze' tracking to raid drops summary. Jewelry (earrings, necklace, bracelets, rings) requires Glaze from 2nd Turn to upgrade.",
-      "steps_to_verify": [
-        "Add a job with tome jewelry slots",
-        "View the raid drops summary panel",
-        "Verify '2nd Turn' line shows Glaze count (e.g., '2 drops, 1 Glaze')",
-        "Glaze count equals number of unupgraded tome jewelry slots"
+      "id": "DESIGN-003",
+      "category": "UX Design",
+      "description": "Redesign character header section including job pills and character details display",
+      "acceptance_criteria": [
+        "Character name and details are clearly displayed",
+        "Job pills have improved visual design",
+        "Section has good visual balance"
       ],
-      "passes": true
+      "steps_to_verify": [
+        "Select a character with multiple jobs",
+        "Review header layout and job pill styling",
+        "Verify information hierarchy"
+      ],
+      "passes": false
     },
     {
-      "id": "UPGRADE-002",
-      "category": "Upgrade Materials",
-      "description": "Add 'Twine' tracking to raid drops summary. Non-weapon armor (head, body, hands, legs, feet) requires Twine from 3rd Turn to upgrade.",
-      "steps_to_verify": [
-        "Add a job with tome armor slots (head/body/hands/legs/feet)",
-        "View the raid drops summary panel",
-        "Verify '3rd Turn' line shows Twine count (e.g., '1 drop, 2 Twine')",
-        "Twine count equals number of unupgraded tome armor slots"
+      "id": "DESIGN-004",
+      "category": "UX Design",
+      "description": "Redesign slot configuration modal for selecting raid vs tome gear per slot",
+      "acceptance_criteria": [
+        "Modal is visually clean and easy to understand",
+        "Slot options are clearly presented",
+        "Selection state is obvious"
       ],
-      "passes": true
+      "steps_to_verify": [
+        "Open slot configuration by clicking Raid/Tome badges",
+        "Review modal layout and styling",
+        "Test slot type selection"
+      ],
+      "passes": false
     },
     {
-      "id": "UPGRADE-003",
-      "category": "Upgrade Materials",
-      "description": "Add 'Solvent' tracking to raid drops summary. Tome weapon requires Solvent from 3rd Turn to upgrade.",
-      "steps_to_verify": [
-        "Add a job with tome weapon slot",
-        "View the raid drops summary panel",
-        "Verify '3rd Turn' line includes Solvent (e.g., '1 drop, 1 Twine, 1 Solvent')",
-        "Solvent only appears when weapon is tome and not upgraded"
+      "id": "DESIGN-005",
+      "category": "UX Design",
+      "description": "Redesign gear tables including two-column grid, row styling, checkboxes, and visual states",
+      "acceptance_criteria": [
+        "Tables have clear visual structure",
+        "Rows are easy to scan",
+        "Completion states (partial/complete) are visually distinct",
+        "Checkboxes have good touch targets"
       ],
-      "passes": true
+      "steps_to_verify": [
+        "Review gear table styling",
+        "Test checkbox interactions",
+        "Verify partial and complete state colors"
+      ],
+      "passes": false
     },
     {
-      "id": "UPGRADE-004",
-      "category": "Upgrade Materials",
-      "description": "Upgrade materials (Glaze/Twine/Solvent) appear for any tome item not yet upgraded, regardless of base purchase status.",
-      "steps_to_verify": [
-        "Add a job with tome slots",
-        "Do NOT check 'Base' for any tome items",
-        "Verify Glaze/Twine/Solvent still appear in summary",
-        "Check 'Base' but not 'Upgraded' - upgrade materials should still show",
-        "Check 'Upgraded' - that slot's upgrade material should disappear from count"
+      "id": "DESIGN-006",
+      "category": "UX Design",
+      "description": "Redesign summary panels for raid coffers needed and tome gear needed sections",
+      "acceptance_criteria": [
+        "Summary sections are visually distinct",
+        "Information is easy to scan at a glance",
+        "Visual styling matches overall theme"
       ],
-      "passes": true
+      "steps_to_verify": [
+        "View summary panels with items needed",
+        "Review layout and typography",
+        "Verify visual distinction between raid and tome sections"
+      ],
+      "passes": false
+    },
+    {
+      "id": "DESIGN-007",
+      "category": "UX Design",
+      "description": "Redesign modals including job selection modal and delete confirmation dialog",
+      "acceptance_criteria": [
+        "Modals have consistent styling",
+        "Job selection grid is visually appealing",
+        "Delete confirmation is clear and prevents accidents"
+      ],
+      "steps_to_verify": [
+        "Open job selection modal via Add Job button",
+        "Review job grid layout and styling",
+        "Test delete confirmation flow"
+      ],
+      "passes": false
     }
   ]
 }
