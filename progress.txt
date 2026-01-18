@@ -100,3 +100,28 @@ Key decisions:
 Files changed:
 - index.html (added divider/new-char CSS, updated renderCharacterList JS)
 - prd.json (marked TOP-003 as passes: true)
+
+## TOP-004 - Custom dropdown UX behavior
+
+Completed: Full keyboard accessibility for character dropdown
+
+Changes:
+- Added CSS .character-dropdown-item.focused (outline indicator)
+- Added handleDropdownTriggerKeydown() for Enter/Space/ArrowDown on trigger
+- Added document keydown listener for Escape/Arrow/Enter when dropdown open
+- Added handleDropdownArrowKey() for arrow navigation w/ wrapping
+- Added focusFirstDropdownItem() to focus selected or first item
+- Modified closeCharacterDropdown() to clear focused state
+- Used e.stopPropagation() to prevent event bubbling conflicts
+
+Key decisions:
+- Enter/Space on trigger: opens dropdown and focuses selected item
+- ArrowDown/ArrowUp: navigate items w/ wrapping at ends
+- Enter on focused item: selects and closes dropdown
+- Escape: closes dropdown, returns focus to trigger
+- Click outside: closes dropdown (already existed from TOP-002)
+- Visual focus indicator: accent outline on focused item
+
+Files changed:
+- index.html (added keyboard nav JS, focused CSS)
+- prd.json (marked TOP-004 as passes: true)

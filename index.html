@@ -272,8 +272,14 @@
                 color: var(--text-primary);
             }
 
-            .character-dropdown-item:hover {
+            .character-dropdown-item:hover,
+            .character-dropdown-item.focused {
                 background: var(--bg-tertiary);
+            }
+
+            .character-dropdown-item.focused {
+                outline: 2px solid var(--accent);
+                outline-offset: -2px;
             }
 
             .character-dropdown-item.selected {
@@ -2810,12 +2816,33 @@
                     // Character dropdown events
                     if (characterDropdownTrigger) {
                         characterDropdownTrigger.addEventListener("click", toggleCharacterDropdown);
+                        characterDropdownTrigger.addEventListener("keydown", handleDropdownTriggerKeydown);
                     }
 
                     // Close dropdown when clicking outside
                     document.addEventListener("click", (e) => {
                         if (characterDropdown && !characterDropdown.contains(e.target)) {
                             closeCharacterDropdown();
+                        }
+                    });
+
+                    // Keyboard navigation for dropdown
+                    document.addEventListener("keydown", (e) => {
+                        if (!characterDropdown || !characterDropdown.classList.contains("open")) return;
+
+                        if (e.key === "Escape") {
+                            closeCharacterDropdown();
+                            characterDropdownTrigger.focus();
+                            e.preventDefault();
+                        } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                            handleDropdownArrowKey(e.key === "ArrowDown" ? 1 : -1);
+                            e.preventDefault();
+                        } else if (e.key === "Enter" || e.key === " ") {
+                            const focused = characterDropdownList.querySelector(".character-dropdown-item.focused");
+                            if (focused) {
+                                focused.click();
+                                e.preventDefault();
+                            }
                         }
                     });
                 }
@@ -2838,6 +2865,64 @@
                 function closeCharacterDropdown() {
                     characterDropdown.classList.remove("open");
                     characterDropdownTrigger.setAttribute("aria-expanded", "false");
+                    // Clear focus state when closing
+                    const focused = characterDropdownList?.querySelector(".character-dropdown-item.focused");
+                    if (focused) focused.classList.remove("focused");
+                }
+
+                function handleDropdownTriggerKeydown(e) {
+                    const isOpen = characterDropdown.classList.contains("open");
+                    if (e.key === "Enter" || e.key === " ") {
+                        if (isOpen) {
+                            // If open, select focused item or just close
+                            const focused = characterDropdownList.querySelector(".character-dropdown-item.focused");
+                            if (focused) {
+                                focused.click();
+                            } else {
+                                closeCharacterDropdown();
+                            }
+                        } else {
+                            openCharacterDropdown();
+                            focusFirstDropdownItem();
+                        }
+                        e.preventDefault();
+                        e.stopPropagation();
+                    } else if (e.key === "ArrowDown" && !isOpen) {
+                        openCharacterDropdown();
+                        focusFirstDropdownItem();
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }
+
+                function handleDropdownArrowKey(direction) {
+                    const items = Array.from(characterDropdownList.querySelectorAll(".character-dropdown-item"));
+                    if (items.length === 0) return;
+
+                    const currentFocused = characterDropdownList.querySelector(".character-dropdown-item.focused");
+                    let currentIndex = currentFocused ? items.indexOf(currentFocused) : -1;
+
+                    // Clear current focus
+                    if (currentFocused) currentFocused.classList.remove("focused");
+
+                    // Calculate new index with wrapping
+                    let newIndex = currentIndex + direction;
+                    if (newIndex < 0) newIndex = items.length - 1;
+                    if (newIndex >= items.length) newIndex = 0;
+
+                    // Set new focus
+                    items[newIndex].classList.add("focused");
+                    items[newIndex].scrollIntoView({ block: "nearest" });
+                }
+
+                function focusFirstDropdownItem() {
+                    const items = characterDropdownList.querySelectorAll(".character-dropdown-item");
+                    if (items.length > 0) {
+                        // Focus selected item if exists, otherwise first item
+                        const selected = characterDropdownList.querySelector(".character-dropdown-item.selected");
+                        const toFocus = selected || items[0];
+                        toFocus.classList.add("focused");
+                    }
                 }
 
                 // Input Modal Functions

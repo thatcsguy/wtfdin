@@ -101,7 +101,7 @@
         "Dropdown is keyboard accessible (can open with Enter/Space, navigate with arrow keys)",
         "Currently selected character is visually indicated in the dropdown list"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "TOP-005",
