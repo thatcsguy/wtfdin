@@ -332,6 +332,58 @@
                 color: var(--accent);
             }
 
+            /* Character Action Buttons */
+            .character-actions {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .btn-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                background: transparent;
+                border: 1px solid transparent;
+                border-radius: 6px;
+                color: var(--text-secondary);
+                cursor: pointer;
+                transition: all 0.15s ease;
+            }
+
+            .btn-icon:hover {
+                background: var(--bg-elevated);
+                border-color: var(--border);
+                color: var(--text-primary);
+            }
+
+            .btn-icon:focus {
+                outline: 2px solid var(--accent);
+                outline-offset: 2px;
+            }
+
+            .btn-icon:focus:not(:focus-visible) {
+                outline: none;
+            }
+
+            .btn-icon:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+            }
+
+            .btn-icon:disabled:hover {
+                background: transparent;
+                border-color: transparent;
+                color: var(--text-secondary);
+            }
+
+            .btn-icon svg {
+                width: 16px;
+                height: 16px;
+            }
+
             /* Main Panel */
             .main-panel {
                 flex: 1;
@@ -2032,6 +2084,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="character-actions">
+                        <button class="btn-icon" id="btn-edit-character" title="Rename character" aria-label="Rename character" disabled>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="top-nav-right">
                     <!-- Right side controls will go here -->
@@ -2615,6 +2675,7 @@
                 const characterDropdownName = document.getElementById("character-dropdown-name");
                 const characterDropdownMenu = document.getElementById("character-dropdown-menu");
                 const characterDropdownList = document.getElementById("character-dropdown-list");
+                const btnEditCharacter = document.getElementById("btn-edit-character");
 
                 // Job modal state
                 let pendingJobId = null;
@@ -2817,6 +2878,15 @@
                     if (characterDropdownTrigger) {
                         characterDropdownTrigger.addEventListener("click", toggleCharacterDropdown);
                         characterDropdownTrigger.addEventListener("keydown", handleDropdownTriggerKeydown);
+                    }
+
+                    // Edit character button
+                    if (btnEditCharacter) {
+                        btnEditCharacter.addEventListener("click", () => {
+                            if (state.selectedCharacterId) {
+                                handleRenameCharacter(state.selectedCharacterId);
+                            }
+                        });
                     }
 
                     // Close dropdown when clicking outside
@@ -3484,6 +3554,11 @@
                         characterDropdownName.textContent = "Select Character";
                     } else {
                         characterDropdownName.textContent = "No Characters";
+                    }
+
+                    // Update edit button state
+                    if (btnEditCharacter) {
+                        btnEditCharacter.disabled = !selected;
                     }
 
                     // Render dropdown list items

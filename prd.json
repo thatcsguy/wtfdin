@@ -113,7 +113,7 @@
         "Submitting new name updates the character name throughout the app",
         "Edit button is only visible/enabled when a character is selected"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "TOP-006",

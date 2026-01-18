@@ -125,3 +125,23 @@ Key decisions:
 Files changed:
 - index.html (added keyboard nav JS, focused CSS)
 - prd.json (marked TOP-004 as passes: true)
+
+## TOP-005 - Edit button for renaming character
+
+Completed: Pencil icon button next to dropdown opens rename modal
+
+Changes:
+- Added CSS: .character-actions container, .btn-icon (32x32 icon button w/ hover/focus/disabled states)
+- Added HTML: edit button w/ pencil SVG in character-actions div next to dropdown
+- Added JS: btnEditCharacter ref, click handler calling handleRenameCharacter(selectedCharacterId)
+- Updated renderCharacterList() to toggle button disabled state based on selection
+
+Key decisions:
+- Reused existing handleRenameCharacter() and openInputModal() - no new modal needed
+- Button starts disabled, enabled when character selected
+- Transparent bg by default, elevated on hover for subtle appearance
+- Used standard pencil/edit SVG icon (Feather icons style)
+
+Files changed:
+- index.html (added icon btn CSS/HTML/JS)
+- prd.json (marked TOP-005 as passes: true)
