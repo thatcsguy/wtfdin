@@ -707,15 +707,11 @@
         }
 
         .turn-label {
-            display: inline-block;
-            margin-left: 8px;
             font-size: 0.7rem;
             color: var(--text-secondary);
         }
 
         .tome-cost {
-            display: inline-block;
-            margin-left: 8px;
             font-size: 0.7rem;
             color: var(--text-secondary);
         }
@@ -2098,7 +2094,8 @@
                         tableRows += `
                             <tr class="${slotClass}">
                                 <td class="slot-name">${slot.name}</td>
-                                <td><span class="slot-type ${slotType}" data-slot="${slot.id}" data-type="${slotType}" tabindex="0" role="button" title="Click to toggle type">${typeLabel}</span>${extraLabel}</td>
+                                <td><span class="slot-type ${slotType}" data-slot="${slot.id}" data-type="${slotType}" tabindex="0" role="button" title="Click to toggle type">${typeLabel}</span></td>
+                                <td>${extraLabel}</td>
                                 <td><div class="gear-checkbox-group">${checkboxHtml}</div></td>
                             </tr>
                         `;
@@ -2156,6 +2153,7 @@
                                             <tr>
                                                 <th>Slot</th>
                                                 <th>Type</th>
+                                                <th>Source</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>

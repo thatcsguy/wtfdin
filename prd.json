@@ -35,7 +35,7 @@
         "Source column should show the turn number for raid items (e.g., '2nd Turn')",
         "Source column should show tomestone cost for tome items (e.g., '495 tomes')"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "TOME-001",

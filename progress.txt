@@ -6,3 +6,14 @@ Base item costs tomes; upgrade material comes from raids (free).
 Files: index.html (line ~1392)
 
 Verified: Base checkbox decreases tomes, Upgraded checkbox has no effect on tome count.
+
+## TABLE-001 - Add Source column to gear table
+
+Split Type column into Type + Source columns.
+- Added "Source" header to table (line ~2159)
+- Moved extraLabel (turn label / tome cost) to its own `<td>` (line ~2102)
+- Removed margin-left from .turn-label and .tome-cost CSS (lines ~709-716)
+
+Files: index.html
+
+Verified: Type column shows only "Raid"/"Tome", Source shows "4th Turn" or "495 tomes" etc.
