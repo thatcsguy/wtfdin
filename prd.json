@@ -77,7 +77,7 @@
         "Dropdown styling matches the app's existing look and feel (colors, fonts, borders)",
         "Dropdown trigger shows visual indicator (chevron/arrow) that it's expandable"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "TOP-003",

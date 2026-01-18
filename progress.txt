@@ -58,3 +58,25 @@ Key decisions:
 Files changed:
 - index.html (added top nav HTML/CSS)
 - prd.json (marked TOP-001 as passes: true)
+
+## TOP-002 - Character dropdown in top nav
+
+Completed: Character name displayed as custom dropdown in top-nav-center
+
+Changes:
+- Added ~130 lines dropdown CSS (.character-dropdown, -trigger, -name, -chevron, -menu, -list, -item, -avatar, -item-name)
+- Added dropdown HTML in top-nav-center with trigger btn, chevron SVG, menu container
+- Added JS: characterDropdown* element refs, toggle/open/close functions
+- Updated renderCharacterList() to render chars to dropdown instead of sidebar
+- Added click-outside listener to close dropdown
+- Added aria attributes (haspopup, expanded, role=listbox/option, aria-selected)
+
+Key decisions:
+- Dropdown centered in top nav via left:50% + translateX(-50%)
+- Uses app color vars (--bg-elevated, --border, --accent-muted)
+- Selected char highlighted w/ accent bg + dot indicator
+- Avatar shows initials using existing getInitials()
+
+Files changed:
+- index.html (added dropdown CSS/HTML/JS)
+- prd.json (marked TOP-002 as passes: true)
