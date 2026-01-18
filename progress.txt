@@ -41,3 +41,16 @@ Files: index.html
 - Modified raid summary loop to include Glaze on 2nd Turn (lines ~2119-2150)
 
 Verified: 2nd Turn shows Glaze count, decreases when jewelry Upgraded checked.
+
+## UPGRADE-002 - Add Twine tracking to raid drops summary
+
+Added `calculateTwineNeeded()` function that counts tome armor slots not upgraded.
+Modified raid summary: 3rd Turn line now shows "X drops, Y Twine" format.
+Pattern matches UPGRADE-001 (Glaze).
+
+Files: index.html
+- Added ARMOR_SLOTS constant (line ~1390)
+- Added calculateTwineNeeded function (lines ~1412-1429)
+- Modified raid summary loop to include Twine on 3rd Turn (lines ~2144, ~2155, ~2164-2166)
+
+Verified: 3rd Turn shows Twine count, decreases when armor Upgraded checked, disappears at 0.

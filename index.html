@@ -1387,6 +1387,9 @@
             // Jewelry slots that require Glaze to upgrade
             const JEWELRY_SLOTS = ['earrings', 'necklace', 'bracelets', 'ring1', 'ring2'];
 
+            // Armor slots that require Twine to upgrade (non-weapon, non-jewelry)
+            const ARMOR_SLOTS = ['head', 'body', 'hands', 'legs', 'feet'];
+
             // Calculate Glaze needed for tome jewelry upgrades
             // Glaze drops from 2nd Turn, upgrades tome jewelry
             function calculateGlazeNeeded(jobId, gear, slotTypeOverrides) {
@@ -1398,6 +1401,25 @@
 
                     const slotGear = gear[slotId] || {};
                     // Need Glaze if tome jewelry not upgraded (regardless of base status)
+                    if (!slotGear.upgraded) {
+                        count++;
+                    }
+                });
+
+                return count;
+            }
+
+            // Calculate Twine needed for tome armor upgrades
+            // Twine drops from 3rd Turn, upgrades tome armor (head/body/hands/legs/feet)
+            function calculateTwineNeeded(jobId, gear, slotTypeOverrides) {
+                let count = 0;
+
+                ARMOR_SLOTS.forEach(slotId => {
+                    const slotType = getSlotType(jobId, slotId, slotTypeOverrides);
+                    if (slotType !== 'tome') return;
+
+                    const slotGear = gear[slotId] || {};
+                    // Need Twine if tome armor not upgraded (regardless of base status)
                     if (!slotGear.upgraded) {
                         count++;
                     }
@@ -2119,6 +2141,7 @@
                     // Calculate raid drops by turn for summary
                     const raidDrops = calculateRaidDropsByTurn(selectedJob.id, gear, slotTypeOverrides);
                     const glazeNeeded = calculateGlazeNeeded(selectedJob.id, gear, slotTypeOverrides);
+                    const twineNeeded = calculateTwineNeeded(selectedJob.id, gear, slotTypeOverrides);
                     const turnLabels = { 1: '1st Turn', 2: '2nd Turn', 3: '3rd Turn', 4: '4th Turn' };
                     let raidSummaryHtml = '';
                     let hasRaidNeeds = false;
@@ -2126,8 +2149,10 @@
                         const drops = raidDrops[turn];
                         // 2nd Turn also shows Glaze for tome jewelry upgrades
                         const glaze = turn === 2 ? glazeNeeded : 0;
+                        // 3rd Turn also shows Twine for tome armor upgrades
+                        const twine = turn === 3 ? twineNeeded : 0;
 
-                        if (drops > 0 || glaze > 0) {
+                        if (drops > 0 || glaze > 0 || twine > 0) {
                             hasRaidNeeds = true;
                             let valueParts = [];
                             if (drops > 0) {
@@ -2135,6 +2160,9 @@
                             }
                             if (glaze > 0) {
                                 valueParts.push(`${glaze} Glaze`);
+                            }
+                            if (twine > 0) {
+                                valueParts.push(`${twine} Twine`);
                             }
                             raidSummaryHtml += `
                                 <div class="summary-item">

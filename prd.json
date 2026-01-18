@@ -84,7 +84,7 @@
         "Verify '3rd Turn' line shows Twine count (e.g., '1 drop, 2 Twine')",
         "Twine count equals number of unupgraded tome armor slots"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "UPGRADE-003",
