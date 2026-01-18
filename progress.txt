@@ -80,3 +80,23 @@ Key decisions:
 Files changed:
 - index.html (added dropdown CSS/HTML/JS)
 - prd.json (marked TOP-002 as passes: true)
+
+## TOP-003 - New Character option in dropdown
+
+Completed: Added 'New Character' option w/ divider to character dropdown
+
+Changes:
+- Added CSS: .character-dropdown-divider (1px border separator)
+- Added CSS: .character-dropdown-item.new-character (accent color styling)
+- Modified renderCharacterList() to append divider + "New Character" option
+- New option shows "+" avatar, calls handleAddCharacter() on click
+- Divider only renders when characters exist (clean look for empty state)
+
+Key decisions:
+- Reused existing handleAddCharacter() for modal flow
+- "+" symbol in avatar slot matches visual language
+- Accent color distinguishes action item from selection items
+
+Files changed:
+- index.html (added divider/new-char CSS, updated renderCharacterList JS)
+- prd.json (marked TOP-003 as passes: true)

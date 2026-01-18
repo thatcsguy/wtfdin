@@ -311,6 +311,21 @@
                 font-size: 0.875rem;
             }
 
+            .character-dropdown-divider {
+                height: 1px;
+                background: var(--border);
+                margin: 4px 8px;
+            }
+
+            .character-dropdown-item.new-character {
+                color: var(--accent);
+            }
+
+            .character-dropdown-item.new-character .character-dropdown-avatar {
+                background: var(--accent-muted);
+                color: var(--accent);
+            }
+
             /* Main Panel */
             .main-panel {
                 flex: 1;
@@ -3387,7 +3402,7 @@
                     }
 
                     // Render dropdown list items
-                    characterDropdownList.innerHTML = state.characters
+                    let dropdownHtml = state.characters
                         .map((char) => {
                             const isSelected = char.id === state.selectedCharacterId;
                             return `
@@ -3402,14 +3417,36 @@
                         })
                         .join('');
 
-                    // Add click handlers to items
-                    characterDropdownList.querySelectorAll('.character-dropdown-item').forEach(item => {
+                    // Add divider and "New Character" option
+                    if (state.characters.length > 0) {
+                        dropdownHtml += '<div class="character-dropdown-divider"></div>';
+                    }
+                    dropdownHtml += `
+                        <div class="character-dropdown-item new-character" id="dropdown-new-character" role="option">
+                            <div class="character-dropdown-avatar">+</div>
+                            <span class="character-dropdown-item-name">New Character</span>
+                        </div>
+                    `;
+
+                    characterDropdownList.innerHTML = dropdownHtml;
+
+                    // Add click handlers to character items
+                    characterDropdownList.querySelectorAll('.character-dropdown-item:not(.new-character)').forEach(item => {
                         item.addEventListener('click', () => {
                             const id = item.dataset.id;
                             selectCharacter(id);
                             closeCharacterDropdown();
                         });
                     });
+
+                    // Add click handler for "New Character" option
+                    const newCharOption = document.getElementById('dropdown-new-character');
+                    if (newCharOption) {
+                        newCharOption.addEventListener('click', () => {
+                            closeCharacterDropdown();
+                            handleAddCharacter();
+                        });
+                    }
                 }
 
                 function renderMainPanel() {

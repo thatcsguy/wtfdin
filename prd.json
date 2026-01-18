@@ -90,7 +90,7 @@
         "Clicking a character name selects that character and closes dropdown",
         "Clicking 'New Character' opens the add character modal"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "TOP-004",
