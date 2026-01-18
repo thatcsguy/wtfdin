@@ -72,7 +72,7 @@
         "Verify '2nd Turn' line shows Glaze count (e.g., '2 drops, 1 Glaze')",
         "Glaze count equals number of unupgraded tome jewelry slots"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "UPGRADE-002",

@@ -1384,6 +1384,28 @@
                 return total;
             }
 
+            // Jewelry slots that require Glaze to upgrade
+            const JEWELRY_SLOTS = ['earrings', 'necklace', 'bracelets', 'ring1', 'ring2'];
+
+            // Calculate Glaze needed for tome jewelry upgrades
+            // Glaze drops from 2nd Turn, upgrades tome jewelry
+            function calculateGlazeNeeded(jobId, gear, slotTypeOverrides) {
+                let count = 0;
+
+                JEWELRY_SLOTS.forEach(slotId => {
+                    const slotType = getSlotType(jobId, slotId, slotTypeOverrides);
+                    if (slotType !== 'tome') return;
+
+                    const slotGear = gear[slotId] || {};
+                    // Need Glaze if tome jewelry not upgraded (regardless of base status)
+                    if (!slotGear.upgraded) {
+                        count++;
+                    }
+                });
+
+                return count;
+            }
+
             // Get flat list of all jobs
             function getAllJobs() {
                 return Object.values(JOBS).flat();
@@ -2096,22 +2118,34 @@
 
                     // Calculate raid drops by turn for summary
                     const raidDrops = calculateRaidDropsByTurn(selectedJob.id, gear, slotTypeOverrides);
+                    const glazeNeeded = calculateGlazeNeeded(selectedJob.id, gear, slotTypeOverrides);
                     const turnLabels = { 1: '1st Turn', 2: '2nd Turn', 3: '3rd Turn', 4: '4th Turn' };
                     let raidSummaryHtml = '';
-                    let hasRaidDrops = false;
+                    let hasRaidNeeds = false;
                     [1, 2, 3, 4].forEach(turn => {
-                        if (raidDrops[turn] > 0) {
-                            hasRaidDrops = true;
+                        const drops = raidDrops[turn];
+                        // 2nd Turn also shows Glaze for tome jewelry upgrades
+                        const glaze = turn === 2 ? glazeNeeded : 0;
+
+                        if (drops > 0 || glaze > 0) {
+                            hasRaidNeeds = true;
+                            let valueParts = [];
+                            if (drops > 0) {
+                                valueParts.push(`${drops} drop${drops !== 1 ? 's' : ''}`);
+                            }
+                            if (glaze > 0) {
+                                valueParts.push(`${glaze} Glaze`);
+                            }
                             raidSummaryHtml += `
                                 <div class="summary-item">
                                     <span class="summary-item-label">${turnLabels[turn]}</span>
-                                    <span class="summary-item-value">${raidDrops[turn]} drop${raidDrops[turn] !== 1 ? 's' : ''}</span>
+                                    <span class="summary-item-value">${valueParts.join(', ')}</span>
                                 </div>
                             `;
                         }
                     });
 
-                    if (!hasRaidDrops) {
+                    if (!hasRaidNeeds) {
                         raidSummaryHtml = '<p class="summary-empty">All raid drops obtained!</p>';
                     }
 

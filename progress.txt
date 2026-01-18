@@ -28,3 +28,16 @@ Removed 3 CSS rules:
 Files: index.html (lines ~664-666, ~757-759, ~765-767)
 
 Verified: Rows no longer change background on hover. Complete/partial states retain base colors.
+
+## UPGRADE-001 - Add Glaze tracking to raid drops summary
+
+Added `calculateGlazeNeeded()` function that counts tome jewelry slots not upgraded.
+Modified raid summary display: 2nd Turn line now shows "X drops, Y Glaze" format.
+Glaze appears regardless of base purchase status (per UPGRADE-004).
+
+Files: index.html
+- Added JEWELRY_SLOTS constant (line ~1387)
+- Added calculateGlazeNeeded function (lines ~1390-1407)
+- Modified raid summary loop to include Glaze on 2nd Turn (lines ~2119-2150)
+
+Verified: 2nd Turn shows Glaze count, decreases when jewelry Upgraded checked.
