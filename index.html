@@ -94,58 +94,96 @@
                 font-size: 0.75rem;
             }
 
-            /* Top Navigation Bar */
+            /* Unified Header Bar */
             .top-nav {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
-                padding: 0 20px;
-                height: 56px;
-                background: var(--bg-tertiary);
-                border-bottom: 1px solid var(--border);
+                gap: 24px;
+                padding: 16px 24px;
+                background: linear-gradient(
+                    135deg,
+                    var(--bg-tertiary) 0%,
+                    var(--bg-secondary) 100%
+                );
+                border-bottom: 2px solid var(--border);
                 flex-shrink: 0;
+                position: relative;
+            }
+
+            .top-nav::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, var(--accent), transparent);
+                opacity: 0.3;
             }
 
             .top-nav-left {
                 display: flex;
-                align-items: center;
-                gap: 16px;
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 2px;
             }
 
             .app-brand {
                 display: flex;
-                align-items: center;
-                gap: 12px;
+                flex-direction: column;
+                gap: 2px;
             }
 
             .app-title {
                 font-family: "SF Mono", "Fira Code", "Consolas", monospace;
-                font-size: 1.1rem;
-                font-weight: 700;
+                font-size: 1.25rem;
+                font-weight: 800;
                 color: var(--accent);
-                letter-spacing: 0.05em;
+                letter-spacing: 0.08em;
                 text-transform: uppercase;
+                line-height: 1;
+            }
+
+            .app-subtitle {
+                font-size: 0.65rem;
+                color: var(--text-muted);
+                letter-spacing: 0.04em;
+                font-weight: 400;
+            }
+
+            .top-nav-center {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                flex: 1;
+            }
+
+            .top-nav-right {
+                display: flex;
+                align-items: center;
+                margin-left: auto;
             }
 
             .btn-export {
                 display: flex;
                 align-items: center;
-                gap: 6px;
-                padding: 6px 12px;
+                gap: 8px;
+                padding: 10px 16px;
                 background: var(--bg-elevated);
                 border: 1px solid var(--border);
-                border-radius: 6px;
+                border-radius: 8px;
                 color: var(--text-secondary);
-                font-size: 0.75rem;
+                font-size: 0.8rem;
                 font-weight: 500;
                 cursor: pointer;
-                transition: all 0.15s ease;
+                transition: all 0.2s ease;
             }
 
             .btn-export:hover {
-                background: var(--bg-tertiary);
+                background: var(--accent-muted);
                 border-color: var(--accent);
-                color: var(--text-primary);
+                color: var(--accent);
+                transform: translateY(-1px);
             }
 
             .btn-export:focus {
@@ -158,24 +196,8 @@
             }
 
             .btn-export svg {
-                width: 14px;
-                height: 14px;
-                opacity: 0.8;
-            }
-
-            .btn-export:hover svg {
-                opacity: 1;
-            }
-
-            .top-nav-center {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            .top-nav-right {
-                display: flex;
-                align-items: center;
+                width: 16px;
+                height: 16px;
             }
 
             /* Character Dropdown */
@@ -186,22 +208,19 @@
             .character-dropdown-trigger {
                 display: flex;
                 align-items: center;
-                gap: 8px;
-                padding: 8px 12px;
-                background: var(--bg-elevated);
-                border: 1px solid var(--border);
-                border-radius: 6px;
+                gap: 12px;
+                padding: 8px 16px;
+                background: transparent;
+                border: none;
+                border-radius: 8px;
                 color: var(--text-primary);
-                font-size: 0.875rem;
-                font-weight: 500;
                 cursor: pointer;
                 transition: all 0.15s ease;
-                min-width: 140px;
+                min-width: 160px;
             }
 
             .character-dropdown-trigger:hover {
-                background: var(--bg-tertiary);
-                border-color: var(--accent);
+                background: var(--bg-elevated);
             }
 
             .character-dropdown-trigger:focus {
@@ -219,6 +238,9 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                font-size: 1.5rem;
+                font-weight: 600;
+                letter-spacing: -0.01em;
             }
 
             .character-dropdown-chevron {
@@ -396,31 +418,6 @@
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
-            }
-
-            .main-header {
-                padding: 24px 28px 20px;
-                background: linear-gradient(
-                    180deg,
-                    var(--bg-tertiary) 0%,
-                    var(--bg-secondary) 100%
-                );
-                border-bottom: 1px solid var(--border);
-            }
-
-            .main-header h2 {
-                font-size: 1.75rem;
-                font-weight: 600;
-                color: var(--text-primary);
-                letter-spacing: -0.01em;
-                margin-bottom: 4px;
-            }
-
-            .character-subtitle {
-                font-size: 0.75rem;
-                color: var(--text-muted);
-                text-transform: uppercase;
-                letter-spacing: 0.08em;
             }
 
             .main-content {
@@ -1609,34 +1606,36 @@
             }
 
             .summary-panel {
-                width: 260px;
+                width: 340px;
                 flex-shrink: 0;
-                display: flex;
-                flex-direction: column;
-                gap: 16px;
             }
 
             .summary-panel h4 {
                 display: none;
             }
 
-            /* Summary cards - matching gear table card style */
-            .summary-section {
+            /* Unified Summary Table */
+            .summary-table {
                 background: var(--bg-secondary);
                 border: 1px solid var(--border);
                 border-radius: 12px;
                 overflow: hidden;
             }
 
-            .summary-section-header {
+            .summary-table-header {
                 padding: 14px 16px;
                 display: flex;
                 align-items: center;
                 gap: 10px;
+                background: linear-gradient(
+                    180deg,
+                    rgba(212, 168, 85, 0.12) 0%,
+                    rgba(212, 168, 85, 0.04) 100%
+                );
                 border-bottom: 1px solid var(--border);
             }
 
-            .summary-section-icon {
+            .summary-table-icon {
                 width: 32px;
                 height: 32px;
                 border-radius: 8px;
@@ -1645,165 +1644,218 @@
                 justify-content: center;
                 font-size: 1rem;
                 flex-shrink: 0;
+                background: var(--accent-muted);
+                color: var(--accent);
+                border: 1px solid rgba(212, 168, 85, 0.3);
             }
 
-            .summary-section-title {
+            .summary-table-title {
                 font-size: 0.75rem;
                 text-transform: uppercase;
                 letter-spacing: 0.08em;
                 font-weight: 600;
+                color: var(--accent);
             }
 
-            .summary-section-body {
-                padding: 0;
+            /* Table structure */
+            .summary-table-grid {
+                display: table;
+                width: 100%;
+                border-collapse: collapse;
             }
 
-            /* Raid section styling */
-            .summary-section.raid-section .summary-section-header {
-                background: linear-gradient(
-                    180deg,
-                    rgba(232, 90, 113, 0.15) 0%,
-                    rgba(232, 90, 113, 0.05) 100%
-                );
+            .summary-table-head {
+                display: table-header-group;
             }
 
-            .summary-section.raid-section .summary-section-icon {
-                background: var(--raid-bg);
-                color: var(--raid-color);
-                border: 1px solid rgba(232, 90, 113, 0.3);
+            .summary-table-body {
+                display: table-row-group;
             }
 
-            .summary-section.raid-section .summary-section-title {
-                color: var(--raid-color);
-            }
-
-            /* Tome section styling */
-            .summary-section.tome-section .summary-section-header {
-                background: linear-gradient(
-                    180deg,
-                    rgba(91, 155, 213, 0.15) 0%,
-                    rgba(91, 155, 213, 0.05) 100%
-                );
-            }
-
-            .summary-section.tome-section .summary-section-icon {
-                background: var(--tome-bg);
-                color: var(--tome-color);
-                border: 1px solid rgba(91, 155, 213, 0.3);
-            }
-
-            .summary-section.tome-section .summary-section-title {
-                color: var(--tome-color);
-            }
-
-            /* Summary items */
-            .summary-item {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 12px 16px;
-                border-bottom: 1px solid var(--border-subtle);
+            .summary-table-row {
+                display: table-row;
                 transition: background-color 0.15s ease;
             }
 
-            .summary-item:last-child {
-                border-bottom: none;
-            }
-
-            .summary-item:hover {
+            .summary-table-row:hover {
                 background-color: var(--bg-tertiary);
             }
 
-            .summary-item-label {
-                font-size: 0.875rem;
-                color: var(--text-primary);
-                font-weight: 500;
+            .summary-table-row.row-header {
+                background: var(--bg-tertiary);
             }
 
-            .summary-item-value {
-                font-size: 0.9rem;
-                font-weight: 700;
-                font-variant-numeric: tabular-nums;
+            .summary-table-row.row-header:hover {
+                background: var(--bg-tertiary);
             }
 
-            .summary-section.raid-section .summary-item-value {
-                color: var(--raid-color);
-            }
-
-            .summary-section.tome-section .summary-item-value {
-                color: var(--tome-color);
-            }
-
-            .summary-item-value.zero {
-                color: var(--success-color);
-            }
-
-            /* Empty state */
-            .summary-empty {
-                padding: 20px 16px;
-                text-align: center;
-            }
-
-            .summary-empty-icon {
-                font-size: 1.5rem;
-                margin-bottom: 8px;
-                opacity: 0.7;
-            }
-
-            .summary-empty-text {
-                color: var(--text-secondary);
+            .summary-table-cell {
+                display: table-cell;
+                padding: 10px 12px;
+                border-bottom: 1px solid var(--border-subtle);
+                vertical-align: middle;
                 font-size: 0.8rem;
             }
 
-            /* Total row styling */
-            .summary-total {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 14px 16px;
-                background: linear-gradient(
-                    180deg,
-                    var(--bg-tertiary) 0%,
-                    var(--bg-secondary) 100%
-                );
-                border-top: 1px solid var(--border);
+            .summary-table-row:last-child .summary-table-cell {
+                border-bottom: none;
             }
 
-            .summary-total-label {
-                font-size: 0.75rem;
-                color: var(--text-muted);
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
+            .summary-table-cell.col-label {
+                font-weight: 600;
+                color: var(--text-primary);
+                white-space: nowrap;
+                width: 90px;
             }
 
-            .summary-total-value {
-                font-size: 1.1rem;
-                font-weight: 700;
+            .summary-table-cell.col-current,
+            .summary-table-cell.col-all {
+                text-align: center;
                 font-variant-numeric: tabular-nums;
             }
 
-            .summary-section.tome-section .summary-total-value {
+            /* Header row */
+            .row-header .summary-table-cell {
+                padding: 8px 12px;
+                font-size: 0.65rem;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                font-weight: 600;
+                color: var(--text-muted);
+                border-bottom: 1px solid var(--border);
+            }
+
+            .row-header .summary-table-cell.col-label {
+                color: var(--text-muted);
+            }
+
+            /* Turn indicator */
+            .turn-indicator {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .turn-indicator::before {
+                content: '';
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--raid-color);
+                opacity: 0.7;
+            }
+
+            .row-tomestones .turn-indicator::before {
+                background: var(--tome-color);
+            }
+
+            /* Value cells */
+            .summary-value {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                padding: 4px 8px;
+                border-radius: 6px;
+                font-weight: 600;
+                min-width: 70px;
+                font-size: 0.75rem;
+            }
+
+            .summary-value.needs {
+                background: var(--raid-bg);
+                color: var(--raid-color);
+                border: 1px solid rgba(232, 90, 113, 0.2);
+            }
+
+            .summary-value.needs-tome {
+                background: var(--tome-bg);
                 color: var(--tome-color);
+                border: 1px solid rgba(91, 155, 213, 0.2);
+            }
+
+            .summary-value.complete {
+                background: var(--success-bg);
+                color: var(--success-color);
+                border: 1px solid rgba(92, 184, 92, 0.2);
+            }
+
+            .summary-value .checkmark {
+                font-size: 0.9rem;
+            }
+
+            /* Tomestones row special styling */
+            .summary-table-row.row-tomestones {
+                background: linear-gradient(
+                    90deg,
+                    rgba(91, 155, 213, 0.06) 0%,
+                    transparent 100%
+                );
+            }
+
+            .summary-table-row.row-tomestones:hover {
+                background: linear-gradient(
+                    90deg,
+                    rgba(91, 155, 213, 0.12) 0%,
+                    var(--bg-tertiary) 100%
+                );
+            }
+
+            /* All complete state */
+            .summary-complete {
+                padding: 24px 16px;
+                text-align: center;
+            }
+
+            .summary-complete-icon {
+                font-size: 2rem;
+                margin-bottom: 8px;
+                color: var(--success-color);
+            }
+
+            .summary-complete-text {
+                color: var(--text-secondary);
+                font-size: 0.85rem;
+                font-weight: 500;
             }
 
             /* Responsive */
             @media (max-width: 768px) {
                 /* Top nav mobile */
                 .top-nav {
-                    padding: 0 12px;
-                    height: 52px;
+                    padding: 12px 16px;
+                    gap: 12px;
+                    flex-wrap: wrap;
                 }
 
                 .top-nav-left {
-                    gap: 10px;
+                    order: 1;
+                }
+
+                .top-nav-center {
+                    order: 3;
+                    width: 100%;
+                    justify-content: flex-start;
+                }
+
+                .top-nav-right {
+                    order: 2;
                 }
 
                 .app-title {
-                    font-size: 0.95rem;
+                    font-size: 1rem;
+                }
+
+                .app-subtitle {
+                    font-size: 0.6rem;
+                }
+
+                .character-dropdown-name {
+                    font-size: 1.25rem;
                 }
 
                 .btn-export {
-                    padding: 8px 10px;
+                    padding: 8px 12px;
                     min-height: 44px;
                 }
 
@@ -1821,15 +1873,6 @@
                 .btn-small {
                     min-height: 44px;
                     padding: 10px 12px;
-                }
-
-                /* Main panel */
-                .main-header {
-                    padding: 12px 16px;
-                }
-
-                .main-header h2 {
-                    font-size: 1.25rem;
                 }
 
                 .main-content {
@@ -1925,29 +1968,27 @@
                     width: 100%;
                     order: -1; /* Show summary above table on mobile */
                     margin-bottom: 16px;
-                    flex-direction: row;
                 }
 
-                .summary-section {
-                    flex: 1;
-                }
-
-                .summary-section-header {
+                .summary-table-header {
                     padding: 12px 14px;
                 }
 
-                .summary-section-icon {
+                .summary-table-icon {
                     width: 28px;
                     height: 28px;
                     font-size: 0.875rem;
                 }
 
-                .summary-item {
-                    padding: 10px 14px;
+                .summary-table-cell {
+                    padding: 8px 10px;
+                    font-size: 0.75rem;
                 }
 
-                .summary-total {
-                    padding: 12px 14px;
+                .summary-value {
+                    min-width: 60px;
+                    padding: 3px 6px;
+                    font-size: 0.7rem;
                 }
 
                 /* Modal mobile */
@@ -2018,20 +2059,13 @@
     </head>
     <body>
         <div class="app-container">
-            <!-- Top Navigation Bar -->
+            <!-- Unified Header Bar -->
             <nav class="top-nav">
                 <div class="top-nav-left">
                     <div class="app-brand">
                         <span class="app-title">WTFDIN</span>
+                        <span class="app-subtitle">WTF Do I Need?</span>
                     </div>
-                    <button class="btn-export" id="export-btn" title="Export data">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="17 8 12 3 7 8"/>
-                            <line x1="12" y1="3" x2="12" y2="15"/>
-                        </svg>
-                        <span>Export</span>
-                    </button>
                 </div>
                 <div class="top-nav-center">
                     <div class="character-dropdown" id="character-dropdown">
@@ -2065,15 +2099,18 @@
                     </div>
                 </div>
                 <div class="top-nav-right">
-                    <!-- Right side controls will go here -->
+                    <button class="btn-export" id="export-btn" title="Export data">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <span>Export</span>
+                    </button>
                 </div>
             </nav>
 
             <main class="main-panel">
-                <div class="main-header">
-                    <h2 id="character-name">Select a Character</h2>
-                    <p class="character-subtitle" id="character-subtitle"></p>
-                </div>
                 <div class="main-content">
                     <div class="empty-state" id="empty-state">
                         <p>
@@ -2588,10 +2625,7 @@
                 const characterListContainer = document.getElementById(
                     "character-list-container",
                 );
-                const characterNameHeader =
-                    document.getElementById("character-name");
-                const characterSubtitle =
-                    document.getElementById("character-subtitle");
+                // Character name now shown in dropdown, subtitle removed
                 const emptyState = document.getElementById("empty-state");
                 const characterDetails =
                     document.getElementById("character-details");
@@ -3604,26 +3638,11 @@
                     );
 
                     if (!selected) {
-                        characterNameHeader.textContent = "Select a Character";
-                        characterSubtitle.textContent = "";
-                        characterSubtitle.style.display = "none";
                         emptyState.style.display = "flex";
                         characterDetails.style.display = "none";
                         return;
                     }
 
-                    characterNameHeader.textContent = selected.name;
-                    const jobCount = selected.jobs.length;
-                    if (jobCount > 0) {
-                        characterSubtitle.textContent =
-                            jobCount === 1
-                                ? "1 job tracked"
-                                : `${jobCount} jobs tracked`;
-                        characterSubtitle.style.display = "block";
-                    } else {
-                        characterSubtitle.textContent = "";
-                        characterSubtitle.style.display = "none";
-                    }
                     emptyState.style.display = "none";
                     characterDetails.style.display = "block";
 
@@ -3771,99 +3790,166 @@
                             if (slot) rightColumnRows += buildSlotRow(slot);
                         });
 
-                        // Calculate raid drops by turn for summary
-                        const raidDrops = calculateRaidDropsByTurn(
+                        // Calculate current job needs
+                        const currentRaidDrops = calculateRaidDropsByTurn(
                             selectedJob.id,
                             gear,
                             slotTypeOverrides,
                         );
-                        const glazeNeeded = calculateGlazeNeeded(
+                        const currentGlaze = calculateGlazeNeeded(
                             selectedJob.id,
                             gear,
                             slotTypeOverrides,
                         );
-                        const twineNeeded = calculateTwineNeeded(
+                        const currentTwine = calculateTwineNeeded(
                             selectedJob.id,
                             gear,
                             slotTypeOverrides,
                         );
-                        const solventNeeded = calculateSolventNeeded(
+                        const currentSolvent = calculateSolventNeeded(
                             selectedJob.id,
                             gear,
                             slotTypeOverrides,
                         );
+                        const currentTomestones = calculateTomestonesNeeded(
+                            selectedJob.id,
+                            gear,
+                            slotTypeOverrides,
+                        );
+
+                        // Calculate ALL jobs needs
+                        const allRaidDrops = { 1: 0, 2: 0, 3: 0, 4: 0 };
+                        let allGlaze = 0;
+                        let allTwine = 0;
+                        let allSolvent = 0;
+                        let allTomestones = 0;
+
+                        selected.jobs.forEach((jobData) => {
+                            const jobGear = jobData.gear || {};
+                            const jobOverrides = jobData.slotTypeOverrides || {};
+
+                            const jobRaidDrops = calculateRaidDropsByTurn(
+                                jobData.jobId,
+                                jobGear,
+                                jobOverrides,
+                            );
+                            [1, 2, 3, 4].forEach((turn) => {
+                                allRaidDrops[turn] += jobRaidDrops[turn];
+                            });
+
+                            allGlaze += calculateGlazeNeeded(
+                                jobData.jobId,
+                                jobGear,
+                                jobOverrides,
+                            );
+                            allTwine += calculateTwineNeeded(
+                                jobData.jobId,
+                                jobGear,
+                                jobOverrides,
+                            );
+                            allSolvent += calculateSolventNeeded(
+                                jobData.jobId,
+                                jobGear,
+                                jobOverrides,
+                            );
+                            allTomestones += calculateTomestonesNeeded(
+                                jobData.jobId,
+                                jobGear,
+                                jobOverrides,
+                            );
+                        });
+
                         const turnLabels = {
                             1: "1st Turn",
                             2: "2nd Turn",
                             3: "3rd Turn",
                             4: "4th Turn",
                         };
-                        let raidSummaryHtml = "";
-                        let hasRaidNeeds = false;
-                        [1, 2, 3, 4].forEach((turn) => {
-                            const drops = raidDrops[turn];
-                            // 2nd Turn also shows Glaze for tome jewelry upgrades
-                            const glaze = turn === 2 ? glazeNeeded : 0;
-                            // 3rd Turn also shows Twine for tome armor upgrades and Solvent for tome weapon
-                            const twine = turn === 3 ? twineNeeded : 0;
-                            const solvent = turn === 3 ? solventNeeded : 0;
 
-                            if (
-                                drops > 0 ||
-                                glaze > 0 ||
-                                twine > 0 ||
-                                solvent > 0
-                            ) {
-                                hasRaidNeeds = true;
-                                let valueParts = [];
-                                if (drops > 0) {
-                                    valueParts.push(
-                                        `${drops} Coffer${drops !== 1 ? "s" : ""}`,
-                                    );
-                                }
-                                if (glaze > 0) {
-                                    valueParts.push(`${glaze} Glaze`);
-                                }
-                                if (twine > 0) {
-                                    valueParts.push(`${twine} Twine`);
-                                }
-                                if (solvent > 0) {
-                                    valueParts.push(`${solvent} Solvent`);
-                                }
-                                raidSummaryHtml += `
-                                <div class="summary-item">
-                                    <span class="summary-item-label">${turnLabels[turn]}</span>
-                                    <span class="summary-item-value">${valueParts.join(", ")}</span>
-                                </div>
-                            `;
+                        // Helper to format value cell
+                        function formatValueCell(drops, glaze, twine, solvent, isTome = false) {
+                            const parts = [];
+                            if (drops > 0) parts.push(`${drops} Coffer${drops !== 1 ? 's' : ''}`);
+                            if (glaze > 0) parts.push(`${glaze} Glaze`);
+                            if (twine > 0) parts.push(`${twine} Twine`);
+                            if (solvent > 0) parts.push(`${solvent} Solvent`);
+
+                            if (parts.length === 0) {
+                                return `<span class="summary-value complete"><span class="checkmark">✓</span></span>`;
                             }
-                        });
-
-                        if (!hasRaidNeeds) {
-                            raidSummaryHtml = `<div class="summary-empty">
-                            <div class="summary-empty-icon">✓</div>
-                            <div class="summary-empty-text">All raid drops obtained!</div>
-                        </div>`;
+                            return `<span class="summary-value needs">${parts.join(', ')}</span>`;
                         }
 
-                        // Calculate tomestones needed for summary
-                        const tomestonesNeeded = calculateTomestonesNeeded(
-                            selectedJob.id,
-                            gear,
-                            slotTypeOverrides,
-                        );
-                        const tomestonesFormatted =
-                            tomestonesNeeded.toLocaleString();
-                        const tomeSummaryHtml =
-                            tomestonesNeeded > 0
-                                ? `<div class="summary-total">
-                               <span class="summary-total-label">Total needed</span>
-                               <span class="summary-total-value">${tomestonesFormatted}</span>
-                           </div>`
-                                : `<div class="summary-empty">
-                               <div class="summary-empty-icon">✓</div>
-                               <div class="summary-empty-text">All tome gear upgraded!</div>
-                           </div>`;
+                        function formatTomeCell(tomes) {
+                            if (tomes === 0) {
+                                return `<span class="summary-value complete"><span class="checkmark">✓</span></span>`;
+                            }
+                            return `<span class="summary-value needs-tome">${tomes.toLocaleString()}</span>`;
+                        }
+
+                        // Build table rows
+                        let tableRowsHtml = '';
+                        [1, 2, 3, 4].forEach((turn) => {
+                            const currDrops = currentRaidDrops[turn];
+                            const currGlaze = turn === 2 ? currentGlaze : 0;
+                            const currTwine = turn === 3 ? currentTwine : 0;
+                            const currSolvent = turn === 3 ? currentSolvent : 0;
+
+                            const aDrops = allRaidDrops[turn];
+                            const aGlaze = turn === 2 ? allGlaze : 0;
+                            const aTwine = turn === 3 ? allTwine : 0;
+                            const aSolvent = turn === 3 ? allSolvent : 0;
+
+                            tableRowsHtml += `
+                                <div class="summary-table-row">
+                                    <div class="summary-table-cell col-label">
+                                        <span class="turn-indicator">${turnLabels[turn]}</span>
+                                    </div>
+                                    <div class="summary-table-cell col-current">
+                                        ${formatValueCell(currDrops, currGlaze, currTwine, currSolvent)}
+                                    </div>
+                                    <div class="summary-table-cell col-all">
+                                        ${formatValueCell(aDrops, aGlaze, aTwine, aSolvent)}
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        // Tomestones row
+                        tableRowsHtml += `
+                            <div class="summary-table-row row-tomestones">
+                                <div class="summary-table-cell col-label">
+                                    <span class="turn-indicator">Tomestones</span>
+                                </div>
+                                <div class="summary-table-cell col-current">
+                                    ${formatTomeCell(currentTomestones)}
+                                </div>
+                                <div class="summary-table-cell col-all">
+                                    ${formatTomeCell(allTomestones)}
+                                </div>
+                            </div>
+                        `;
+
+                        const summaryTableHtml = `
+                            <div class="summary-table">
+                                <div class="summary-table-header">
+                                    <div class="summary-table-icon">📋</div>
+                                    <div class="summary-table-title">Needs Summary</div>
+                                </div>
+                                <div class="summary-table-grid">
+                                    <div class="summary-table-head">
+                                        <div class="summary-table-row row-header">
+                                            <div class="summary-table-cell col-label"></div>
+                                            <div class="summary-table-cell col-current">This Job</div>
+                                            <div class="summary-table-cell col-all">All Jobs</div>
+                                        </div>
+                                    </div>
+                                    <div class="summary-table-body">
+                                        ${tableRowsHtml}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
 
                         jobInfoHtml = `
                         <div class="job-info">
@@ -3883,24 +3969,7 @@
                                 </div>
                                 <div class="summary-panel">
                                     <h4>Summary</h4>
-                                    <div class="summary-section raid-section">
-                                        <div class="summary-section-header">
-                                            <div class="summary-section-icon">⚔️</div>
-                                            <div class="summary-section-title">Raid Drops</div>
-                                        </div>
-                                        <div class="summary-section-body">
-                                            ${raidSummaryHtml}
-                                        </div>
-                                    </div>
-                                    <div class="summary-section tome-section">
-                                        <div class="summary-section-header">
-                                            <div class="summary-section-icon">💎</div>
-                                            <div class="summary-section-title">Tomestones</div>
-                                        </div>
-                                        <div class="summary-section-body">
-                                            ${tomeSummaryHtml}
-                                        </div>
-                                    </div>
+                                    ${summaryTableHtml}
                                 </div>
                             </div>
                         </div>
