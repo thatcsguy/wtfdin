@@ -80,3 +80,21 @@ Key CSS changes:
 - .slot-complete/.slot-partial: gradient bg + ::before left border indicator
 
 Files changed: index.html (~100 lines CSS)
+
+## DESIGN-004 - COMPLETE
+Redesigned slot configuration modal (Raid/Tome selection):
+- Previously: direct toggle on badge click, no confirmation
+- Now: opens dedicated modal w/ clear selection UI
+- Modal header: slot icon emoji + "Configure [SlotName]" + subtitle
+- Two option cards: Raid (shows turn) and Tome (shows cost)
+- Selected state: colored border + bg matching type (raid=pink, tome=blue)
+- Left indicator bar on selected option
+- Option descriptions explain tracking behavior
+- Cancel button + click-outside-to-close
+
+New HTML: #slot-config-modal w/ header, options, footer
+New CSS: .modal-slot-config, .slot-config-header, .slot-config-option, etc (~100 lines)
+New JS: openSlotConfigModal(), closeSlotConfigModal(), selectSlotType(), SLOT_ICONS
+Updated: handleSlotTypeToggle() now calls openSlotConfigModal() instead of direct toggle
+
+Files changed: index.html (HTML + CSS + JS)

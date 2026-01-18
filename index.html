@@ -856,6 +856,163 @@
             margin-right: auto;
         }
 
+        /* Slot Config Modal */
+        .modal-slot-config {
+            max-width: 420px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .slot-config-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .slot-config-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--accent);
+        }
+
+        .slot-config-title-group h3 {
+            margin: 0;
+            font-size: 1.125rem;
+            color: var(--text-primary);
+        }
+
+        .slot-config-subtitle {
+            margin: 4px 0 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .slot-config-options {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .slot-config-option {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            padding: 0;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+
+        .slot-config-option:hover {
+            border-color: var(--text-muted);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .slot-config-option:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .slot-config-option.selected {
+            border-color: var(--accent);
+            background: var(--accent-muted);
+        }
+
+        .slot-config-option.selected[data-type="raid"] {
+            border-color: var(--raid-color);
+            background: var(--raid-bg);
+        }
+
+        .slot-config-option.selected[data-type="tome"] {
+            border-color: var(--tome-color);
+            background: var(--tome-bg);
+        }
+
+        .slot-config-option-indicator {
+            width: 4px;
+            background: transparent;
+            transition: background 0.2s ease;
+        }
+
+        .slot-config-option.selected[data-type="raid"] .slot-config-option-indicator {
+            background: var(--raid-color);
+        }
+
+        .slot-config-option.selected[data-type="tome"] .slot-config-option-indicator {
+            background: var(--tome-color);
+        }
+
+        .slot-config-option-content {
+            flex: 1;
+            padding: 14px 16px;
+        }
+
+        .slot-config-option-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .slot-config-option-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .slot-config-option-badge.raid {
+            background: var(--raid-bg);
+            color: var(--raid-color);
+            border: 1px solid rgba(232, 90, 113, 0.3);
+        }
+
+        .slot-config-option-badge.tome {
+            background: var(--tome-bg);
+            color: var(--tome-color);
+            border: 1px solid rgba(91, 155, 213, 0.3);
+        }
+
+        .slot-config-option-turn,
+        .slot-config-option-cost {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .slot-config-option-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .slot-config-footer {
+            padding: 12px 16px 16px;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border-subtle);
+        }
+
         .no-jobs {
             color: var(--text-secondary);
             font-size: 0.875rem;
@@ -1559,6 +1716,44 @@
         </div>
     </div>
 
+    <!-- Slot Config Modal -->
+    <div class="modal-overlay hidden" id="slot-config-modal">
+        <div class="modal modal-slot-config">
+            <div class="slot-config-header">
+                <div class="slot-config-icon" id="slot-config-icon"></div>
+                <div class="slot-config-title-group">
+                    <h3 id="slot-config-title">Configure Head</h3>
+                    <p id="slot-config-subtitle" class="slot-config-subtitle">Choose how to obtain this gear</p>
+                </div>
+            </div>
+            <div class="slot-config-options">
+                <button class="slot-config-option" data-type="raid" id="slot-config-raid">
+                    <div class="slot-config-option-indicator"></div>
+                    <div class="slot-config-option-content">
+                        <div class="slot-config-option-header">
+                            <span class="slot-config-option-badge raid">Raid</span>
+                            <span class="slot-config-option-turn" id="slot-config-raid-turn">2nd Turn</span>
+                        </div>
+                        <p class="slot-config-option-desc">Drop from Savage raid. Track when you obtain the coffer.</p>
+                    </div>
+                </button>
+                <button class="slot-config-option" data-type="tome" id="slot-config-tome">
+                    <div class="slot-config-option-indicator"></div>
+                    <div class="slot-config-option-content">
+                        <div class="slot-config-option-header">
+                            <span class="slot-config-option-badge tome">Tome</span>
+                            <span class="slot-config-option-cost" id="slot-config-tome-cost">495 tomes</span>
+                        </div>
+                        <p class="slot-config-option-desc">Purchase with tomestones. Track base and upgraded status.</p>
+                    </div>
+                </button>
+            </div>
+            <div class="slot-config-footer">
+                <button class="btn btn-secondary" id="slot-config-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // WTFDIN - What The Fuck Do I Need?
         // Vanilla JS FFXIV Gear Tracker
@@ -1892,6 +2087,19 @@
             const confirmModalCancel = document.getElementById('confirm-modal-cancel');
             const confirmModalConfirmBtn = document.getElementById('confirm-modal-confirm');
 
+            // Slot config modal elements
+            const slotConfigModal = document.getElementById('slot-config-modal');
+            const slotConfigIcon = document.getElementById('slot-config-icon');
+            const slotConfigTitle = document.getElementById('slot-config-title');
+            const slotConfigRaidBtn = document.getElementById('slot-config-raid');
+            const slotConfigTomeBtn = document.getElementById('slot-config-tome');
+            const slotConfigRaidTurn = document.getElementById('slot-config-raid-turn');
+            const slotConfigTomeCost = document.getElementById('slot-config-tome-cost');
+            const slotConfigCancel = document.getElementById('slot-config-cancel');
+
+            // Slot config modal state
+            let slotConfigSlotId = null;
+
             // Initialize
             function init() {
                 loadState();
@@ -1996,6 +2204,14 @@
                         closeConfirmModal();
                     }
                 });
+
+                // Slot config modal events
+                slotConfigCancel.addEventListener('click', closeSlotConfigModal);
+                slotConfigModal.addEventListener('click', (e) => {
+                    if (e.target === slotConfigModal) closeSlotConfigModal();
+                });
+                slotConfigRaidBtn.addEventListener('click', () => selectSlotType('raid'));
+                slotConfigTomeBtn.addEventListener('click', () => selectSlotType('tome'));
             }
 
             // Input Modal Functions
@@ -2043,6 +2259,81 @@
                     confirmModalCallback();
                 }
                 closeConfirmModal();
+            }
+
+            // Slot Config Modal Functions
+            const SLOT_ICONS = {
+                weapon: '⚔️',
+                head: '🪖',
+                body: '👕',
+                hands: '🧤',
+                legs: '👖',
+                feet: '👢',
+                earrings: '💎',
+                necklace: '📿',
+                bracelets: '⌚',
+                ring1: '💍',
+                ring2: '💍'
+            };
+
+            function openSlotConfigModal(slotId, currentType) {
+                const slot = GEAR_SLOTS.find(s => s.id === slotId);
+                if (!slot) return;
+
+                slotConfigSlotId = slotId;
+
+                // Set title and icon
+                slotConfigTitle.textContent = `Configure ${slot.name}`;
+                slotConfigIcon.textContent = SLOT_ICONS[slotId] || '📦';
+
+                // Set raid turn info
+                const raidTurn = RAID_TURNS[slotId];
+                slotConfigRaidTurn.textContent = raidTurn ? raidTurn.label : '';
+
+                // Set tome cost info
+                const tomeCost = TOME_COSTS[slotId];
+                slotConfigTomeCost.textContent = tomeCost ? `${tomeCost} tomes` : '';
+
+                // Set current selection
+                slotConfigRaidBtn.classList.toggle('selected', currentType === 'raid');
+                slotConfigTomeBtn.classList.toggle('selected', currentType === 'tome');
+
+                slotConfigModal.classList.remove('hidden');
+            }
+
+            function closeSlotConfigModal() {
+                slotConfigModal.classList.add('hidden');
+                slotConfigSlotId = null;
+            }
+
+            function selectSlotType(newType) {
+                if (!slotConfigSlotId) return;
+
+                const selected = state.characters.find(c => c.id === state.selectedCharacterId);
+                if (!selected) return;
+
+                const jobData = selected.jobs.find(j => j.jobId === state.selectedJobId);
+                if (!jobData) return;
+
+                // Get current type
+                const currentType = getSlotType(jobData.jobId, slotConfigSlotId, jobData.slotTypeOverrides);
+
+                // Only update if type actually changed
+                if (currentType !== newType) {
+                    // Initialize slot type overrides if needed
+                    if (!jobData.slotTypeOverrides) jobData.slotTypeOverrides = {};
+
+                    jobData.slotTypeOverrides[slotConfigSlotId] = newType;
+
+                    // Reset checkbox state when type changes
+                    if (!jobData.gear) jobData.gear = {};
+                    jobData.gear[slotConfigSlotId] = {};
+
+                    saveState();
+                    render();
+                }
+
+                closeSlotConfigModal();
             }
 
             // Export/Import
@@ -2838,25 +3129,8 @@
             }
 
             function handleSlotTypeToggle(slotId, currentType) {
-                const selected = state.characters.find(c => c.id === state.selectedCharacterId);
-                if (!selected) return;
-
-                const jobData = selected.jobs.find(j => j.jobId === state.selectedJobId);
-                if (!jobData) return;
-
-                // Initialize slot type overrides if needed
-                if (!jobData.slotTypeOverrides) jobData.slotTypeOverrides = {};
-
-                // Toggle the type
-                const newType = currentType === 'raid' ? 'tome' : 'raid';
-                jobData.slotTypeOverrides[slotId] = newType;
-
-                // Reset checkbox state when type changes
-                if (!jobData.gear) jobData.gear = {};
-                jobData.gear[slotId] = {};
-
-                saveState();
-                render();
+                // Open the slot config modal instead of toggling directly
+                openSlotConfigModal(slotId, currentType);
             }
 
             // Utilities
