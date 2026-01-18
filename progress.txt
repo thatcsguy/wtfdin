@@ -91,3 +91,12 @@ Note: MODAL-001 already passing - melee DPS (6 jobs) fits in one row at 600px mo
 - Real-time updates on checkbox changes
 - Reuses TOME_COSTS mapping from TOME-001
 - Files changed: index.html
+
+## SUMMARY-003: Summary Panel Styling
+- Added visual distinction between raid/tome sections
+- Raid section: amber (#f39c12) accent, ⚔️ icon, left border
+- Tome section: purple (#9b59b6) accent, 💎 icon, left border
+- Section backgrounds: rgba(0,0,0,0.2) with padding+border-radius
+- CSS: .raid-section, .tome-section with ::before pseudo for icons
+- Verified dark theme consistency and mobile layout
+- Files changed: index.html

@@ -164,7 +164,7 @@
         "Verify panel is positioned to the right of gear table on desktop",
         "Verify panel adapts appropriately on mobile (below table or collapsible)"
       ],
-      "passes": false
+      "passes": true
     }
   ]
 }

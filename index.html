@@ -834,6 +834,9 @@
 
         .summary-section {
             margin-bottom: 16px;
+            padding: 12px;
+            border-radius: 6px;
+            background-color: rgba(0, 0, 0, 0.2);
         }
 
         .summary-section:last-child {
@@ -841,11 +844,51 @@
         }
 
         .summary-section-title {
-            color: var(--text-secondary);
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .summary-section-title::before {
+            font-size: 0.875rem;
+        }
+
+        /* Raid section styling */
+        .summary-section.raid-section {
+            border-left: 3px solid #f39c12;
+        }
+
+        .summary-section.raid-section .summary-section-title {
+            color: #f39c12;
+        }
+
+        .summary-section.raid-section .summary-section-title::before {
+            content: "⚔️";
+        }
+
+        .summary-section.raid-section .summary-item-value {
+            color: #f39c12;
+        }
+
+        /* Tome section styling */
+        .summary-section.tome-section {
+            border-left: 3px solid #9b59b6;
+        }
+
+        .summary-section.tome-section .summary-section-title {
+            color: #9b59b6;
+        }
+
+        .summary-section.tome-section .summary-section-title::before {
+            content: "💎";
+        }
+
+        .summary-section.tome-section .summary-item-value {
+            color: #9b59b6;
         }
 
         .summary-item {
@@ -2123,11 +2166,11 @@
                                 </div>
                                 <div class="summary-panel">
                                     <h4>Summary</h4>
-                                    <div class="summary-section">
+                                    <div class="summary-section raid-section">
                                         <div class="summary-section-title">Raid Drops Needed</div>
                                         ${raidSummaryHtml}
                                     </div>
-                                    <div class="summary-section">
+                                    <div class="summary-section tome-section">
                                         <div class="summary-section-title">Tome Gear Needed</div>
                                         ${tomeSummaryHtml}
                                     </div>
