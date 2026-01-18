@@ -25,7 +25,7 @@
         "Verify manual configuration shows all 11 slots with raid/tome toggle for each",
         "Verify selecting manual options correctly sets the slot types"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "BIS-002",

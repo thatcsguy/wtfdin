@@ -521,6 +521,104 @@
             line-height: 1.5;
         }
 
+        .bis-config-step {
+            display: none;
+        }
+
+        .bis-config-step.active {
+            display: block;
+        }
+
+        .bis-option-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .bis-option-btn {
+            flex: 1;
+            padding: 16px;
+            background-color: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .bis-option-btn:hover {
+            border-color: var(--accent);
+            background-color: var(--bg-tertiary);
+        }
+
+        .bis-option-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .bis-option-btn h4 {
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            font-size: 1rem;
+        }
+
+        .bis-option-btn p {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            margin: 0;
+        }
+
+        .bis-slot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .bis-slot-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .bis-slot-item .slot-name {
+            font-size: 0.875rem;
+        }
+
+        .bis-slot-toggle {
+            display: flex;
+            gap: 4px;
+        }
+
+        .bis-slot-toggle button {
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .bis-slot-toggle button.active {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: var(--text-primary);
+        }
+
+        .bis-slot-toggle button:hover:not(.active) {
+            background-color: var(--bg-tertiary);
+        }
+
+        .modal-back-btn {
+            margin-right: auto;
+        }
+
         .no-jobs {
             color: var(--text-secondary);
             font-size: 0.875rem;
@@ -908,9 +1006,17 @@
     <!-- Job Picker Modal -->
     <div class="modal-overlay hidden" id="job-modal">
         <div class="modal">
-            <h3>Add Job</h3>
-            <div id="job-modal-content"></div>
-            <button class="btn modal-close" id="job-modal-close">Cancel</button>
+            <h3 id="job-modal-title">Add Job</h3>
+            <div id="job-modal-step1" class="bis-config-step active">
+                <div id="job-modal-content"></div>
+            </div>
+            <div id="job-modal-step2" class="bis-config-step">
+                <div id="bis-config-content"></div>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary modal-back-btn hidden" id="job-modal-back">Back</button>
+                <button class="btn modal-close" id="job-modal-close">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -1150,9 +1256,18 @@
             const emptyState = document.getElementById('empty-state');
             const characterDetails = document.getElementById('character-details');
             const jobModal = document.getElementById('job-modal');
+            const jobModalTitle = document.getElementById('job-modal-title');
             const jobModalContent = document.getElementById('job-modal-content');
+            const jobModalStep1 = document.getElementById('job-modal-step1');
+            const jobModalStep2 = document.getElementById('job-modal-step2');
+            const bisConfigContent = document.getElementById('bis-config-content');
+            const jobModalBack = document.getElementById('job-modal-back');
             const jobModalClose = document.getElementById('job-modal-close');
             const exportBtn = document.getElementById('export-btn');
+
+            // Job modal state
+            let pendingJobId = null;
+            let manualSlotConfig = {};
             const inputModal = document.getElementById('input-modal');
             const inputModalTitle = document.getElementById('input-modal-title');
             const inputModalField = document.getElementById('input-modal-field');
@@ -1240,6 +1355,7 @@
             function attachEventListeners() {
                 addCharacterBtn.addEventListener('click', handleAddCharacter);
                 jobModalClose.addEventListener('click', closeJobModal);
+                jobModalBack.addEventListener('click', handleJobModalBack);
                 jobModal.addEventListener('click', (e) => {
                     if (e.target === jobModal) closeJobModal();
                 });
@@ -1456,6 +1572,11 @@
                 const selected = state.characters.find(c => c.id === state.selectedCharacterId);
                 if (!selected) return;
 
+                // Reset to step 1
+                pendingJobId = null;
+                manualSlotConfig = {};
+                showJobModalStep(1);
+
                 const existingJobIds = selected.jobs.map(j => j.jobId);
 
                 let html = '';
@@ -1479,11 +1600,11 @@
 
                 // Attach click handlers to job items
                 jobModalContent.querySelectorAll('.job-grid-item:not(.disabled)').forEach(item => {
-                    item.addEventListener('click', () => addJobToCharacter(item.dataset.jobId));
+                    item.addEventListener('click', () => showBisConfigStep(item.dataset.jobId));
                     item.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                             e.preventDefault();
-                            addJobToCharacter(item.dataset.jobId);
+                            showBisConfigStep(item.dataset.jobId);
                         }
                     });
                 });
@@ -1496,22 +1617,139 @@
                 jobModal.classList.remove('hidden');
             }
 
-            function closeJobModal() {
-                jobModal.classList.add('hidden');
+            function showJobModalStep(step) {
+                if (step === 1) {
+                    jobModalTitle.textContent = 'Add Job';
+                    jobModalStep1.classList.add('active');
+                    jobModalStep2.classList.remove('active');
+                    jobModalBack.classList.add('hidden');
+                } else {
+                    const job = getJobById(pendingJobId);
+                    jobModalTitle.textContent = `Configure ${job ? job.name : ''} BiS`;
+                    jobModalStep1.classList.remove('active');
+                    jobModalStep2.classList.add('active');
+                    jobModalBack.classList.remove('hidden');
+                }
             }
 
-            function addJobToCharacter(jobId) {
+            function handleJobModalBack() {
+                pendingJobId = null;
+                manualSlotConfig = {};
+                showJobModalStep(1);
+            }
+
+            function showBisConfigStep(jobId) {
+                pendingJobId = jobId;
+                const preset = getBiSPreset(jobId);
+
+                // Initialize manual config with preset values
+                manualSlotConfig = { ...preset };
+
+                const job = getJobById(jobId);
+
+                let html = `
+                    <div class="bis-option-buttons">
+                        <button class="bis-option-btn" id="use-preset-btn" tabindex="0">
+                            <h4>Use Preset BiS</h4>
+                            <p>Apply recommended gear configuration</p>
+                        </button>
+                        <button class="bis-option-btn" id="use-manual-btn" tabindex="0">
+                            <h4>Configure Manually</h4>
+                            <p>Choose raid/tome for each slot</p>
+                        </button>
+                    </div>
+                    <div id="manual-config-section" style="display: none;">
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 12px;">Toggle each slot between Raid and Tome:</p>
+                        <div class="bis-slot-grid">
+                `;
+
+                GEAR_SLOTS.forEach(slot => {
+                    const slotType = manualSlotConfig[slot.id] || 'raid';
+                    html += `
+                        <div class="bis-slot-item">
+                            <span class="slot-name">${slot.name}</span>
+                            <div class="bis-slot-toggle" data-slot="${slot.id}">
+                                <button data-type="raid" class="${slotType === 'raid' ? 'active' : ''}">Raid</button>
+                                <button data-type="tome" class="${slotType === 'tome' ? 'active' : ''}">Tome</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                        <button class="btn" id="confirm-manual-btn" style="margin-top: 16px; width: 100%;">Add ${job ? job.name : 'Job'}</button>
+                    </div>
+                `;
+
+                bisConfigContent.innerHTML = html;
+
+                // Attach preset button handler
+                document.getElementById('use-preset-btn').addEventListener('click', () => {
+                    addJobWithConfig(jobId, null); // null = use preset
+                });
+
+                // Attach manual button handler
+                document.getElementById('use-manual-btn').addEventListener('click', () => {
+                    document.getElementById('manual-config-section').style.display = 'block';
+                    document.querySelector('.bis-option-buttons').style.display = 'none';
+                });
+
+                // Attach slot toggle handlers
+                bisConfigContent.querySelectorAll('.bis-slot-toggle').forEach(toggle => {
+                    const slotId = toggle.dataset.slot;
+                    toggle.querySelectorAll('button').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const type = btn.dataset.type;
+                            manualSlotConfig[slotId] = type;
+                            // Update active states
+                            toggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                        });
+                    });
+                });
+
+                // Attach confirm manual button handler
+                document.getElementById('confirm-manual-btn').addEventListener('click', () => {
+                    addJobWithConfig(jobId, manualSlotConfig);
+                });
+
+                showJobModalStep(2);
+            }
+
+            function closeJobModal() {
+                jobModal.classList.add('hidden');
+                pendingJobId = null;
+                manualSlotConfig = {};
+            }
+
+            function addJobWithConfig(jobId, slotOverrides) {
                 const selected = state.characters.find(c => c.id === state.selectedCharacterId);
                 if (!selected) return;
 
                 // Check if job already exists
                 if (selected.jobs.some(j => j.jobId === jobId)) return;
 
-                // Add job with empty gear slots
-                selected.jobs.push({
+                // Build slot type overrides if manual config differs from preset
+                let slotTypeOverrides = {};
+                if (slotOverrides) {
+                    const preset = getBiSPreset(jobId);
+                    GEAR_SLOTS.forEach(slot => {
+                        if (slotOverrides[slot.id] !== preset[slot.id]) {
+                            slotTypeOverrides[slot.id] = slotOverrides[slot.id];
+                        }
+                    });
+                }
+
+                // Add job with empty gear slots and any overrides
+                const jobData = {
                     jobId: jobId,
                     gear: {}
-                });
+                };
+                if (Object.keys(slotTypeOverrides).length > 0) {
+                    jobData.slotTypeOverrides = slotTypeOverrides;
+                }
+                selected.jobs.push(jobData);
 
                 // Auto-select the newly added job
                 state.selectedJobId = jobId;

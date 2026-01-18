@@ -59,3 +59,14 @@ Note: MODAL-001 already passing - melee DPS (6 jobs) fits in one row at 600px mo
 - Added .tome-cost CSS (smaller font, muted color, ::after content for "tomes")
 - Reused extraLabel pattern from RAID-001, renamed turnLabel → extraLabel
 - Files changed: index.html
+
+## BIS-001: BiS Configuration Step
+- Two-step job add flow: step1=job picker, step2=BiS config
+- Step 2 shows two buttons: "Use Preset BiS" or "Configure Manually"
+- Manual config shows all 11 slots with Raid/Tome toggle buttons
+- Added pendingJobId + manualSlotConfig state for modal
+- New functions: showJobModalStep(), handleJobModalBack(), showBisConfigStep(), addJobWithConfig()
+- Only stores slotTypeOverrides if manual config differs from preset
+- CSS: .bis-config-step, .bis-option-buttons, .bis-option-btn, .bis-slot-grid, .bis-slot-item, .bis-slot-toggle
+- Back button returns to step 1, Cancel closes modal
+- Files changed: index.html
