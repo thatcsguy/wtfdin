@@ -46,7 +46,7 @@
                 "Verify 'Coffer' terminology in heading and counts",
                 "Obtain all raid gear and verify empty state message"
             ],
-            "passes": false
+            "passes": true
         },
         {
             "id": "DESIGN-001",

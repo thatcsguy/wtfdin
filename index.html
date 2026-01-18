@@ -2206,7 +2206,7 @@
                             hasRaidNeeds = true;
                             let valueParts = [];
                             if (drops > 0) {
-                                valueParts.push(`${drops} drop${drops !== 1 ? 's' : ''}`);
+                                valueParts.push(`${drops} Coffer${drops !== 1 ? 's' : ''}`);
                             }
                             if (glaze > 0) {
                                 valueParts.push(`${glaze} Glaze`);
@@ -2227,7 +2227,7 @@
                     });
 
                     if (!hasRaidNeeds) {
-                        raidSummaryHtml = '<p class="summary-empty">All raid drops obtained!</p>';
+                        raidSummaryHtml = '<p class="summary-empty">All raid coffers obtained!</p>';
                     }
 
                     // Calculate tomestones needed for summary
@@ -2265,7 +2265,7 @@
                                 <div class="summary-panel">
                                     <h4>Summary</h4>
                                     <div class="summary-section raid-section">
-                                        <div class="summary-section-title">Raid Drops Needed</div>
+                                        <div class="summary-section-title">Raid Coffers Needed</div>
                                         ${raidSummaryHtml}
                                     </div>
                                     <div class="summary-section tome-section">
