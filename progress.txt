@@ -62,3 +62,21 @@ Updated HTML: added subtitle element, restructured job section
 Updated JS: renderMainPanel() sets subtitle, uses new HTML structure for pills
 
 Files changed: index.html (CSS + HTML + JS)
+
+## DESIGN-005 - COMPLETE
+Redesigned gear tables w/ two-column grid:
+- Columns: card-style containers, rounded corners (12px), gradient headers
+- Rows: hover states, position:relative for ::before indicators
+- Completion states: green left border (3px) for complete, amber for partial
+- Checkboxes: custom styled (appearance:none), gold accent, checkmark via ::after
+- Type badges: uppercase, borders, subtle hover lift
+- Mobile: single-column, stacked checkboxes, larger touch targets (24px)
+
+Key CSS changes:
+- .gear-table-column: bg + border + border-radius + overflow:hidden
+- .gear-table-row: position:relative, :last-child no border, hover bg
+- .gear-checkbox-label: padding, border-radius, hover bg
+- .gear-checkbox-label input: custom checkbox w/ ::after checkmark
+- .slot-complete/.slot-partial: gradient bg + ::before left border indicator
+
+Files changed: index.html (~100 lines CSS)
