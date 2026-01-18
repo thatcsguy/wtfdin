@@ -59,99 +59,6 @@
                 min-height: 100vh;
             }
 
-            /* Sidebar */
-            .sidebar {
-                width: 280px;
-                background-color: var(--bg-secondary);
-                border-right: 1px solid var(--border);
-                display: flex;
-                flex-direction: column;
-                flex-shrink: 0;
-            }
-
-            .sidebar-header {
-                padding: 24px 20px 20px;
-                background: linear-gradient(
-                    180deg,
-                    var(--bg-tertiary) 0%,
-                    var(--bg-secondary) 100%
-                );
-                border-bottom: 1px solid var(--border);
-            }
-
-            .sidebar-header h1 {
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: var(--accent);
-                letter-spacing: 0.02em;
-            }
-
-            .sidebar-header p {
-                font-size: 0.7rem;
-                color: var(--text-muted);
-                margin-top: 2px;
-                text-transform: uppercase;
-                letter-spacing: 0.08em;
-            }
-
-            .sidebar-actions {
-                display: flex;
-                gap: 8px;
-                margin-top: 16px;
-            }
-
-            .btn-export {
-                background-color: transparent;
-                border: 1px solid var(--border);
-                color: var(--text-secondary);
-                flex: 1;
-                font-size: 0.75rem;
-            }
-
-            .btn-export:hover {
-                background-color: var(--bg-elevated);
-                border-color: var(--accent);
-                color: var(--accent);
-            }
-
-            .btn-export:focus-visible {
-                outline: 2px solid var(--accent);
-                outline-offset: 2px;
-            }
-
-            .character-list {
-                flex: 1;
-                overflow-y: auto;
-                padding: 16px;
-                display: flex;
-                flex-direction: column;
-            }
-
-            .character-list-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 12px;
-                padding-bottom: 12px;
-                border-bottom: 1px solid var(--border-subtle);
-            }
-
-            .character-list-header h2 {
-                font-size: 0.7rem;
-                color: var(--text-muted);
-                text-transform: uppercase;
-                letter-spacing: 0.1em;
-                font-weight: 600;
-            }
-
-            .character-count {
-                font-size: 0.7rem;
-                color: var(--text-muted);
-                background: var(--bg-tertiary);
-                padding: 2px 8px;
-                border-radius: 10px;
-            }
-
             .btn {
                 background-color: var(--accent);
                 color: var(--text-primary);
@@ -184,182 +91,6 @@
             .btn-small {
                 padding: 4px 8px;
                 font-size: 0.75rem;
-            }
-
-            .character-list-container {
-                flex: 1;
-                min-height: 0;
-                overflow-y: auto;
-            }
-
-            .character-item {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 10px 12px;
-                border-radius: 8px;
-                cursor: pointer;
-                margin-bottom: 4px;
-                transition: all 0.15s ease;
-                border: 1px solid transparent;
-            }
-
-            .character-item:hover {
-                background-color: var(--bg-tertiary);
-                border-color: var(--border-subtle);
-            }
-
-            .character-item:focus-visible {
-                outline: 2px solid var(--accent);
-                outline-offset: -2px;
-                background-color: var(--bg-tertiary);
-            }
-
-            .character-item.selected {
-                background-color: var(--accent-muted);
-                border-color: var(--accent);
-            }
-
-            .character-item.selected .character-avatar {
-                background: var(--accent);
-                color: var(--bg-primary);
-            }
-
-            .character-avatar {
-                width: 36px;
-                height: 36px;
-                border-radius: 50%;
-                background: var(--bg-elevated);
-                color: var(--text-secondary);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 0.875rem;
-                font-weight: 600;
-                flex-shrink: 0;
-                transition: all 0.15s ease;
-            }
-
-            .character-item:hover .character-avatar {
-                background: var(--bg-elevated);
-                color: var(--accent);
-            }
-
-            .character-item-content {
-                flex: 1;
-                min-width: 0;
-                transition: margin-right 0.15s ease;
-            }
-
-            .character-item:hover .character-item-content,
-            .character-item:focus-within .character-item-content {
-                margin-right: 8px;
-            }
-
-            .character-item .name {
-                font-weight: 500;
-                font-size: 0.9rem;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: block;
-            }
-
-            .character-item-actions {
-                display: flex;
-                gap: 4px;
-                flex-shrink: 0;
-                max-width: 0;
-                opacity: 0;
-                overflow: hidden;
-                transition:
-                    opacity 0.15s ease,
-                    max-width 0.15s ease;
-            }
-
-            .character-item:hover .character-item-actions,
-            .character-item:focus-within .character-item-actions {
-                opacity: 1;
-                max-width: 150px;
-            }
-
-            .character-item-row {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .btn-delete {
-                background-color: transparent;
-                color: var(--text-muted);
-                padding: 4px 6px;
-                font-size: 0.7rem;
-                border: 1px solid transparent;
-                border-radius: 4px;
-            }
-
-            .btn-delete:hover {
-                background-color: var(--raid-bg);
-                color: var(--raid-color);
-                border-color: var(--raid-color);
-            }
-
-            .btn-delete:focus-visible {
-                outline: 2px solid var(--accent);
-                outline-offset: 2px;
-            }
-
-            .btn-rename {
-                background-color: transparent;
-                color: var(--text-muted);
-                padding: 4px 6px;
-                font-size: 0.7rem;
-                border: 1px solid transparent;
-                border-radius: 4px;
-            }
-
-            .btn-rename:hover {
-                background-color: var(--tome-bg);
-                color: var(--tome-color);
-                border-color: var(--tome-color);
-            }
-
-            .btn-rename:focus-visible {
-                outline: 2px solid var(--tome-color);
-                outline-offset: 2px;
-            }
-
-            .no-characters {
-                color: var(--text-muted);
-                font-size: 0.8rem;
-                text-align: center;
-                padding: 32px 16px;
-                background: var(--bg-tertiary);
-                border-radius: 8px;
-                border: 1px dashed var(--border);
-            }
-
-            .sidebar-footer {
-                padding: 16px;
-                border-top: 1px solid var(--border);
-                background: var(--bg-secondary);
-            }
-
-            .btn-add-character {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                padding: 12px 16px;
-                font-size: 0.875rem;
-                font-weight: 500;
-            }
-
-            .btn-add-character::before {
-                content: "+";
-                font-size: 1.1rem;
-                font-weight: 400;
             }
 
             /* Main Panel */
@@ -1792,51 +1523,6 @@
 
             /* Responsive */
             @media (max-width: 768px) {
-                .app-container {
-                    flex-direction: column;
-                }
-
-                .sidebar {
-                    width: 100%;
-                    border-right: none;
-                    border-bottom: 1px solid var(--border);
-                    max-height: 40vh;
-                }
-
-                .sidebar-header {
-                    padding: 12px 16px;
-                    background: var(--bg-secondary);
-                }
-
-                .sidebar-header h1 {
-                    font-size: 1.2rem;
-                }
-
-                .sidebar-header p {
-                    display: none;
-                }
-
-                .sidebar-actions {
-                    margin-top: 10px;
-                }
-
-                .character-list {
-                    padding: 8px 12px;
-                }
-
-                .character-list-header {
-                    margin-bottom: 8px;
-                    padding-bottom: 8px;
-                }
-
-                .sidebar-footer {
-                    padding: 12px;
-                }
-
-                .btn-add-character {
-                    padding: 10px 14px;
-                }
-
                 /* Tap-friendly buttons - minimum 44px touch target */
                 .btn {
                     min-height: 44px;
@@ -1847,29 +1533,6 @@
                 .btn-small {
                     min-height: 44px;
                     padding: 10px 12px;
-                }
-
-                /* Character item tap-friendly */
-                .character-item {
-                    padding: 12px 10px;
-                    min-height: 52px;
-                }
-
-                .character-avatar {
-                    width: 32px;
-                    height: 32px;
-                    font-size: 0.75rem;
-                }
-
-                /* Always show character actions on mobile */
-                .character-item-actions {
-                    opacity: 1;
-                }
-
-                .btn-delete,
-                .btn-rename {
-                    min-height: 36px;
-                    padding: 8px 10px;
                 }
 
                 /* Main panel */
@@ -2078,44 +1741,6 @@
     </head>
     <body>
         <div class="app-container">
-            <aside class="sidebar">
-                <div class="sidebar-header">
-                    <h1>WTFDIN</h1>
-                    <p>WTF Do I Need?</p>
-                    <div class="sidebar-actions">
-                        <button
-                            class="btn btn-small btn-export"
-                            id="export-btn"
-                        >
-                            Export URL
-                        </button>
-                    </div>
-                </div>
-                <div class="character-list">
-                    <div class="character-list-header">
-                        <h2>Characters</h2>
-                        <span class="character-count" id="character-count"
-                            >0</span
-                        >
-                    </div>
-                    <div
-                        class="character-list-container"
-                        id="character-list-container"
-                    >
-                        <p class="no-characters">
-                            No characters yet.<br />Add one to get started!
-                        </p>
-                    </div>
-                </div>
-                <div class="sidebar-footer">
-                    <button
-                        class="btn btn-add-character"
-                        id="add-character-btn"
-                    >
-                        Add Character
-                    </button>
-                </div>
-            </aside>
             <main class="main-panel">
                 <div class="main-header">
                     <h2 id="character-name">Select a Character</h2>
@@ -2124,8 +1749,7 @@
                 <div class="main-content">
                     <div class="empty-state" id="empty-state">
                         <p>
-                            Select a character from the sidebar to view their
-                            gear progress.
+                            No character selected. Use the dropdown above to select or create a character.
                         </p>
                     </div>
                     <div id="character-details" style="display: none">
@@ -2818,16 +2442,21 @@
 
                 // Event Listeners
                 function attachEventListeners() {
-                    addCharacterBtn.addEventListener(
-                        "click",
-                        handleAddCharacter,
-                    );
+                    // Sidebar elements may be removed - handle gracefully
+                    if (addCharacterBtn) {
+                        addCharacterBtn.addEventListener(
+                            "click",
+                            handleAddCharacter,
+                        );
+                    }
                     jobModalClose.addEventListener("click", closeJobModal);
                     jobModalBack.addEventListener("click", handleJobModalBack);
                     jobModal.addEventListener("click", (e) => {
                         if (e.target === jobModal) closeJobModal();
                     });
-                    exportBtn.addEventListener("click", handleExport);
+                    if (exportBtn) {
+                        exportBtn.addEventListener("click", handleExport);
+                    }
 
                     // Input modal events
                     inputModalCancel.addEventListener("click", closeInputModal);
@@ -3426,76 +3055,9 @@
                 }
 
                 function renderCharacterList() {
-                    // Update character count
-                    const countEl = document.getElementById("character-count");
-                    if (countEl) countEl.textContent = state.characters.length;
-
-                    if (state.characters.length === 0) {
-                        characterListContainer.innerHTML =
-                            '<p class="no-characters">No characters yet.<br>Add one to get started!</p>';
-                        return;
-                    }
-
-                    characterListContainer.innerHTML = state.characters
-                        .map(
-                            (char) => `
-                    <div class="character-item ${char.id === state.selectedCharacterId ? "selected" : ""}"
-                         data-id="${char.id}"
-                         tabindex="0"
-                         role="button">
-                        <div class="character-avatar">${getInitials(char.name)}</div>
-                        <div class="character-item-content">
-                            <span class="name">${escapeHtml(char.name)}</span>
-                        </div>
-                        <div class="character-item-actions">
-                            <button class="btn btn-small btn-rename" data-rename-id="${char.id}">Rename</button>
-                            <button class="btn btn-small btn-delete" data-delete-id="${char.id}">Delete</button>
-                        </div>
-                    </div>
-                `,
-                        )
-                        .join("");
-
-                    // Attach click handlers for selecting character
-                    characterListContainer
-                        .querySelectorAll(".character-item")
-                        .forEach((item) => {
-                            item.addEventListener("click", (e) => {
-                                // Don't select if clicking action buttons
-                                if (
-                                    e.target.classList.contains("btn-delete") ||
-                                    e.target.classList.contains("btn-rename")
-                                )
-                                    return;
-                                selectCharacter(item.dataset.id);
-                            });
-                            item.addEventListener("keydown", (e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                    e.preventDefault();
-                                    selectCharacter(item.dataset.id);
-                                }
-                            });
-                        });
-
-                    // Attach rename handlers
-                    characterListContainer
-                        .querySelectorAll(".btn-rename")
-                        .forEach((btn) => {
-                            btn.addEventListener("click", (e) => {
-                                e.stopPropagation();
-                                handleRenameCharacter(btn.dataset.renameId);
-                            });
-                        });
-
-                    // Attach delete handlers
-                    characterListContainer
-                        .querySelectorAll(".btn-delete")
-                        .forEach((btn) => {
-                            btn.addEventListener("click", (e) => {
-                                e.stopPropagation();
-                                handleDeleteCharacter(btn.dataset.deleteId);
-                            });
-                        });
+                    // Sidebar removed - this function now no-op
+                    // Character list will be rendered in top nav dropdown (TOP-xxx tasks)
+                    if (!characterListContainer) return;
                 }
 
                 function renderMainPanel() {

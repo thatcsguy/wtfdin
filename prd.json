@@ -44,7 +44,7 @@
         "Main content area spans full width (minus any necessary margins)",
         "No 'Characters' header or character list in a sidebar"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "NAV-002",
@@ -55,7 +55,7 @@
         "No .character-list CSS class definitions in stylesheet",
         "No .character-item CSS class definitions in stylesheet"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "TOP-001",

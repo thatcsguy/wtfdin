@@ -18,3 +18,23 @@ Key decisions:
 Files changed:
 - index.html (removed ~300 lines of preset data/functions, updated add-job flow)
 - prd.json (marked BIS-001, BIS-002, BIS-003 as passes: true)
+
+## NAV-001, NAV-002 - Remove Left Navigation Bar
+
+Completed: Removed sidebar from UI, main content now full-width
+
+Changes:
+- Removed <aside class="sidebar"> HTML element and all contents
+- Removed ~180 lines of sidebar CSS (.sidebar, .sidebar-header, .sidebar-actions, .character-list, .character-list-header, .character-list-container, .character-item, .character-avatar, .character-item-content, .character-item-actions, .no-characters, .sidebar-footer, .btn-add-character, etc.)
+- Removed mobile-responsive sidebar styles from @media query
+- Made renderCharacterList() a no-op (sidebar container gone)
+- Made addCharacterBtn/exportBtn event listeners conditional (elements null)
+- Updated empty state text to remove "sidebar" reference
+
+Key decisions:
+- Kept character management JS functions for TOP-xxx tasks (dropdown in top nav)
+- JS gracefully handles null DOM elements (won't error)
+
+Files changed:
+- index.html (removed sidebar HTML, CSS, updated JS)
+- prd.json (marked NAV-001, NAV-002 as passes: true)
