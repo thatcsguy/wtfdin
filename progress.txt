@@ -78,3 +78,20 @@ Verified via Playwright:
 - Checked Base for weapon → Solvent still shows
 - Checked Upgraded for weapon → Solvent disappears
 - Tomestones decrease on Base check, not on Upgraded check
+
+## LAYOUT-001 - Two-column slot configuration grid
+
+Changed `.bis-slot-grid` from auto-fill to fixed 2-column layout with explicit grid placement.
+Added `data-slot` attribute to `.bis-slot-item` elements for CSS targeting.
+
+CSS changes (lines ~571-592):
+- `grid-template-columns: 1fr 1fr` (fixed 2 columns)
+- `grid-template-rows: repeat(6, auto)` (6 rows)
+- Grid placement rules for each slot by data-slot attribute
+
+JS change (line ~1898): Added `data-slot="${slot.id}"` to bis-slot-item div.
+
+Left column: Weapon, Head, Body, Hands, Legs, Feet
+Right column: Earrings, Necklace, Bracelets, Ring 1, Ring 2
+
+Verified via Playwright screenshot - layout matches FFXIV character sheet.

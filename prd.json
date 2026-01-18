@@ -10,7 +10,7 @@
         "Left column should show (top to bottom): Weapon, Head, Body, Hands, Legs, Feet",
         "Right column should show (top to bottom): Earrings, Necklace, Bracelets, Ring 1, Ring 2"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "LAYOUT-002",

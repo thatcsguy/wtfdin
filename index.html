@@ -570,10 +570,26 @@
 
         .bis-slot-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(6, auto);
             gap: 8px;
             margin-top: 16px;
         }
+
+        /* Left column: Weapon, Head, Body, Hands, Legs, Feet */
+        .bis-slot-item[data-slot="weapon"] { grid-row: 1; grid-column: 1; }
+        .bis-slot-item[data-slot="head"] { grid-row: 2; grid-column: 1; }
+        .bis-slot-item[data-slot="body"] { grid-row: 3; grid-column: 1; }
+        .bis-slot-item[data-slot="hands"] { grid-row: 4; grid-column: 1; }
+        .bis-slot-item[data-slot="legs"] { grid-row: 5; grid-column: 1; }
+        .bis-slot-item[data-slot="feet"] { grid-row: 6; grid-column: 1; }
+
+        /* Right column: Earrings, Necklace, Bracelets, Ring 1, Ring 2 */
+        .bis-slot-item[data-slot="earrings"] { grid-row: 1; grid-column: 2; }
+        .bis-slot-item[data-slot="necklace"] { grid-row: 2; grid-column: 2; }
+        .bis-slot-item[data-slot="bracelets"] { grid-row: 3; grid-column: 2; }
+        .bis-slot-item[data-slot="ring1"] { grid-row: 4; grid-column: 2; }
+        .bis-slot-item[data-slot="ring2"] { grid-row: 5; grid-column: 2; }
 
         .bis-slot-item {
             display: flex;
@@ -1879,7 +1895,7 @@
                 GEAR_SLOTS.forEach(slot => {
                     const slotType = manualSlotConfig[slot.id] || 'raid';
                     html += `
-                        <div class="bis-slot-item">
+                        <div class="bis-slot-item" data-slot="${slot.id}">
                             <span class="slot-name">${slot.name}</span>
                             <div class="bis-slot-toggle" data-slot="${slot.id}">
                                 <button data-type="raid" class="${slotType === 'raid' ? 'active' : ''}">Raid</button>
