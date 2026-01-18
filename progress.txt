@@ -48,3 +48,17 @@ New CSS: .character-avatar, .character-item-content, .sidebar-footer, .btn-add-c
 Updated JS: getInitials() helper, renderCharacterList() adds avatars + count
 
 Files changed: index.html (CSS + HTML structure + JS)
+
+## DESIGN-003 - COMPLETE
+Redesigned character header section w/ job pills:
+- Main header: gradient bg, larger title (1.75rem), subtitle shows "X jobs tracked"
+- Job section: header w/ "Jobs" label + count badge, border divider
+- Job pills: gradient bg, box shadow, circular icon container, improved selected state (gold border/bg/text)
+- Add Job button: moved inline w/ pills, dashed border ghost style, hover turns solid gold
+- Mobile: touch-friendly sizing for pills and add button
+
+New CSS: .character-subtitle, .job-section, .job-section-header, .job-section-title, .job-count, .job-pill-icon, .job-pill-name, .btn-add-job
+Updated HTML: added subtitle element, restructured job section
+Updated JS: renderMainPanel() sets subtitle, uses new HTML structure for pills
+
+Files changed: index.html (CSS + HTML + JS)
