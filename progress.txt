@@ -70,3 +70,15 @@ Note: MODAL-001 already passing - melee DPS (6 jobs) fits in one row at 600px mo
 - CSS: .bis-config-step, .bis-option-buttons, .bis-option-btn, .bis-slot-grid, .bis-slot-item, .bis-slot-toggle
 - Back button returns to step 1, Cancel closes modal
 - Files changed: index.html
+
+## SUMMARY-001: Raid Drops Summary Panel
+- Added summary panel to right of gear table
+- Added calculateRaidDropsByTurn() - counts unchecked raid slots by turn
+- Panel shows "Raid Drops Needed" section with turns grouped (1st-4th)
+- Each turn shows drop count, e.g. "1st Turn: 2 drops"
+- Turns with 0 drops are hidden
+- Shows "All raid drops obtained!" when complete
+- Real-time updates on checkbox changes
+- CSS: .gear-layout (flex), .gear-table-container, .summary-panel, .summary-section, .summary-item
+- Mobile: panel moves above table
+- Files changed: index.html

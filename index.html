@@ -803,6 +803,84 @@
             font-weight: 500;
         }
 
+        /* Summary Panel */
+        .gear-layout {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .gear-table-container {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .summary-panel {
+            width: 220px;
+            flex-shrink: 0;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .summary-panel h4 {
+            color: var(--accent);
+            font-size: 0.875rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .summary-section {
+            margin-bottom: 16px;
+        }
+
+        .summary-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-section-title {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item-label {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        .summary-item-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .summary-item-value.zero {
+            color: #2ecc71;
+        }
+
+        .summary-empty {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .app-container {
@@ -936,6 +1014,17 @@
 
             .progress-text {
                 text-align: center;
+            }
+
+            /* Summary panel mobile */
+            .gear-layout {
+                flex-direction: column;
+            }
+
+            .summary-panel {
+                width: 100%;
+                order: -1; /* Show summary above table on mobile */
+                margin-bottom: 16px;
             }
 
             /* Modal mobile */
@@ -1224,6 +1313,27 @@
                 });
 
                 return { complete, total };
+            }
+
+            // Calculate remaining raid drops by turn
+            // Returns { 1: count, 2: count, 3: count, 4: count }
+            function calculateRaidDropsByTurn(jobId, gear, slotTypeOverrides) {
+                const dropsByTurn = { 1: 0, 2: 0, 3: 0, 4: 0 };
+
+                GEAR_SLOTS.forEach(slot => {
+                    const slotType = getSlotType(jobId, slot.id, slotTypeOverrides);
+                    if (slotType !== 'raid') return;
+
+                    const slotGear = gear[slot.id] || {};
+                    if (!slotGear.have) {
+                        const turnInfo = RAID_TURNS[slot.id];
+                        if (turnInfo) {
+                            dropsByTurn[turnInfo.turn]++;
+                        }
+                    }
+                });
+
+                return dropsByTurn;
             }
 
             // Get flat list of all jobs
@@ -1935,6 +2045,27 @@
                     const progressPercent = Math.round((progress.complete / progress.total) * 100);
                     const isComplete = progress.complete === progress.total;
 
+                    // Calculate raid drops by turn for summary
+                    const raidDrops = calculateRaidDropsByTurn(selectedJob.id, gear, slotTypeOverrides);
+                    const turnLabels = { 1: '1st Turn', 2: '2nd Turn', 3: '3rd Turn', 4: '4th Turn' };
+                    let raidSummaryHtml = '';
+                    let hasRaidDrops = false;
+                    [1, 2, 3, 4].forEach(turn => {
+                        if (raidDrops[turn] > 0) {
+                            hasRaidDrops = true;
+                            raidSummaryHtml += `
+                                <div class="summary-item">
+                                    <span class="summary-item-label">${turnLabels[turn]}</span>
+                                    <span class="summary-item-value">${raidDrops[turn]} drop${raidDrops[turn] !== 1 ? 's' : ''}</span>
+                                </div>
+                            `;
+                        }
+                    });
+
+                    if (!hasRaidDrops) {
+                        raidSummaryHtml = '<p class="summary-empty">All raid drops obtained!</p>';
+                    }
+
                     jobInfoHtml = `
                         <div class="job-info">
                             <h3>${selectedJob.name} Gear</h3>
@@ -1944,18 +2075,29 @@
                                 </div>
                                 <span class="progress-text ${isComplete ? 'complete' : ''}">${progress.complete}/${progress.total} slots complete</span>
                             </div>
-                            <table class="gear-table">
-                                <thead>
-                                    <tr>
-                                        <th>Slot</th>
-                                        <th>Type</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${tableRows}
-                                </tbody>
-                            </table>
+                            <div class="gear-layout">
+                                <div class="gear-table-container">
+                                    <table class="gear-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Slot</th>
+                                                <th>Type</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${tableRows}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="summary-panel">
+                                    <h4>Summary</h4>
+                                    <div class="summary-section">
+                                        <div class="summary-section-title">Raid Drops Needed</div>
+                                        ${raidSummaryHtml}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     `;
                 }

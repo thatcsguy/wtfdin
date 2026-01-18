@@ -137,7 +137,7 @@
         "Verify turns with no remaining drops are hidden or show 0",
         "Verify summary updates in real-time when checkboxes change"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "SUMMARY-002",
