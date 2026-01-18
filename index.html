@@ -1303,112 +1303,169 @@
         }
 
         .summary-panel {
-            width: 220px;
+            width: 260px;
             flex-shrink: 0;
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .summary-panel h4 {
-            color: var(--accent);
-            font-size: 0.875rem;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            display: none;
         }
 
+        /* Summary cards - matching gear table card style */
         .summary-section {
-            margin-bottom: 16px;
-            padding: 12px;
-            border-radius: 6px;
-            background-color: rgba(0, 0, 0, 0.2);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        .summary-section:last-child {
-            margin-bottom: 0;
+        .summary-section-header {
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-section-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
         }
 
         .summary-section-title {
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            letter-spacing: 0.08em;
+            font-weight: 600;
         }
 
-        .summary-section-title::before {
-            font-size: 0.875rem;
+        .summary-section-body {
+            padding: 0;
         }
 
         /* Raid section styling */
-        .summary-section.raid-section {
-            border-left: 3px solid var(--raid-color);
+        .summary-section.raid-section .summary-section-header {
+            background: linear-gradient(180deg, rgba(232, 90, 113, 0.15) 0%, rgba(232, 90, 113, 0.05) 100%);
+        }
+
+        .summary-section.raid-section .summary-section-icon {
+            background: var(--raid-bg);
+            color: var(--raid-color);
+            border: 1px solid rgba(232, 90, 113, 0.3);
         }
 
         .summary-section.raid-section .summary-section-title {
             color: var(--raid-color);
         }
 
-        .summary-section.raid-section .summary-section-title::before {
-            content: "⚔️";
-        }
-
-        .summary-section.raid-section .summary-item-value {
-            color: var(--raid-color);
-        }
-
         /* Tome section styling */
-        .summary-section.tome-section {
-            border-left: 3px solid var(--tome-color);
+        .summary-section.tome-section .summary-section-header {
+            background: linear-gradient(180deg, rgba(91, 155, 213, 0.15) 0%, rgba(91, 155, 213, 0.05) 100%);
+        }
+
+        .summary-section.tome-section .summary-section-icon {
+            background: var(--tome-bg);
+            color: var(--tome-color);
+            border: 1px solid rgba(91, 155, 213, 0.3);
         }
 
         .summary-section.tome-section .summary-section-title {
             color: var(--tome-color);
         }
 
-        .summary-section.tome-section .summary-section-title::before {
-            content: "💎";
-        }
-
-        .summary-section.tome-section .summary-item-value {
-            color: var(--tome-color);
-        }
-
+        /* Summary items */
         .summary-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 0;
-            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-subtle);
+            transition: background-color 0.15s ease;
         }
 
         .summary-item:last-child {
             border-bottom: none;
         }
 
+        .summary-item:hover {
+            background-color: var(--bg-tertiary);
+        }
+
         .summary-item-label {
             font-size: 0.875rem;
             color: var(--text-primary);
+            font-weight: 500;
         }
 
         .summary-item-value {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .summary-section.raid-section .summary-item-value {
+            color: var(--raid-color);
+        }
+
+        .summary-section.tome-section .summary-item-value {
+            color: var(--tome-color);
         }
 
         .summary-item-value.zero {
             color: var(--success-color);
         }
 
+        /* Empty state */
         .summary-empty {
+            padding: 20px 16px;
+            text-align: center;
+        }
+
+        .summary-empty-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            opacity: 0.7;
+        }
+
+        .summary-empty-text {
             color: var(--text-secondary);
             font-size: 0.8rem;
-            font-style: italic;
+        }
+
+        /* Total row styling */
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+            border-top: 1px solid var(--border);
+        }
+
+        .summary-total-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .summary-total-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .summary-section.tome-section .summary-total-value {
+            color: var(--tome-color);
         }
 
         /* Responsive */
@@ -1604,6 +1661,29 @@
                 width: 100%;
                 order: -1; /* Show summary above table on mobile */
                 margin-bottom: 16px;
+                flex-direction: row;
+            }
+
+            .summary-section {
+                flex: 1;
+            }
+
+            .summary-section-header {
+                padding: 12px 14px;
+            }
+
+            .summary-section-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.875rem;
+            }
+
+            .summary-item {
+                padding: 10px 14px;
+            }
+
+            .summary-total {
+                padding: 12px 14px;
             }
 
             /* Modal mobile */
@@ -2920,18 +3000,24 @@
                     });
 
                     if (!hasRaidNeeds) {
-                        raidSummaryHtml = '<p class="summary-empty">All raid coffers obtained!</p>';
+                        raidSummaryHtml = `<div class="summary-empty">
+                            <div class="summary-empty-icon">✓</div>
+                            <div class="summary-empty-text">All raid coffers obtained!</div>
+                        </div>`;
                     }
 
                     // Calculate tomestones needed for summary
                     const tomestonesNeeded = calculateTomestonesNeeded(selectedJob.id, gear, slotTypeOverrides);
                     const tomestonesFormatted = tomestonesNeeded.toLocaleString();
                     const tomeSummaryHtml = tomestonesNeeded > 0
-                        ? `<div class="summary-item">
-                               <span class="summary-item-label">Tomestones</span>
-                               <span class="summary-item-value">${tomestonesFormatted}</span>
+                        ? `<div class="summary-total">
+                               <span class="summary-total-label">Total needed</span>
+                               <span class="summary-total-value">${tomestonesFormatted}</span>
                            </div>`
-                        : '<p class="summary-empty">All tome gear upgraded!</p>';
+                        : `<div class="summary-empty">
+                               <div class="summary-empty-icon">✓</div>
+                               <div class="summary-empty-text">All tome gear upgraded!</div>
+                           </div>`;
 
                     jobInfoHtml = `
                         <div class="job-info">
@@ -2958,12 +3044,22 @@
                                 <div class="summary-panel">
                                     <h4>Summary</h4>
                                     <div class="summary-section raid-section">
-                                        <div class="summary-section-title">Raid Coffers Needed</div>
-                                        ${raidSummaryHtml}
+                                        <div class="summary-section-header">
+                                            <div class="summary-section-icon">⚔️</div>
+                                            <div class="summary-section-title">Raid Coffers</div>
+                                        </div>
+                                        <div class="summary-section-body">
+                                            ${raidSummaryHtml}
+                                        </div>
                                     </div>
                                     <div class="summary-section tome-section">
-                                        <div class="summary-section-title">Tome Gear Needed</div>
-                                        ${tomeSummaryHtml}
+                                        <div class="summary-section-header">
+                                            <div class="summary-section-icon">💎</div>
+                                            <div class="summary-section-title">Tomestones</div>
+                                        </div>
+                                        <div class="summary-section-body">
+                                            ${tomeSummaryHtml}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

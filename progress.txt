@@ -98,3 +98,20 @@ New JS: openSlotConfigModal(), closeSlotConfigModal(), selectSlotType(), SLOT_IC
 Updated: handleSlotTypeToggle() now calls openSlotConfigModal() instead of direct toggle
 
 Files changed: index.html (HTML + CSS + JS)
+
+## DESIGN-006 - COMPLETE
+Redesigned summary panels for raid coffers and tomestones:
+- Card-style containers w/ 12px border-radius matching gear tables
+- Gradient headers w/ icon badges in styled containers
+- Raid section: pink gradient header, sword icon, pink values
+- Tome section: blue gradient header, gem icon, blue values
+- Items: hover states, better spacing (12px padding), tabular-nums
+- Empty state: centered checkmark icon + text
+- Tomestones: "Total needed" footer row w/ gradient bg
+- Mobile: side-by-side layout, smaller padding
+
+Key CSS: .summary-section-header, .summary-section-icon, .summary-section-body,
+.summary-empty (w/ icon + text), .summary-total
+Removed: old .summary-section-title::before pseudo-elements
+
+Files changed: index.html (~80 lines CSS, ~15 lines JS for HTML structure)
